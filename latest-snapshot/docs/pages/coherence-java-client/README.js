@@ -225,10 +225,7 @@ SessionConfiguration config = GrpcSessionConfiguration.builder()
         .withSerializer(serializer, format)
         .build();
 
-Session session = Session.create(config);
-
-Session session = Session.create(GrpcSessions.channel(channel),
-                                 GrpcSessions.serializer(ser, format));</markup>
+Session session = Session.create(config);</markup>
 
 <p>In the example above a json serializer is being used. The <code>GrpcSessions.serializer(ser, format)</code> session option is used
 to specify the serializer and its format name. The format name will be used by the server to select the correct server
