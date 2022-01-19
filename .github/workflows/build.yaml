@@ -75,7 +75,7 @@ jobs:
       run: |
         echo "Building"
         export DEV_ROOT=$(pwd)
-        mvn --file prj/pom.xml --batch-mode -e -s ../.github/maven/settings.xml clean install -DskipTests
+        mvn --file prj/pom.xml --batch-mode -e -s .github/maven/settings.xml clean install -DskipTests
 
       # Run the Verify stages in parallel
     - name: Verify
@@ -87,7 +87,7 @@ jobs:
       run: |
         echo "Building and running tests in ${{ matrix.stage }}"
         export DEV_ROOT=$(pwd)
-        mvn --file prj/pom.xml --batch-mode -e -s ../.github/maven/settings.xml verify -nsu -pl test/functional/topics/ -Dit.test=TopicsStorageRecoveryTests
+        mvn --file prj/pom.xml --batch-mode -e -s .github/maven/settings.xml verify -nsu -pl test/functional/topics/ -Dit.test=TopicsStorageRecoveryTests
 
     # Upload build artifacts for diagnosing failures
     - name: Build Artifacts test logs
