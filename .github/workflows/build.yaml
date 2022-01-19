@@ -1,4 +1,4 @@
-# Copyright 2020, 2021, Oracle Corporation and/or its affiliates.
+# Copyright 2020, 2022, Oracle Corporation and/or its affiliates.
 #
 # Licensed under the Universal Permissive License v 1.0 as shown at
 # http://oss.oracle.com/licenses/upl.
@@ -33,19 +33,19 @@ jobs:
       fail-fast: false
       matrix:
         stage:
-         - stage1
-         - stage2
-         - stage3
-         - stage4
-         - stage5
-         - stage6
-         - stage7
-         - stage8
-         - stage9
-         - stage10
+#         - stage1
+#         - stage2
+#         - stage3
+#         - stage4
+#         - stage5
+#         - stage6
+#         - stage7
+#         - stage8
+#         - stage9
+#         - stage10
          - stage11
-         - stage12
-         - stage13
+#         - stage12
+#         - stage13
 
     steps:
     - name: Checkout
@@ -67,8 +67,19 @@ jobs:
         restore-keys: ${{ runner.os }}-m2-
 
       # Run the Verify stages in parallel
+    - name: Build
+      shell: bash
+      env:
+        MAVEN_USER: ${{ secrets.MavenUser }}
+        MAVEN_PASSWORD: ${{ secrets.MavenPassword }}
+      run: |
+        echo "Building"
+        export DEV_ROOT=$(pwd)
+        mvn clean install -DskipTests
+
+      # Run the Verify stages in parallel
     - name: Verify
-      timeout-minutes: 120
+      timeout-minutes: 10
       shell: bash
       env:
         MAVEN_USER: ${{ secrets.MavenUser }}
@@ -76,7 +87,7 @@ jobs:
       run: |
         echo "Building and running tests in ${{ matrix.stage }}"
         export DEV_ROOT=$(pwd)
-        mvn --file prj/pom.xml --batch-mode -e -s .github/maven/settings.xml -P ${{ matrix.stage }} -Doptional -Dcoherence.SkipLargeMemoryTests=true clean verify
+        mvn --file prj/pom.xml --batch-mode -e -s ../.github/maven/settings.xml verify -o -pl test/functional/topics/ -Dit.test=TopicsStorageRecoveryTests
 
     # Upload build artifacts for diagnosing failures
     - name: Build Artifacts test logs

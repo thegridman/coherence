@@ -49,16 +49,23 @@ import com.tangosol.net.topic.Subscriber;
 import com.tangosol.util.ExternalizableHelper;
 
 import org.junit.After;
+import org.junit.AssumptionViolatedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,7 +90,7 @@ import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 public class TopicsStorageRecoveryTests
     {
     @BeforeClass
-    public static void setup()
+    public static void setup() throws Exception
         {
         System.setProperty(LocalStorage.PROPERTY, "false");
         System.setProperty(Logging.PROPERTY, "9");
@@ -94,6 +101,7 @@ public class TopicsStorageRecoveryTests
     @Before
     public void setupTest()
         {
+        f_watcher.println(">>>>> Starting @Before for test: " + f_testName.getMethodName());
         // make sure persistence files are not left from a previous test
         File filePersistence = new File("target/store-bdb-active/" + TopicsStorageRecoveryTests.class.getSimpleName());
         if (filePersistence.exists())
@@ -113,12 +121,13 @@ public class TopicsStorageRecoveryTests
         Eventually.assertDeferred(cluster::isRunning, is(true));
         Eventually.assertDeferred(() -> cluster.getMemberSet().size(), is(3));
 
-        s_count.incrementAndGet();
+        f_watcher.println(">>>>> Completed @Before for test: " + f_testName.getMethodName());
         }
 
     @After
     public void cleanupTest()
         {
+        f_watcher.println(">>>>> Starting @After for test: " + f_testName.getMethodName());
         if (m_topic != null)
             {
             try
@@ -136,13 +145,14 @@ public class TopicsStorageRecoveryTests
         s_ccf.dispose();
         s_ccf = null;
         CacheFactory.shutdown();
+        f_watcher.println(">>>>> Completed @After for test: " + f_testName.getMethodName());
         }
 
     @Test
     @SuppressWarnings("unchecked")
     public void shouldRecoverAfterCleanStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic("test");
+        NamedTopic<Message>     topic        = ensureTopic();
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -198,6 +208,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
+            threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -215,7 +226,7 @@ public class TopicsStorageRecoveryTests
                             try
                                 {
                                 Subscriber.Element<Message> element = subscriber.receive().get(1, TimeUnit.MINUTES);
-                                element.commit();
+                                element.commitAsync().get(5, TimeUnit.MINUTES);
                                 cReceived.incrementAndGet();
                                 if (i >= 5)
                                     {
@@ -233,6 +244,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
+            threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
@@ -294,7 +306,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverAfterStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic("test-two");
+        NamedTopic<Message>     topic        = ensureTopic();
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -347,6 +359,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
+            threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -362,7 +375,7 @@ public class TopicsStorageRecoveryTests
                         try
                             {
                             Subscriber.Element<Message> element = subscriber.receive().get(30, TimeUnit.SECONDS);
-                            element.commit();
+                            element.commitAsync().get(5, TimeUnit.MINUTES);
                             int c = cReceived.incrementAndGet();
                             if (c >= 5)
                                 {
@@ -379,6 +392,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
+            threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
@@ -431,7 +445,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverWaitingSubscriberAfterCleanStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic("test-three");
+        NamedTopic<Message>     topic        = ensureTopic();
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -546,7 +560,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverWaitingSubscriberAfterStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic("test-four");
+        NamedTopic<Message>     topic        = ensureTopic();
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -666,19 +680,14 @@ public class TopicsStorageRecoveryTests
         }
 
     @SuppressWarnings("unchecked")
-    private <V> NamedTopic<V> ensureTopic(String sPrefix)
+    private <V> NamedTopic<V> ensureTopic()
         {
         if (m_topic == null)
             {
-            int cTopic = f_cTopic.getAndIncrement();
-            m_topic = s_ccf.ensureTopic(getCacheName("simple-persistent-topic-" + sPrefix + "-" + cTopic));
+            String sSuffix = f_testName.getMethodName();
+            m_topic = s_ccf.ensureTopic("simple-persistent-topic-" + sSuffix);
             }
         return (NamedTopic<V>) m_topic;
-        }
-
-    private String getCacheName(String sPrefix)
-        {
-        return sPrefix + "-" + s_count.get();
         }
 
     private static CoherenceCluster startCluster(String suffix)
@@ -739,14 +748,73 @@ public class TopicsStorageRecoveryTests
         private String m_sValue;
         }
 
-    // ----- constants ------------------------------------------------------
+    public static class Watcher
+            extends TestWatcher
+        {
+        public Watcher()
+            {
+            try
+                {
+                File folder = MavenProjectFileUtils.ensureTestOutputBaseFolder(TopicsStorageRecoveryTests.class);
+                f_out = new PrintWriter(new File(folder, "TopicsStorageRecoveryTests.log"));
+                }
+            catch (FileNotFoundException e)
+                {
+                throw new RuntimeException(e);
+                }
+            }
 
-    private static final AtomicInteger s_count = new AtomicInteger();
+        @Override
+        protected void succeeded(Description description)
+            {
+            println(">>>>> Test Succeeded: " + description.getMethodName());
+            }
+
+        @Override
+        protected void failed(Throwable e, Description description)
+            {
+            println(">>>>> Test Failed: " + description.getMethodName());
+            }
+
+        @Override
+        protected void skipped(AssumptionViolatedException e, Description description)
+            {
+            println(">>>>> Test Skipped: " + description.getMethodName());
+            }
+
+        @Override
+        protected void starting(Description description)
+            {
+            println(">>>>> Test Started: " + description.getMethodName());
+            }
+
+        @Override
+        protected void finished(Description description)
+            {
+            println(">>>>> Test Finished: " + description.getMethodName());
+            }
+
+        private void println(String s)
+            {
+            System.err.println(s);
+            System.err.flush();
+            f_out.println(s);
+            f_out.flush();
+            }
+
+        private final PrintWriter f_out;
+        }
 
     // ----- data members ---------------------------------------------------
 
     @ClassRule
     public static TestLogs s_testLogs = new TestLogs(TopicsRecoveryTests.class);
+
+    @Rule
+    public final Watcher f_watcher = new Watcher();
+
+    @Rule
+    public final TestName f_testName = new TestName();
 
     private static final OptionsByType s_options = OptionsByType.of(
             SystemProperty.of("coherence.guard.timeout", 60000),
@@ -758,8 +826,6 @@ public class TopicsStorageRecoveryTests
     private static CoherenceCluster s_storageCluster;
 
     private static ConfigurableCacheFactory s_ccf;
-
-    private final AtomicInteger f_cTopic = new AtomicInteger(0);
 
     private NamedTopic<?> m_topic;
     }
