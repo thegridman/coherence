@@ -63,6 +63,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.io.PrintWriter;
@@ -708,14 +709,14 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
         return sPrefix + "-" + s_count.get();
         }
 
-    private static CoherenceCluster startCluster(String suffix)
+    private CoherenceCluster startCluster(String suffix)
         {
         CoherenceClusterBuilder builder = new CoherenceClusterBuilder();
         OptionsByType options = OptionsByType.of(s_options)
                         .addAll(LocalStorage.enabled(),
                                 StabilityPredicate.none(),
                                 Logging.at(9),
-                                DisplayName.of("storage-" + suffix),
+                                DisplayName.of(f_testName.getMethodName() + "-" + suffix),
                                 s_testLogs.builder());
 
         builder.include(2, CoherenceClusterMember.class, options.asArray());
@@ -776,7 +777,7 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
             try
                 {
                 File folder = MavenProjectFileUtils.ensureTestOutputBaseFolder(TopicsStorageRecoveryTests.class);
-                f_out = new PrintWriter(new File(folder, "TopicsStorageRecoveryTests.log"));
+                f_out = new PrintWriter(new FileOutputStream(new File(folder, "TopicsStorageRecoveryTests.log"), true), true);
                 }
             catch (FileNotFoundException e)
                 {
