@@ -58,6 +58,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import util.PartitionedCacheServiceIsBalanced;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -111,7 +112,11 @@ public class TopicsStorageRecoveryTests
             }
 
         s_storageCluster = startCluster("initial");
-
+        PartitionedCacheServiceIsBalanced isBalanced = new PartitionedCacheServiceIsBalanced("DistributedTopicPersistence");
+        for (CoherenceClusterMember member : s_storageCluster)
+            {
+            Eventually.assertDeferred(() -> member.invoke(isBalanced), is(true));
+            }
         OptionsByType options = OptionsByType.of(s_options);
         options.add(RoleName.of("client"));
         options.add(LocalStorage.disabled());
