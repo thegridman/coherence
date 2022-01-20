@@ -209,7 +209,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
-            //threadPublish.setDaemon(true);
+            threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -246,7 +246,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
-            //threadSubscribe.setDaemon(true);
+            threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
@@ -361,7 +361,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
-            //threadPublish.setDaemon(true);
+            threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -395,7 +395,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
-            //threadSubscribe.setDaemon(true);
+            threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
