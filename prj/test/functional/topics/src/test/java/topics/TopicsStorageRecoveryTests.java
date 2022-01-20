@@ -153,6 +153,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverAfterCleanStorageRestart() throws Exception
         {
+f_watcher.println(">>>>> Entered shouldRecoverAfterCleanStorageRestart()");
         NamedTopic<Message>     topic        = ensureTopic("test");
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
@@ -210,7 +211,9 @@ public class TopicsStorageRecoveryTests
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
             threadPublish.setDaemon(true);
+f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - starting publisher thread");
             threadPublish.start();
+f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started publisher thread");
 
             // wait until a few messages have been published
             Eventually.assertDeferred(fPublishing::get, is(true));
@@ -247,7 +250,9 @@ public class TopicsStorageRecoveryTests
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
             threadSubscribe.setDaemon(true);
+f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - starting subscriber thread");
             threadSubscribe.start();
+f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started subscriber thread");
 
             // wait until we have received some messages
             Eventually.assertDeferred(fSubscribed::get, is(true));
@@ -257,49 +262,51 @@ public class TopicsStorageRecoveryTests
             assertThat(member, is(notNullValue()));
 
             // Suspend the services - we do this via the storage member like the Operator would
-            Logger.info(" Suspending service " + sServiceName + " published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Suspending service " + sServiceName + " published=" + cPublished.get());
             Boolean fSuspended = member.invoke(() -> suspend(sServiceName));
             assertThat(fSuspended, is(true));
-            Logger.info("Suspended service " + sServiceName + " published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Suspended service " + sServiceName + " published=" + cPublished.get());
 
             // shutdown the storage members
-            Logger.info("Stopping storage. published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Stopping storage. published=" + cPublished.get());
             s_storageCluster.close();
 
             // we should eventually have a single cluster member (which is this test JVM)
             Eventually.assertDeferred(() -> cluster.getMemberSet().size(), is(1));
-            Logger.info("Stopped storage. published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Stopped storage. published=" + cPublished.get());
 
             // restart the storage cluster
-            Logger.info("Restarting storage. published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Restarting storage. published=" + cPublished.get());
             s_storageCluster = startCluster("restarted");
 
             // we should eventually have three cluster members
             Eventually.assertDeferred(() -> cluster.getMemberSet().size(), is(3));
-            Logger.info("Restarted storage. published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Restarted storage. published=" + cPublished.get());
 
             IsServiceRunning isRunning = new IsServiceRunning(sServiceName);
             for (CoherenceClusterMember m : s_storageCluster)
                 {
                 Eventually.assertDeferred(() -> m.invoke(isRunning), is(true));
                 }
-            Logger.info("Restarted service " + sServiceName + " on all members");
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Restarted service " + sServiceName + " on all members");
 
             // The cache service should still be suspended so resume it via a storage member like the operator would
-            Logger.info("Resuming service " + sServiceName + " published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Resuming service " + sServiceName + " published=" + cPublished.get());
             member = s_storageCluster.stream().findAny().orElse(null);
             assertThat(member, is(notNullValue()));
             Boolean fResumed = member.invoke(() -> resume(sServiceName));
             assertThat(fResumed, is(true));
-            Logger.info("Resumed service " + sServiceName + " published=" + cPublished.get());
-            Logger.info("Awake. published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Resumed service " + sServiceName + " published=" + cPublished.get());
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Awake. published=" + cPublished.get());
 
             // wait for the publisher and subscriber to finish
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - waiting for publisher thread");
             threadPublish.join(600000);
+            f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - waiting for subscriber thread");
             threadSubscribe.join(120000);
             // we should have received at least as many as published (could be more if a commit did not succeed
             // during fail-over and the messages was re-received, but that is ok)
-            Logger.info("Test complete: published=" + cPublished.get() + " received=" + cReceived.get());
+            f_watcher.println("Test complete: published=" + cPublished.get() + " received=" + cReceived.get());
             assertThat(cReceived.get(), is(greaterThanOrEqualTo(cPublished.get())));
             }
         }
