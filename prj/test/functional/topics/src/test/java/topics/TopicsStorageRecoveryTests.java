@@ -121,6 +121,7 @@ public class TopicsStorageRecoveryTests
         Eventually.assertDeferred(cluster::isRunning, is(true));
         Eventually.assertDeferred(() -> cluster.getMemberSet().size(), is(3));
 
+        s_count.incrementAndGet();
         f_watcher.println(">>>>> Completed @Before for test: " + f_testName.getMethodName());
         }
 
@@ -152,7 +153,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverAfterCleanStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic();
+        NamedTopic<Message>     topic        = ensureTopic("test");
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -208,7 +209,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
-            threadPublish.setDaemon(true);
+            //threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -226,7 +227,8 @@ public class TopicsStorageRecoveryTests
                             try
                                 {
                                 Subscriber.Element<Message> element = subscriber.receive().get(1, TimeUnit.MINUTES);
-                                element.commitAsync().get(5, TimeUnit.MINUTES);
+                                element.commit();
+                                //element.commitAsync().get(5, TimeUnit.MINUTES);
                                 cReceived.incrementAndGet();
                                 if (i >= 5)
                                     {
@@ -244,7 +246,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
-            threadSubscribe.setDaemon(true);
+            //threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
@@ -306,7 +308,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverAfterStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic();
+        NamedTopic<Message>     topic        = ensureTopic("test-two");
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -359,7 +361,7 @@ public class TopicsStorageRecoveryTests
 
             // start the publisher thread
             Thread threadPublish = new Thread(runPublisher, "Test-Publisher");
-            threadPublish.setDaemon(true);
+            //threadPublish.setDaemon(true);
             threadPublish.start();
 
             // wait until a few messages have been published
@@ -375,7 +377,8 @@ public class TopicsStorageRecoveryTests
                         try
                             {
                             Subscriber.Element<Message> element = subscriber.receive().get(30, TimeUnit.SECONDS);
-                            element.commitAsync().get(5, TimeUnit.MINUTES);
+                            element.commit();
+                            //element.commitAsync().get(5, TimeUnit.MINUTES);
                             int c = cReceived.incrementAndGet();
                             if (c >= 5)
                                 {
@@ -392,7 +395,7 @@ public class TopicsStorageRecoveryTests
 
             // start the subscriber thread
             Thread threadSubscribe = new Thread(runSubscriber, "Test-Subscriber");
-            threadSubscribe.setDaemon(true);
+            //threadSubscribe.setDaemon(true);
             threadSubscribe.start();
 
             // wait until we have received some messages
@@ -445,7 +448,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverWaitingSubscriberAfterCleanStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic();
+        NamedTopic<Message>     topic        = ensureTopic("test-three");
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -560,7 +563,7 @@ public class TopicsStorageRecoveryTests
     @SuppressWarnings("unchecked")
     public void shouldRecoverWaitingSubscriberAfterStorageRestart() throws Exception
         {
-        NamedTopic<Message>     topic        = ensureTopic();
+        NamedTopic<Message>     topic        = ensureTopic("test-four");
         String                  sGroup       = "group-one";
         DistributedCacheService service      = (DistributedCacheService) topic.getService();
         Cluster                 cluster      = service.getCluster();
@@ -680,14 +683,22 @@ public class TopicsStorageRecoveryTests
         }
 
     @SuppressWarnings("unchecked")
-    private <V> NamedTopic<V> ensureTopic()
+    private <V> NamedTopic<V> ensureTopic(String sPrefix)
         {
         if (m_topic == null)
             {
-            String sSuffix = f_testName.getMethodName();
-            m_topic = s_ccf.ensureTopic("simple-persistent-topic-" + sSuffix);
+            int cTopic = f_cTopic.getAndIncrement();
+            m_topic = s_ccf.ensureTopic(getCacheName("simple-persistent-topic-" + sPrefix + "-" + cTopic));
+
+//            String sSuffix = f_testName.getMethodName();
+//            m_topic = s_ccf.ensureTopic("simple-persistent-topic-" + sSuffix);
             }
         return (NamedTopic<V>) m_topic;
+        }
+
+    private String getCacheName(String sPrefix)
+        {
+        return sPrefix + "-" + s_count.get();
         }
 
     private static CoherenceCluster startCluster(String suffix)
@@ -748,6 +759,8 @@ public class TopicsStorageRecoveryTests
         private String m_sValue;
         }
 
+    // ----- inner class: Watcher -------------------------------------------
+
     public static class Watcher
             extends TestWatcher
         {
@@ -805,6 +818,10 @@ public class TopicsStorageRecoveryTests
         private final PrintWriter f_out;
         }
 
+    // ----- constants ------------------------------------------------------
+
+    private static final AtomicInteger s_count = new AtomicInteger();
+
     // ----- data members ---------------------------------------------------
 
     @ClassRule
@@ -826,6 +843,8 @@ public class TopicsStorageRecoveryTests
     private static CoherenceCluster s_storageCluster;
 
     private static ConfigurableCacheFactory s_ccf;
+
+    private final AtomicInteger f_cTopic = new AtomicInteger(0);
 
     private NamedTopic<?> m_topic;
     }
