@@ -669,9 +669,11 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
 
     static Boolean suspend(String sName)
         {
-        Logger.info("Suspending service " + sName);
+        System.err.println("**** TopicsStorageRecoveryTests Suspending service " + sName);
+        System.err.flush();
         CacheFactory.ensureCluster().suspendService(sName);
-        Logger.info("Suspended service " + sName);
+        System.err.println("**** TopicsStorageRecoveryTests Suspended service " + sName);
+        System.err.flush();
         return true;
         }
 
