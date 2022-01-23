@@ -711,8 +711,9 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
             }
         catch (InterruptedException e)
             {
-            Logger.err("Timeout suspending services", e);
-            Logger.err(GuardSupport.getThreadDump());
+            System.err.println("Timeout suspending services");
+            System.err.println(GuardSupport.getThreadDump());
+            System.err.flush();
             throw new IllegalStateException("Timed out suspending service " + sName);
             }
         System.err.println("**** TopicsStorageRecoveryTests Suspended service " + sName);
