@@ -33,6 +33,7 @@ import com.oracle.bedrock.testsupport.deferred.Eventually;
 
 import com.oracle.bedrock.testsupport.junit.TestLogs;
 
+import com.oracle.coherence.common.base.Exceptions;
 import com.oracle.coherence.common.base.Logger;
 
 import com.tangosol.io.ExternalizableLite;
@@ -42,6 +43,7 @@ import com.tangosol.net.Cluster;
 import com.tangosol.net.ConfigurableCacheFactory;
 import com.tangosol.net.DistributedCacheService;
 
+import com.tangosol.net.GuardSupport;
 import com.tangosol.net.topic.NamedTopic;
 import com.tangosol.net.topic.Publisher;
 import com.tangosol.net.topic.Subscriber;
@@ -72,7 +74,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -269,7 +273,8 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
 
             // Suspend the services - we do this via the storage member like the Operator would
             f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Suspending service " + sServiceName + " published=" + cPublished.get());
-            Boolean fSuspended = member.invoke(() -> suspend(sServiceName));
+            CompletableFuture<Boolean> future = member.submit(() -> suspend(sServiceName));
+            boolean fSuspended = future.get(5, TimeUnit.MINUTES);
             assertThat(fSuspended, is(true));
             f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - Suspended service " + sServiceName + " published=" + cPublished.get());
 
@@ -314,6 +319,30 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
             // during fail-over and the messages was re-received, but that is ok)
             f_watcher.println("Test complete: published=" + cPublished.get() + " received=" + cReceived.get());
             assertThat(cReceived.get(), is(greaterThanOrEqualTo(cPublished.get())));
+            }
+        catch (TimeoutException e)
+            {
+            for (CoherenceClusterMember member : s_storageCluster)
+                {
+                CompletableFuture<Void> f = member.invoke(() ->
+                    {
+                    Logger.info(GuardSupport.getThreadDump());
+                    return null;
+                    });
+                try
+                    {
+                    f.get(5, TimeUnit.MINUTES);
+                    }
+                catch (Throwable ex)
+                    {
+                    ex.printStackTrace();
+                    }
+                }
+            throw Exceptions.ensureRuntimeException(e);
+            }
+        catch (Throwable e)
+            {
+            throw Exceptions.ensureRuntimeException(e);
             }
         }
 
