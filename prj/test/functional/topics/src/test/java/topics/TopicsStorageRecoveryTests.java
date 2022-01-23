@@ -36,6 +36,7 @@ import com.oracle.bedrock.testsupport.junit.TestLogs;
 import com.oracle.coherence.common.base.Exceptions;
 import com.oracle.coherence.common.base.Logger;
 
+import com.oracle.coherence.common.base.Timeout;
 import com.tangosol.io.ExternalizableLite;
 
 import com.tangosol.net.CacheFactory;
@@ -700,7 +701,20 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
         {
         System.err.println("**** TopicsStorageRecoveryTests Suspending service " + sName);
         System.err.flush();
-        CacheFactory.ensureCluster().suspendService(sName);
+        Cluster cluster = CacheFactory.ensureCluster();
+        try
+            {
+            try (Timeout timeout = Timeout.after(2, TimeUnit.MINUTES))
+                {
+                cluster.suspendService(sName);
+                }
+            }
+        catch (InterruptedException e)
+            {
+            Logger.err("Timeout suspending services", e);
+            Logger.err(GuardSupport.getThreadDump());
+            throw new IllegalStateException("Timed out suspending service " + sName);
+            }
         System.err.println("**** TopicsStorageRecoveryTests Suspended service " + sName);
         System.err.flush();
         return true;
