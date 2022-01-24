@@ -2009,8 +2009,9 @@ public class PagedTopicSubscriber<V>
                 listSubParts.add(new Subscription.Key(i, /*nChannel*/ 0, subscriberGroupId));
                 }
 
-Logger.err("**** In notifyClosed() - invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
+Logger.err("**** In notifyClosed() - Calling invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
             cache.invokeAll(listSubParts, new CloseSubscriptionProcessor(nId));
+Logger.err("**** In notifyClosed() - Called invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
 //            cache.async().invokeAll(listSubParts, new CloseSubscriptionProcessor(nId))
 //                    .handle((result, error) ->
 //                            {
