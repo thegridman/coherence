@@ -699,25 +699,25 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
 
     static Boolean suspend(String sName)
         {
-        System.err.println("**** TopicsStorageRecoveryTests Suspending service " + sName);
-        System.err.flush();
-        Cluster cluster = CacheFactory.ensureCluster();
+        Logger.err("**** TopicsStorageRecoveryTests Suspending service " + sName + " on thread " + Thread.currentThread().getName());
+        Cluster cluster = CacheFactory.getCluster();
+        Logger.err("**** TopicsStorageRecoveryTests Suspending service " + sName + " on thread " + Thread.currentThread().getName() + " - got cluster");
         try
             {
             try (Timeout timeout = Timeout.after(2, TimeUnit.MINUTES))
                 {
+                Logger.err("**** TopicsStorageRecoveryTests Suspending service " + sName + " on thread " + Thread.currentThread().getName() + " - calling cluster.suspendService() inside timeout");
                 cluster.suspendService(sName);
+                Logger.err("**** TopicsStorageRecoveryTests Suspending service " + sName + " on thread " + Thread.currentThread().getName() + " - called cluster.suspendService() inside timeout");
                 }
             }
-        catch (InterruptedException e)
+        catch (Throwable e)
             {
-            System.err.println("Timeout suspending services");
-            System.err.println(GuardSupport.getThreadDump());
-            System.err.flush();
-            throw new IllegalStateException("Timed out suspending service " + sName);
+            Logger.err("**** TopicsStorageRecoveryTests Timeout suspending services");
+            Logger.err(GuardSupport.getThreadDump());
+            throw new IllegalStateException("**** TopicsStorageRecoveryTests Timed out suspending service " + sName);
             }
-        System.err.println("**** TopicsStorageRecoveryTests Suspended service " + sName);
-        System.err.flush();
+        Logger.err("**** TopicsStorageRecoveryTests Suspended service " + sName);
         return true;
         }
 

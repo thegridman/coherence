@@ -2008,6 +2008,8 @@ public class PagedTopicSubscriber<V>
                 // Note: we unsubscribe against channel 0 in each partition, and it will in turn update all channels
                 listSubParts.add(new Subscription.Key(i, /*nChannel*/ 0, subscriberGroupId));
                 }
+
+Logger.err("**** In notifyClosed() - invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
             cache.invokeAll(listSubParts, new CloseSubscriptionProcessor(nId));
 //            cache.async().invokeAll(listSubParts, new CloseSubscriptionProcessor(nId))
 //                    .handle((result, error) ->
