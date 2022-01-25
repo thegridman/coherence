@@ -2732,9 +2732,6 @@ public abstract class AbstractPersistenceManager<PS extends AbstractPersistentSt
                     catch (Throwable e)
                         {
                         Logger.err("Error adding an item to collector \"" + f_collector + "\":", e);
-                        Logger.err(Threads.getThreadDump());
-                        String sHeap = HeapDump.dumpHeap();
-                        Logger.err("Heap dumped to " + sHeap);
                         }
                     }
                 }
