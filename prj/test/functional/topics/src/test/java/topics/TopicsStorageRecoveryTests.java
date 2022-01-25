@@ -37,6 +37,7 @@ import com.oracle.coherence.common.base.Exceptions;
 import com.oracle.coherence.common.base.Logger;
 
 import com.oracle.coherence.common.base.Timeout;
+import com.oracle.coherence.common.internal.util.HeapDump;
 import com.tangosol.io.ExternalizableLite;
 
 import com.tangosol.net.CacheFactory;
@@ -110,7 +111,9 @@ public class TopicsStorageRecoveryTests
         {
         f_watcher.println(">>>>> Starting @Before for test: " + f_testName.getMethodName());
         // make sure persistence files are not left from a previous test
-        File filePersistence = new File("target/store-bdb-active/" + TopicsStorageRecoveryTests.class.getSimpleName());
+        File fileTarget = MavenProjectFileUtils.locateBuildFolder(TopicsStorageRecoveryTests.class);
+        File fileActive = new File(fileTarget, "store-bdb-active");
+        File filePersistence = new File(fileActive, TopicsStorageRecoveryTests.class.getSimpleName());
         if (filePersistence.exists())
             {
             MavenProjectFileUtils.recursiveDelete(filePersistence);
@@ -762,12 +765,19 @@ f_watcher.println(">>>>> In shouldRecoverAfterCleanStorageRestart() - started su
 
     private CoherenceCluster startCluster(String suffix)
         {
+        File fileHeap = MavenProjectFileUtils.ensureTestOutputFolder(getClass(), "heap-dump");
+        if (!fileHeap.exists())
+            {
+            assertThat(fileHeap.mkdirs(), is(true));
+            }
+
         CoherenceClusterBuilder builder = new CoherenceClusterBuilder();
         OptionsByType options = OptionsByType.of(s_options)
                         .addAll(LocalStorage.enabled(),
                                 StabilityPredicate.none(),
                                 Logging.at(9),
                                 DisplayName.of(f_testName.getMethodName() + "-" + suffix),
+                                SystemProperty.of(HeapDump.class.getName() + ".dir", fileHeap),
                                 s_testLogs.builder());
 
         builder.include(2, CoherenceClusterMember.class, options.asArray());

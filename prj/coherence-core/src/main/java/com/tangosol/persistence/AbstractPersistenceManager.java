@@ -11,6 +11,8 @@ import com.oracle.coherence.common.base.Blocking;
 import com.oracle.coherence.common.base.Logger;
 import com.oracle.coherence.common.base.Timeout;
 
+import com.oracle.coherence.common.internal.util.HeapDump;
+import com.oracle.coherence.common.util.Threads;
 import com.oracle.coherence.persistence.AsyncPersistenceException;
 import com.oracle.coherence.persistence.ConcurrentAccessException;
 import com.oracle.coherence.persistence.FatalAccessException;
@@ -2730,6 +2732,9 @@ public abstract class AbstractPersistenceManager<PS extends AbstractPersistentSt
                     catch (Throwable e)
                         {
                         Logger.err("Error adding an item to collector \"" + f_collector + "\":", e);
+                        Logger.err(Threads.getThreadDump());
+                        String sHeap = HeapDump.dumpHeap();
+                        Logger.err("Heap dumped to " + sHeap);
                         }
                     }
                 }
