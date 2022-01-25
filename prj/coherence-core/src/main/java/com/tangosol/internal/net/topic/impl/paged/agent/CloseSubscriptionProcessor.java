@@ -6,6 +6,7 @@
  */
 package com.tangosol.internal.net.topic.impl.paged.agent;
 
+import com.oracle.coherence.common.base.Logger;
 import com.tangosol.internal.net.topic.impl.paged.PagedTopicPartition;
 
 import com.tangosol.internal.net.topic.impl.paged.model.Subscription;
@@ -54,7 +55,11 @@ public class CloseSubscriptionProcessor
     @Override
     public long[] process(InvocableMap.Entry<Subscription.Key, Subscription> entry)
         {
-        ensureTopic(entry).closeSubscription(entry.getKey(), m_nSubscriberId);
+Logger.err("**** Entered CloseSubscriptionProcessor.process() - " + entry.getKey());
+        PagedTopicPartition topic = ensureTopic(entry);
+Logger.err("**** Entered CloseSubscriptionProcessor.process() - ensured topic");
+        topic.closeSubscription(entry.getKey(), m_nSubscriberId);
+Logger.err("**** Exiting CloseSubscriptionProcessor.process() - " + entry.getKey());
         return null;
         }
 
