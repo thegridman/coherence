@@ -2852,8 +2852,8 @@ Logger.err("**** In notifyClosed() - Called invokeAll CloseSubscriptionProcessor
             if (event.getEntry().isSynthetic())
                 {
                 Logger.fine(String.format(
-                        "Subscriber expired after %d ms - groupId='%s', memberId=%d, notificationId=%d, last heartbeat at %s",
-                        info.getTimeoutMillis(), groupId.getGroupName(), memberIdFromId(nId), notificationIdFromId(nId), info.getLastHeartbeat()));
+                        "Subscriber expired or closed - id=%d, groupId='%s', memberId=%d, notificationId=%d, last heartbeat at %s",
+                        nId, groupId.getGroupName(), memberIdFromId(nId), notificationIdFromId(nId), info.getLastHeartbeat()));
                 }
             else
                 {

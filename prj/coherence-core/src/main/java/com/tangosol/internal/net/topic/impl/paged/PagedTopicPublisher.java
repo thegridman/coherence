@@ -132,7 +132,7 @@ public class PagedTopicPublisher<V>
         f_listenerNotification = new SimpleMapListener<NotificationKey, int[]>()
                             .addDeleteHandler(evt -> onNotification(evt.getOldValue()))
                             .synchronous()
-                            .versioned();
+                            ;//.versioned();
 
         f_filterListenerNotification = f_nNotifyPostFull == 0
                                        ? null
