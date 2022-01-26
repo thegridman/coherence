@@ -1146,15 +1146,15 @@ public class PagedTopicPartition
         int               nSyncPartition    = Subscription.getSyncPartition(subscriberGroupId, 0, cParts);
         boolean           fSyncPartition    = key.getPartitionId() == nSyncPartition;
         String            sGroup            = subscriberGroupId.getGroupName();
-
-        Subscription subscriptionZero = null;
+        int               nPart             = getPartition();
+        Subscription      subscriptionZero  = null;
 
         for (int nChannel = 0; nChannel < alResult.length; ++nChannel)
             {
             BinaryEntry<Subscription.Key, Subscription> entrySub = (BinaryEntry) ctxSubscriptions.getBackingMapEntry(
-                    toBinaryKey(new Subscription.Key(getPartition(), nChannel, subscriberGroupId)));
+                    toBinaryKey(new Subscription.Key(nPart, nChannel, subscriberGroupId)));
 
-            Subscription subscription = entrySub.getValue();
+            Subscription subscription = entrySub.isPresent() ? entrySub.getValue() : null;
             if (subscription != null)
                 {
                 // ensure the subscriber is registered and allocated channels

@@ -56,9 +56,12 @@ public class CloseSubscriptionProcessor
     public long[] process(InvocableMap.Entry<Subscription.Key, Subscription> entry)
         {
 Logger.err("**** Entered CloseSubscriptionProcessor.process() - " + entry.getKey());
-        PagedTopicPartition topic = ensureTopic(entry);
-Logger.err("**** Entered CloseSubscriptionProcessor.process() - ensured topic");
-        topic.closeSubscription(entry.getKey(), m_nSubscriberId);
+        if (entry.isPresent())
+            {
+            PagedTopicPartition topic = ensureTopic(entry);
+Logger.err("**** In CloseSubscriptionProcessor.process() - ensured topic");
+            topic.closeSubscription(entry.getKey(), m_nSubscriberId);
+            }
 Logger.err("**** Exiting CloseSubscriptionProcessor.process() - " + entry.getKey());
         return null;
         }
