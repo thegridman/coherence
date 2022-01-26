@@ -2018,6 +2018,7 @@ Logger.err("**** In notifyClosed() - Calling invokeAll CloseSubscriptionProcesso
                                 Logger.err("Caught exception closing subscription for subscriber "
                                     + idToString(nId) + " in group " + subscriberGroupId.getGroupName(), error);
                                 }
+                            Logger.err("**** In notifyClosed() - Async handler completed");
                             return null;
                             });
 Logger.err("**** In notifyClosed() - Called invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
