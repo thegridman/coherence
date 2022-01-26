@@ -2010,18 +2010,17 @@ public class PagedTopicSubscriber<V>
                 }
 
 Logger.err("**** In notifyClosed() - Calling invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
-            cache.async().invokeAll(listSubParts, new CloseSubscriptionProcessor(nId));
+            cache.async().invokeAll(listSubParts, new CloseSubscriptionProcessor(nId))
+                    .handle((result, error) ->
+                            {
+                            if (error != null)
+                                {
+                                Logger.err("Caught exception closing subscription for subscriber "
+                                    + idToString(nId) + " in group " + subscriberGroupId.getGroupName(), error);
+                                }
+                            return null;
+                            });
 Logger.err("**** In notifyClosed() - Called invokeAll CloseSubscriptionProcessor on cache " + cache.getCacheName());
-//            cache.async().invokeAll(listSubParts, new CloseSubscriptionProcessor(nId))
-//                    .handle((result, error) ->
-//                            {
-//                            if (error != null)
-//                                {
-//                                Logger.err("Caught exception closing subscription for subscriber "
-//                                    + idToString(nId) + " in group " + subscriberGroupId.getGroupName(), error);
-//                                }
-//                            return null;
-//                            });
             }
         catch (Throwable t)
             {
