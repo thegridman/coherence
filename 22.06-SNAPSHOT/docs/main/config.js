@@ -455,6 +455,19 @@ function createRoutes(){
             component: loadPage('examples-guides-121-custom-aggregators-README', '/examples/guides/121-custom-aggregators/README', {})
         },
         {
+            path: '/examples/guides/125-streams/README',
+            meta: {
+                h1: 'Streams',
+                title: 'Streams',
+                h1Prefix: null,
+                description: 'Coherence Guides Streams',
+                keywords: 'coherence, java, documentation, streams',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-125-streams-README', '/examples/guides/125-streams/README', {})
+        },
+        {
             path: '/examples/guides/130-near-caching/README',
             meta: {
                 h1: 'Near Caching',
@@ -780,6 +793,7 @@ function createNav(){
                                 { href: '/examples/guides/100-put-get-remove/README', title: 'Put Get and Remove Operations' },
                                 { href: '/examples/guides/120-built-in-aggregators/README', title: 'Built-In Aggregators' },
                                 { href: '/examples/guides/121-custom-aggregators/README', title: 'Custom Aggregators' },
+                                { href: '/examples/guides/125-streams/README', title: 'Streams' },
                                 { href: '/examples/guides/130-near-caching/README', title: 'Near Caching' },
                                 { href: '/examples/guides/140-client-events/README', title: 'Client Events' },
                                 { href: '/examples/guides/145-durable-events/README', title: 'Durable Events' },

@@ -763,8 +763,8 @@ lang="java"
 <markup
 lang="java"
 
->asyncPeople.getAll(person -&gt; System.out.println(person.getName()));    <span class="conum" data-value="1" />
-    .thenApply(done -&gt; System.out.println("DONE!"))                    <span class="conum" data-value="2" /></markup>
+>asyncPeople.getAll(person -&gt; System.out.println(person.getName()))     <span class="conum" data-value="1" />
+           .thenApply(done -&gt; System.out.println("DONE!"))             <span class="conum" data-value="2" /></markup>
 
 <ul class="colist">
 <li data-value="1">Print the name of each <code>Person</code> within the repository</li>
@@ -775,8 +775,8 @@ lang="java"
 <markup
 lang="java"
 
->asyncPeople.getAll(Person::getName, (id, name) -&gt; System.out.println(name));    <span class="conum" data-value="1" />
-    .thenApply(done -&gt; System.out.println("DONE!"))                             <span class="conum" data-value="2" /></markup>
+>asyncPeople.getAll(Person::getName, (id, name) -&gt; System.out.println(name))     <span class="conum" data-value="1" />
+           .thenApply(done -&gt; System.out.println("DONE!"))                      <span class="conum" data-value="2" /></markup>
 
 <ul class="colist">
 <li data-value="1">Print the name of each <code>Person</code> within the repository</li>

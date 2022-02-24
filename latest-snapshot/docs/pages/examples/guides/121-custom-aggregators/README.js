@@ -446,6 +446,10 @@ times a word appears in documents stored in Coherence.</p>
 <p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/processing-data-cache.html#GUID-C9DF96E0-FAF2-4CD9-958E-4DC5CF06B18A">Performing Data Grid Operations</a></p>
 
 </li>
+<li>
+<p><router-link to="/examples/guides/125-streams/README">Streams</router-link></p>
+
+</li>
 </ul>
 </div>
 </div>
