@@ -175,7 +175,7 @@ Start a storage server that is tracking events:
 <markup
 lang="bash"
 
->$ java -Dcoherence.distributed.persistence.mode=actice -Dcoherence.distributed.persistence.events.dir=/tmp/events-dir -jar coherence.jar</markup>
+>$ java -Dcoherence.distributed.persistence.mode=active -Dcoherence.distributed.persistence.events.dir=/tmp/events-dir -jar coherence.jar</markup>
 
 </li>
 <li>
