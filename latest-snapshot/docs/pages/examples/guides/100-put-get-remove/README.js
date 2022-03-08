@@ -118,9 +118,9 @@ lang="java"
 
 >    @BeforeAll
     static void boostrapCoherence() {
-        Coherence coherence = Coherence.clusterMember();           <span class="conum" data-value="1" />
-        CompletableFuture&lt;Coherence&gt; future = coherence.start();   <span class="conum" data-value="2" />
-        future.join();                                             <span class="conum" data-value="3" />
+        Coherence coherence = Coherence.clusterMember(); <span class="conum" data-value="1" />
+        CompletableFuture&lt;Coherence&gt; future = coherence.start(); <span class="conum" data-value="2" />
+        future.join(); <span class="conum" data-value="3" />
     }</markup>
 
 <ul class="colist">
@@ -165,9 +165,9 @@ methods can call.</p>
 lang="java"
 
 >    &lt;K, V&gt; NamedMap&lt;K, V&gt; getMap(String name) {
-        Coherence coherence = Coherence.getInstance();     <span class="conum" data-value="1" />
-        Session   session   = coherence.getSession();      <span class="conum" data-value="2" />
-        return session.getMap(name);                       <span class="conum" data-value="3" />
+        Coherence coherence = Coherence.getInstance(); <span class="conum" data-value="1" />
+        Session   session   = coherence.getSession(); <span class="conum" data-value="2" />
+        return session.getMap(name); <span class="conum" data-value="3" />
     }</markup>
 
 <ul class="colist">
@@ -189,7 +189,7 @@ The <a id="" title="" target="_blank" href="https://coherence.community/22.06-SN
 and Coherence comes with some out of the box <code>Serializer</code> implementations.
 The default is Java serialization, so all keys and values must be Java <code>Serializable</code> or implement Coherence
 <a id="" title="" target="_blank" href="https://coherence.community/22.06-SNAPSHOT/api/java/com/tangosol/io/ExternalizableLite.html">ExternalizableLite</a> interface for more control of serialization.
-Alternatively Coherence can also be configured to use Portable Object Format for serialization and additionaly
+Alternatively Coherence can also be configured to use Portable Object Format for serialization and additionally
 there is a JSON Coherence module that provides a JSON serializer that may be used.</p>
 
 <p>To keep this guide simple we are going to stick with the default serializer, so all <code>NamedMap</code> operations will use
@@ -207,10 +207,10 @@ lang="java"
 
 >    @Test
     void shouldPutNewKeyAndValue() {
-        NamedMap&lt;String, String&gt; map = getMap("data");    <span class="conum" data-value="1" />
-        String oldValue = map.put("key-1", "value-1");          <span class="conum" data-value="2" />
+        NamedMap&lt;String, String&gt; map = getMap("data"); <span class="conum" data-value="1" />
+        String oldValue = map.put("key-1", "value-1"); <span class="conum" data-value="2" />
 
-        assertNull(oldValue);                                   <span class="conum" data-value="3" />
+        assertNull(oldValue); <span class="conum" data-value="3" />
     }</markup>
 
 <ul class="colist">
@@ -248,10 +248,10 @@ lang="java"
 
 >    @Test
     void shouldGet() {
-        NamedMap&lt;String, String&gt; map = getMap("data");    <span class="conum" data-value="1" />
-        map.put("key-3", "value-1");                            <span class="conum" data-value="2" />
+        NamedMap&lt;String, String&gt; map = getMap("data"); <span class="conum" data-value="1" />
+        map.put("key-3", "value-1"); <span class="conum" data-value="2" />
 
-        String value = map.get("key-3");                        <span class="conum" data-value="3" />
+        String value = map.get("key-3"); <span class="conum" data-value="3" />
 
         assertEquals("value-1", value);
     }</markup>
@@ -275,17 +275,17 @@ lang="java"
 
 >    @Test
     void shouldGetAll() {
-        NamedMap&lt;String, String&gt; map = getMap("data");    <span class="conum" data-value="1" />
+        NamedMap&lt;String, String&gt; map = getMap("data"); <span class="conum" data-value="1" />
 
-        map.put("key-5", "value-5");                            <span class="conum" data-value="2" />
+        map.put("key-5", "value-5"); <span class="conum" data-value="2" />
         map.put("key-6", "value-6");
         map.put("key-7", "value-7");
 
-        Map&lt;String, String&gt; results = map.getAll(Arrays.asList("key-5", "key-7", "key-8"));   <span class="conum" data-value="3" />
+        Map&lt;String, String&gt; results = map.getAll(Arrays.asList("key-5", "key-7", "key-8")); <span class="conum" data-value="3" />
 
-        assertEquals(2, results.size());                <span class="conum" data-value="4" />
-        assertEquals("value-5", results.get("key-5"));  <span class="conum" data-value="5" />
-        assertEquals("value-7", results.get("key-7"));  <span class="conum" data-value="6" />
+        assertEquals(2, results.size()); <span class="conum" data-value="4" />
+        assertEquals("value-5", results.get("key-5")); <span class="conum" data-value="5" />
+        assertEquals("value-7", results.get("key-7")); <span class="conum" data-value="6" />
     }</markup>
 
 <ul class="colist">
@@ -310,12 +310,12 @@ lang="java"
 
 >    @Test
     void shouldRemove() {
-        NamedMap&lt;String, String&gt; map = getMap("data");    <span class="conum" data-value="1" />
-        map.put("key-9", "value-9");                            <span class="conum" data-value="2" />
+        NamedMap&lt;String, String&gt; map = getMap("data"); <span class="conum" data-value="1" />
+        map.put("key-9", "value-9"); <span class="conum" data-value="2" />
 
-        String oldValue = map.remove("key-9");             <span class="conum" data-value="3" />
+        String oldValue = map.remove("key-9"); <span class="conum" data-value="3" />
 
-        assertEquals("value-9", oldValue);             <span class="conum" data-value="4" />
+        assertEquals("value-9", oldValue); <span class="conum" data-value="4" />
     }</markup>
 
 <ul class="colist">
@@ -338,13 +338,13 @@ lang="java"
 
 >    @Test
     void shouldRemoveMapping() {
-        NamedMap&lt;String, String&gt; map = getMap("data");    <span class="conum" data-value="1" />
-        map.put("key-10", "value-10");                          <span class="conum" data-value="2" />
+        NamedMap&lt;String, String&gt; map = getMap("data"); <span class="conum" data-value="1" />
+        map.put("key-10", "value-10"); <span class="conum" data-value="2" />
 
-        boolean removed = map.remove("key-10", "Foo");          <span class="conum" data-value="3" />
+        boolean removed = map.remove("key-10", "Foo"); <span class="conum" data-value="3" />
         assertFalse(removed);
 
-        removed = map.remove("key-10", "value-10");             <span class="conum" data-value="4" />
+        removed = map.remove("key-10", "value-10"); <span class="conum" data-value="4" />
         assertTrue(removed);
     }</markup>
 
@@ -376,16 +376,16 @@ lang="java"
         Coherence coherence = Coherence.getInstance();
         Session   session   = coherence.getSession();
 
-        NamedCache&lt;String, String&gt; cache = session.getCache("test");  <span class="conum" data-value="1" />
+        NamedCache&lt;String, String&gt; cache = session.getCache("test"); <span class="conum" data-value="1" />
 
-        cache.put("key-1", "value-1", 2000);  <span class="conum" data-value="2" />
+        cache.put("key-1", "value-1", 2000); <span class="conum" data-value="2" />
 
-        String value = cache.get("key-1");                     <span class="conum" data-value="3" />
+        String value = cache.get("key-1"); <span class="conum" data-value="3" />
         assertEquals("value-1", value);
 
-        Thread.sleep(3000);                              <span class="conum" data-value="4" />
+        Thread.sleep(3000); <span class="conum" data-value="4" />
 
-        value = cache.get("key-1");                            <span class="conum" data-value="5" />
+        value = cache.get("key-1"); <span class="conum" data-value="5" />
         assertNull(value);
     }</markup>
 

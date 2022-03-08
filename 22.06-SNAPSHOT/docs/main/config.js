@@ -429,6 +429,19 @@ function createRoutes(){
             component: loadPage('examples-guides-100-put-get-remove-README', '/examples/guides/100-put-get-remove/README', {})
         },
         {
+            path: '/examples/guides/110-queries/README',
+            meta: {
+                h1: 'Querying Caches',
+                title: 'Querying Caches',
+                h1Prefix: null,
+                description: 'Provides a guide for querying Coherence caches',
+                keywords: 'coherence, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-110-queries-README', '/examples/guides/110-queries/README', {})
+        },
+        {
             path: '/examples/guides/120-built-in-aggregators/README',
             meta: {
                 h1: 'Built-In Aggregators',
@@ -572,19 +585,6 @@ function createRoutes(){
             component: loadPage('examples-tutorials-500-graphql-README', '/examples/tutorials/500-graphql/README', {})
         },
         {
-            path: '/examples/internal/template/README',
-            meta: {
-                h1: 'Title',
-                title: 'Title',
-                h1Prefix: null,
-                description: 'Coherence Guides',
-                keywords: 'coherence, java, documentation, guides',
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('examples-internal-template-README', '/examples/internal/template/README', {})
-        },
-        {
             path: '/examples/internal/includes/simple-build',
             meta: {
                 h1: 'Simple Build',
@@ -622,6 +622,19 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('docs-README', '/docs/README', {})
+        },
+        {
+            path: '/examples/internal/template/README',
+            meta: {
+                h1: 'Title',
+                title: 'Title',
+                h1Prefix: null,
+                description: 'Coherence Guides',
+                keywords: 'coherence, java, documentation, guides',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('examples-internal-template-README', '/examples/internal/template/README', {})
         },
         {
             path: '/examples/internal/includes/what-you-need',
@@ -791,6 +804,7 @@ function createNav(){
                             items: [
                                 { href: '/examples/guides/000-overview', title: 'Guides Overview' },
                                 { href: '/examples/guides/100-put-get-remove/README', title: 'Put Get and Remove Operations' },
+                                { href: '/examples/guides/110-queries/README', title: 'Querying Caches' },
                                 { href: '/examples/guides/120-built-in-aggregators/README', title: 'Built-In Aggregators' },
                                 { href: '/examples/guides/121-custom-aggregators/README', title: 'Custom Aggregators' },
                                 { href: '/examples/guides/125-streams/README', title: 'Streams' },

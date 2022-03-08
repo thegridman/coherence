@@ -62,7 +62,7 @@ versions and best practice and approaches recommended by the Coherence team for 
 <h2 id="simple">Guides</h2>
 <div class="section">
 <p>These simple guides are designed to be a quick hands-on introduction to a specific feature of Coherence.
-In most cases they require nothing more than a Coherence jar and an IDE (or a text editor it you&#8217;re really old-school).
+In most cases they require nothing more than a Coherence jar and an IDE (or a text editor if you&#8217;re really old-school).
 Guides are typically built as a combination Maven and Gradle project including the corresponding wrappers for those tools
 making them simple to build as stand-alone projects without needing to build the whole Coherence source tree.</p>
 
@@ -80,6 +80,19 @@ making them simple to build as stand-alone projects without needing to build the
 <v-card-text class="caption">
 <p></p>
 <p>This guide walks you through basic CRUD <code>put</code>, <code>get</code>, and <code>remove</code> operations on a <code>NamedMap</code>.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/110-queries/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Querying Caches</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through the basic concepts of querying Coherence caches.</p>
 </v-card-text>
 </v-card>
 </v-flex>
