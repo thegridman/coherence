@@ -237,7 +237,7 @@ lang="java"
 ServerBuilder builder = ServerBuilder.forPort(port);
 
 // Obtain the Coherence gRPC services and add them to the builder
-List&lt;BindableService&gt; services = GrpcServerController.INSTANCE.createGrpcServices()
+List&lt;BindableService&gt; services = GrpcServerController.INSTANCE.createGrpcServices();
 services.forEach(serverBuilder::addService);
 
 // Build and start the server
