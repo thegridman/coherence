@@ -533,6 +533,19 @@ function createRoutes(){
             component: loadPage('examples-guides-190-cache-stores-README', '/examples/guides/190-cache-stores/README', {})
         },
         {
+            path: '/examples/guides/200-federation/README',
+            meta: {
+                h1: 'Federation',
+                title: 'Federation',
+                h1Prefix: null,
+                description: 'Coherence Tutorials',
+                keywords: 'coherence, java, documentation, tutorials, federation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-200-federation-README', '/examples/guides/200-federation/README', {})
+        },
+        {
             path: '/examples/guides/460-topics/README',
             meta: {
                 h1: 'Topics',
@@ -812,6 +825,7 @@ function createNav(){
                                 { href: '/examples/guides/140-client-events/README', title: 'Client Events' },
                                 { href: '/examples/guides/145-durable-events/README', title: 'Durable Events' },
                                 { href: '/examples/guides/190-cache-stores/README', title: 'Cache Stores' },
+                                { href: '/examples/guides/200-federation/README', title: 'Federation' },
                                 { href: '/examples/guides/460-topics/README', title: 'Topics' },
                                 { href: '/examples/guides/500-status-ha/README', title: 'Monitoring StatusHA' }
                             ]
