@@ -468,6 +468,19 @@ function createRoutes(){
             component: loadPage('examples-guides-121-custom-aggregators-README', '/examples/guides/121-custom-aggregators/README', {})
         },
         {
+            path: '/examples/guides/124-views/README',
+            meta: {
+                h1: 'Views',
+                title: 'Views',
+                h1Prefix: null,
+                description: 'Provides a guide for creating views using ContinuousQueryCache',
+                keywords: 'coherence, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-124-views-README', '/examples/guides/124-views/README', {})
+        },
+        {
             path: '/examples/guides/125-streams/README',
             meta: {
                 h1: 'Streams',
@@ -820,6 +833,7 @@ function createNav(){
                                 { href: '/examples/guides/110-queries/README', title: 'Querying Caches' },
                                 { href: '/examples/guides/120-built-in-aggregators/README', title: 'Built-In Aggregators' },
                                 { href: '/examples/guides/121-custom-aggregators/README', title: 'Custom Aggregators' },
+                                { href: '/examples/guides/124-views/README', title: 'Views' },
                                 { href: '/examples/guides/125-streams/README', title: 'Streams' },
                                 { href: '/examples/guides/130-near-caching/README', title: 'Near Caching' },
                                 { href: '/examples/guides/140-client-events/README', title: 'Client Events' },
