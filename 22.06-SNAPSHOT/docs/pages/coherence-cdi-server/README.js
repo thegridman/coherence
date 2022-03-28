@@ -211,7 +211,7 @@ lang="java"
 import javax.inject.Inject;
 
 @Inject
-@Name("Products")
+@SessionName("Products")
 private NamedCache&lt;Long, Product&gt; products;
 
 @Inject
@@ -395,7 +395,7 @@ private Publisher&lt;Order&gt; orders;
 private Publisher&lt;Order&gt; m_orders;
 
 @Inject
-@SessionName("payments-cluster.xml")
+@SessionName("Finance")
 private Publisher&lt;PaymentRequest&gt; payments;</markup>
 
 <p>or <code>Subscriber&lt;T&gt;</code>:</p>
