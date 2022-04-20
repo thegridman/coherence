@@ -83,7 +83,7 @@ lang="java"
 >public class PeopleRepository
         extends AbstractRepository&lt;String, Person&gt;
     {
-    private NamedMap&lt;String, Person&gt; people;
+    private final NamedMap&lt;String, Person&gt; people;
 
     public PeopleRepository(NamedMap&lt;String, Person&gt; people)
         {
@@ -622,7 +622,7 @@ public class Person
 lang="java"
 
 >    public static class PeopleListener
-            implements PeopleRepository.Listener&lt;Person&gt;
+            implements AbstractRepositoryBase.Listener&lt;Person&gt;
         {
         public void onInserted(Person personNew)
             {
@@ -704,7 +704,7 @@ lang="java"
 >public class AsyncPeopleRepository
         extends AbstractAsyncRepository&lt;String, Person&gt;
     {
-    private AsyncNamedMap&lt;String, Person&gt; people;
+    private final AsyncNamedMap&lt;String, Person&gt; people;
 
     public AsyncPeopleRepository(AsyncNamedMap&lt;String, Person&gt; people)
         {
