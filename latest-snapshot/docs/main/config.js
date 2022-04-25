@@ -195,6 +195,19 @@ function createRoutes(){
             component: loadPage('docs-core-10_tls', '/docs/core/10_tls', {})
         },
         {
+            path: '/docs/core/11_health',
+            meta: {
+                h1: 'Health Check API',
+                title: 'Health Check API',
+                h1Prefix: null,
+                description: 'Coherence TLS Enhancements',
+                keywords: 'coherence, SSL, TLS, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('docs-core-11_health', '/docs/core/11_health', {})
+        },
+        {
             path: '/docs/topics/01_introduction',
             meta: {
                 h1: 'Introduction to Coherence Topics',
@@ -735,7 +748,8 @@ function createNav(){
                                 { href: '/docs/core/07_partition_events_logging', title: 'Partition Events Logging' },
                                 { href: '/docs/core/08_non_blocking', title: 'Non Blocking Data Sources' },
                                 { href: '/docs/core/09_backup', title: 'Partition Backup Enhancements' },
-                                { href: '/docs/core/10_tls', title: 'Coherence TLS Enhancements' }
+                                { href: '/docs/core/10_tls', title: 'Coherence TLS Enhancements' },
+                                { href: '/docs/core/11_health', title: 'Health Check API' }
                             ]
                         },
                         {
