@@ -663,6 +663,19 @@ function createRoutes(){
             component: loadPage('docs-README', '/docs/README', {})
         },
         {
+            path: '/coherence-helidon-grpc-proxy/README',
+            meta: {
+                h1: 'Helidon MP gRPC Server',
+                title: 'Helidon MP gRPC Server',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-helidon-grpc-proxy-README', '/coherence-helidon-grpc-proxy/README', {})
+        },
+        {
             path: '/examples/internal/template/README',
             meta: {
                 h1: 'Title',

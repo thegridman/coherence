@@ -1691,6 +1691,21 @@
             "title": "Operational Configuration Element Reference"
         },
         {
+            "location": "/coherence-helidon-grpc-proxy/README",
+            "text": " Coherence gRPC proxy is the server-side implementation of the services defined within the Coherence gRPC module. The gRPC proxy uses standard gRPC Java libraries to provide Coherence APIs over gRPC. If using the Helidon Microprofile server with the microprofile gRPC server enabled the Coherence gRPC proxy can be deployed into the Helidon gRPC server instead of the Coherence default gRPC server. ",
+            "title": "Helidon MP gRPC Server"
+        },
+        {
+            "location": "/coherence-helidon-grpc-proxy/README",
+            "text": " In order to use Coherence gRPC Server, you need to declare it as a dependency of your project; for example if using Maven: <markup lang=\"xml\" >&lt;dependency&gt; &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt; &lt;artifactId&gt;coherence-helidon-grpc-proxy&lt;/artifactId&gt; &lt;version&gt;22.06-SNAPSHOT&lt;/version&gt; &lt;/dependency&gt; or for Gradle: <markup lang=\"groovy\" >implementation 'com.oracle.coherence.ce:coherence-helidon-grpc-proxy:22.06-SNAPSHOT' ",
+            "title": "Usage"
+        },
+        {
+            "location": "/coherence-helidon-grpc-proxy/README",
+            "text": " For this behaviour to happen automatically just set the coherence.grpc.enabled system property to false , which will disable the built in server. A built-in GrpcMpExtension implementation will then deploy the proxy services to the Helidon gRPC server. When using the Helidon MP gRPC server, if the coherence.grpc.enabled system property has not been set to false , then both the Helidon gRPC server and the Coherence default gRPC server will start and could cause port binding issues unless they are both specifically configured to use different ports. ",
+            "title": "Enable the Proxy Service in Helidon MP"
+        },
+        {
             "location": "/examples/guides/121-custom-aggregators/README",
             "text": " What You Will Build What You Need Example Data Model Review the Example Code Run the Example Summary See Also ",
             "title": "Table of Contents"
@@ -2519,11 +2534,6 @@
             "location": "/coherence-grpc-proxy/README",
             "text": " If you have application code that needs to run only after the gRPC server has started this can be achieved by using the GrpcServerController.whenStarted() method. This method returns a CompletionStage that will be completed when the gRPC server has started. <markup lang=\"java\" >GrpcServerController.INSTANCE.whenStarted().thenRun(() -&gt; { // run post-start code... System.out.println(\"The gRPC server has started\"); }); ",
             "title": "Waiting For gRPC Server Start"
-        },
-        {
-            "location": "/coherence-grpc-proxy/README",
-            "text": " If using the Helidon Microprofile server with the microprofile gRPC server enabled the Coherence gRPC proxy can be deployed into the Helidon gRPC server instead of the Coherence default gRPC server. For this behaviour to happen automatically just set the coherence.grpc.enabled system property to false , which will disable the built in server. A built-in GrpcMpExtension implementation will then deploy the proxy services to the Helidon gRPC server. When using the Helidon MP gRPC server, if the coherence.grpc.enabled system property has not been set to false , then both the Helidon gRPC server and the Coherence default gRPC server will start and could cause port binding issues unless they are both specifically configured to use different ports. ",
-            "title": "Deploy the Proxy Service with Helidon Microprofile gRPC Server"
         },
         {
             "location": "/coherence-grpc-proxy/README",
