@@ -611,6 +611,19 @@ function createRoutes(){
             component: loadPage('examples-tutorials-000-overview', '/examples/tutorials/000-overview', {})
         },
         {
+            path: '/examples/tutorials/200-persistence/README',
+            meta: {
+                h1: 'Persistence',
+                title: 'Persistence',
+                h1Prefix: null,
+                description: 'Coherence Tutorials',
+                keywords: 'coherence, java, documentation, tutorials, Persistence',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-tutorials-200-persistence-README', '/examples/tutorials/200-persistence/README', {})
+        },
+        {
             path: '/examples/tutorials/500-graphql/README',
             meta: {
                 h1: 'GraphQL',
@@ -877,6 +890,7 @@ function createNav(){
                             group: '/tutorials',
                             items: [
                                 { href: '/examples/tutorials/000-overview', title: 'Tutorials Overview' },
+                                { href: '/examples/tutorials/200-persistence/README', title: 'Persistence' },
                                 { href: '/examples/tutorials/500-graphql/README', title: 'GraphQL' }
                             ]
                         }

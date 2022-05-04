@@ -29,5 +29,23 @@ making them simple to build as stand-alone projects without needing to build the
 </v-container>
 </v-flex>
 </v-layout>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="#examples/tutorials/200-persitence/README.adoc" @click.native="this.scrollFix('#examples/tutorials/200-persitence/README.adoc')"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Persistence</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This tutorial shows you how to use Persistence from CohQL and how to monitor Persistence events.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-card flat color="grey lighten-3"  class="card__example">
+<v-card-text></v-card-text>
+</v-card>
+
+
 </div>
 </doc-view>
