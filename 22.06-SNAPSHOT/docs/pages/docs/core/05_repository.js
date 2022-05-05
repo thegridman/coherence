@@ -80,31 +80,7 @@ lang="java"
 <markup
 lang="java"
 
->public class PeopleRepository
-        extends AbstractRepository&lt;String, Person&gt;
-    {
-    private final NamedMap&lt;String, Person&gt; people;
-
-    public PeopleRepository(NamedMap&lt;String, Person&gt; people)
-        {
-        this.people = people;
-        }
-
-    protected NamedMap&lt;String, Person&gt; getMap()            <span class="conum" data-value="1" />
-        {
-        return people;
-        }
-
-    protected String getId(Person person)                  <span class="conum" data-value="2" />
-        {
-        return person.getSsn();
-        }
-
-    protected Class&lt;? extends Person&gt; getEntityType()      <span class="conum" data-value="3" />
-        {
-        return Person.class;
-        }
-    }</markup>
+>Unresolved directive in 05_repository.adoc - include::../../test/functional/repository/src/test/java/repository/PeopleRepository.java[tag=doc]</markup>
 
 <ul class="colist">
 <li data-value="1">The <code>getMap</code> method returns the <code>NamedMap</code> that should be used as a backing data store for the repository, which is in this case provided via constructor argument, but could just as easily be injected via CDI</li>
@@ -621,24 +597,7 @@ public class Person
 <markup
 lang="java"
 
->    public static class PeopleListener
-            implements AbstractRepositoryBase.Listener&lt;Person&gt;
-        {
-        public void onInserted(Person personNew)
-            {
-            // handle INSERT event
-            }
-
-        public void onUpdated(Person personOld, Person personNew)
-            {
-            // handle UPDATE event
-            }
-
-        public void onRemoved(Person personOld)
-            {
-            // handle REMOVE event
-            }
-        }</markup>
+>Unresolved directive in 05_repository.adoc - include::../../test/functional/repository/src/test/java/repository/AbstractRepositoryTests.java[tag=listener]</markup>
 
 <markup
 lang="java"
@@ -701,31 +660,7 @@ lang="java"
 <markup
 lang="java"
 
->public class AsyncPeopleRepository
-        extends AbstractAsyncRepository&lt;String, Person&gt;
-    {
-    private final AsyncNamedMap&lt;String, Person&gt; people;
-
-    public AsyncPeopleRepository(AsyncNamedMap&lt;String, Person&gt; people)
-        {
-        this.people = people;
-        }
-
-    protected AsyncNamedMap&lt;String, Person&gt; getMap()          <span class="conum" data-value="1" />
-        {
-        return people;
-        }
-
-    protected String getId(Person entity)                     <span class="conum" data-value="2" />
-        {
-        return entity.getSsn();
-        }
-
-    protected Class&lt;? extends Person&gt; getEntityType()         <span class="conum" data-value="3" />
-        {
-        return Person.class;
-        }
-    }</markup>
+>Unresolved directive in 05_repository.adoc - include::../../test/functional/repository/src/test/java/repository/AsyncPeopleRepository.java[tag=doc]</markup>
 
 <ul class="colist">
 <li data-value="1">The <code>getMap</code> method returns the <code>AsyncNamedMap</code> that should be used as a backing data store for the repository,
