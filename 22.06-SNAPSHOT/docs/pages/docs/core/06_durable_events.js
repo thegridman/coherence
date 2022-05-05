@@ -184,13 +184,7 @@ taken from a functional test in the repo has been provided below:
 <markup
 lang="java"
 
->List&lt;MapEvent&gt; listEvents = Collections.synchronizedList(new ArrayList&lt;&gt;());
-
-MapListener&lt;Integer, String&gt; listener = new SimpleMapListener&lt;Integer, String&gt;()
-        .addEventHandler(listEvents::add)
-        .versioned();
-
-cache.addMapListener(listener, 1, false);</markup>
+>Unresolved directive in 06_durable_events.adoc - include::../../test/functional/persistence/src/test/java/persistence/events/DurableEventsTests.java[tag=simple-registration]</markup>
 
 </li>
 </ol>
