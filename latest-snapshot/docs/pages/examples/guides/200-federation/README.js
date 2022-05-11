@@ -140,7 +140,7 @@ lang="xml"
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="http://maven.apache.org/download.cgi">Maven 3.5+</a> or <a id="" title="" target="_blank" href="http://www.gradle.org/downloads">Gradle 4+</a>
+<p><a id="" title="" target="_blank" href="http://maven.apache.org/download.cgi">Maven 3.8+</a> or <a id="" title="" target="_blank" href="http://www.gradle.org/downloads">Gradle 4+</a>
 Although the source comes with the Maven and Gradle wrappers included so they can be built without first installing
 either build tool.</p>
 

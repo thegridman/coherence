@@ -442,6 +442,19 @@ function createRoutes(){
             component: loadPage('examples-guides-000-overview', '/examples/guides/000-overview', {})
         },
         {
+            path: '/examples/guides/090-health-checks/README',
+            meta: {
+                h1: 'Health Checks',
+                title: 'Health Checks',
+                h1Prefix: null,
+                description: 'Coherence Guides',
+                keywords: 'coherence, java, documentation, guides, health, docker, containers',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-090-health-checks-README', '/examples/guides/090-health-checks/README', {})
+        },
+        {
             path: '/examples/guides/100-put-get-remove/README',
             meta: {
                 h1: 'Put Get and Remove Operations',
@@ -676,6 +689,19 @@ function createRoutes(){
             component: loadPage('coherence-helidon-client-README', '/coherence-helidon-client/README', {})
         },
         {
+            path: '/examples/internal/includes/simple-build-maven',
+            meta: {
+                h1: 'Simple Build',
+                title: 'Simple Build',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('examples-internal-includes-simple-build-maven', '/examples/internal/includes/simple-build-maven', {})
+        },
+        {
             path: '/docs/README',
             meta: {
                 h1: 'Coherence Documentation Module',
@@ -883,6 +909,7 @@ function createNav(){
                             group: '/guides',
                             items: [
                                 { href: '/examples/guides/000-overview', title: 'Guides Overview' },
+                                { href: '/examples/guides/090-health-checks/README', title: 'Health Checks' },
                                 { href: '/examples/guides/100-put-get-remove/README', title: 'Put Get and Remove Operations' },
                                 { href: '/examples/guides/110-queries/README', title: 'Querying Caches' },
                                 { href: '/examples/guides/120-built-in-aggregators/README', title: 'Built-In Aggregators' },
