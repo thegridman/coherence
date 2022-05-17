@@ -390,7 +390,12 @@ When the image runs, the entry point will just start <code>Coherence</code>.</p>
 <markup
 
 title="src/docker/OpenJDK.Dockerfile"
->FROM openjdk:11-jre
+># Copyright (c) 2022, Oracle and/or its affiliates.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at
+# https://oss.oracle.com/licenses/upl.
+#
+FROM openjdk:11-jre
 
 ADD coherence.jar /coherence/lib/coherence.jar
 
@@ -508,7 +513,12 @@ is slightly different than the previous example.</p>
 <markup
 
 title="src/docker/Distroless.Dockerfile"
->FROM gcr.io/distroless/java11
+># Copyright (c) 2022, Oracle and/or its affiliates.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at
+# https://oss.oracle.com/licenses/upl.
+#
+FROM gcr.io/distroless/java11
 
 ADD coherence.jar /coherence/lib/coherence.jar
 
