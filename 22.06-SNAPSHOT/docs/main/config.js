@@ -572,6 +572,19 @@ function createRoutes(){
             component: loadPage('examples-guides-140-client-events-README', '/examples/guides/140-client-events/README', {})
         },
         {
+            path: '/examples/guides/142-server-events/README',
+            meta: {
+                h1: 'Server-Side Events',
+                title: 'Server-Side Events',
+                h1Prefix: null,
+                description: 'Coherence Guides Client Events',
+                keywords: 'coherence, java, documentation, server side events, server events',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-142-server-events-README', '/examples/guides/142-server-events/README', {})
+        },
+        {
             path: '/examples/guides/145-durable-events/README',
             meta: {
                 h1: 'Durable Events',
@@ -919,6 +932,7 @@ function createNav(){
                                 { href: '/examples/guides/128-entry-processors/README', title: 'Entry Processors' },
                                 { href: '/examples/guides/130-near-caching/README', title: 'Near Caching' },
                                 { href: '/examples/guides/140-client-events/README', title: 'Client Events' },
+                                { href: '/examples/guides/142-server-events/README', title: 'Server-Side Events' },
                                 { href: '/examples/guides/145-durable-events/README', title: 'Durable Events' },
                                 { href: '/examples/guides/190-cache-stores/README', title: 'Cache Stores' },
                                 { href: '/examples/guides/200-federation/README', title: 'Federation' },
