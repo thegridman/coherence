@@ -208,6 +208,19 @@ function createRoutes(){
             component: loadPage('docs-core-11_health', '/docs/core/11_health', {})
         },
         {
+            path: '/docs/core/12_cache_config_override',
+            meta: {
+                h1: 'Cache Configuration Override',
+                title: 'Cache Configuration Override',
+                h1Prefix: null,
+                description: 'Coherence Cache Configuration Override',
+                keywords: 'coherence, config, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('docs-core-12_cache_config_override', '/docs/core/12_cache_config_override', {})
+        },
+        {
             path: '/docs/topics/01_introduction',
             meta: {
                 h1: 'Introduction to Coherence Topics',
@@ -827,7 +840,8 @@ function createNav(){
                                 { href: '/docs/core/08_non_blocking', title: 'Non Blocking Data Sources' },
                                 { href: '/docs/core/09_backup', title: 'Partition Backup Enhancements' },
                                 { href: '/docs/core/10_tls', title: 'Coherence TLS Enhancements' },
-                                { href: '/docs/core/11_health', title: 'Health Check API' }
+                                { href: '/docs/core/11_health', title: 'Health Check API' },
+                                { href: '/docs/core/12_cache_config_override', title: 'Cache Configuration Override' }
                             ]
                         },
                         {

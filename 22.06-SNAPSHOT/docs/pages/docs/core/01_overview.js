@@ -199,6 +199,27 @@ Adds extension points to allow custom keystore, key and certificate loaders.</p>
 </v-card-text>
 </v-card>
 </v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/docs/core/12_cache_config_override"><div class="card__link-hover"/>
+</router-link>
+<v-layout align-center justify-center class="">
+<v-avatar size="150px">
+<v-icon class="xxx-large">fa-file-code-o</v-icon>
+</v-avatar>
+</v-layout>
+<div class="px-3">
+<v-divider class="indigo lighten-4"/>
+</div>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Cache Configuration Override</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>Overriding Cache Configuration Using XML Override file.</p>
+</v-card-text>
+</v-card>
+</v-flex>
 </v-layout>
 </v-container>
 </v-flex>
