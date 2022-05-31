@@ -221,6 +221,19 @@ function createRoutes(){
             component: loadPage('docs-core-12_cache_config_override', '/docs/core/12_cache_config_override', {})
         },
         {
+            path: '/docs/core/13_caffeine',
+            meta: {
+                h1: 'Caffeine Integration',
+                title: 'Caffeine Integration',
+                h1Prefix: null,
+                description: 'Caffeine Backing Map Implementation',
+                keywords: 'coherence, caffeine, caching, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('docs-core-13_caffeine', '/docs/core/13_caffeine', {})
+        },
+        {
             path: '/docs/topics/01_introduction',
             meta: {
                 h1: 'Introduction to Coherence Topics',
@@ -841,7 +854,8 @@ function createNav(){
                                 { href: '/docs/core/09_backup', title: 'Partition Backup Enhancements' },
                                 { href: '/docs/core/10_tls', title: 'Coherence TLS Enhancements' },
                                 { href: '/docs/core/11_health', title: 'Health Check API' },
-                                { href: '/docs/core/12_cache_config_override', title: 'Cache Configuration Override' }
+                                { href: '/docs/core/12_cache_config_override', title: 'Cache Configuration Override' },
+                                { href: '/docs/core/13_caffeine', title: 'Caffeine Integration' }
                             ]
                         },
                         {
