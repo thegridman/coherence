@@ -9,8 +9,92 @@
 
 <h3 id="_about_caffeine">About Caffeine</h3>
 <div class="section">
-<p>Caffeine is a high performance, near optimal caching library.</p>
+<p>Caffeine is a high performance, near optimal caching library. It improves upon Coherence&#8217;s standard local
+  cache by offering better read and write concurrency, as well as a higher hit rate.</p>
 
+<p>Caffeine implements an adaptive eviction policy that can achieve a significantly higher hit rate across a large
+  variety of workloads. This can be leveraged to either reduce latencies or maintain the same performance with
+  smaller caches. That may allow for decreasing the operational costs due to requiring fewer resources for the
+  same workload.</p>
+
+<p>The <a id="" title="" target="_blank" href="https://dl.acm.org/doi/10.1145/3274808.3274816">adaptive</a> nature of this policy, nicknamed
+  <a id="" title="" target="_blank" href="https://dl.acm.org/doi/10.1145/3149371">W-TinyLFU</a>, allows it to stay robustly performant despite changes in the
+  runtime workload. Those changes may be caused by variations in the external request pattern or differences
+  caused by the application&#8217;s evolution. This self-optimizing, O(1) algorithm avoids the need to manually analyze
+  the application and tune the cache to a more optimal eviction policy.</p>
+
+<p>The following table shows cache hit rates for Caffeine&#8217;s W-TinyLFU vs other commonly used cache eviction policies, for various types of workloads:</p>
+
+
+<div class="table__overflow elevation-1  ">
+<table class="datatable table">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th>Workload</th>
+<th>W-TinyLFU</th>
+<th>Hybrid</th>
+<th>LRU</th>
+<th>LFU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="">An analytical loop</td>
+<td class=""><strong>32.7%</strong></td>
+<td class="">2.6%</td>
+<td class="">1.0%</td>
+<td class="">1.4%</td>
+</tr>
+<tr>
+<td class="">Blockchain mining</td>
+<td class="">32.3%</td>
+<td class="">12.1%</td>
+<td class=""><strong>33.3%</strong></td>
+<td class="">0.0%</td>
+</tr>
+<tr>
+<td class="">OLTP</td>
+<td class=""><strong>40.2%</strong></td>
+<td class="">15.4%</td>
+<td class="">33.2%</td>
+<td class="">9.6%</td>
+</tr>
+<tr>
+<td class="">Search</td>
+<td class=""><strong>42.5%</strong></td>
+<td class="">31.3%</td>
+<td class="">12.0%</td>
+<td class="">29.3%</td>
+</tr>
+<tr>
+<td class="">Database</td>
+<td class=""><strong>44.8%</strong></td>
+<td class="">37.0%</td>
+<td class="">20.2%</td>
+<td class="">39.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For more in-depth introduction to Caffeine, we strongly recommend Ben Manes' articles on HighScalability.com:</p>
+
+<ol style="margin-left: 15px;">
+<li>
+<a id="" title="" target="_blank" href="http://highscalability.com/blog/2016/1/25/design-of-a-modern-cache.html">Design of a Modern Cache, Part 1</a>
+
+</li>
+<li>
+<a id="" title="" target="_blank" href="http://highscalability.com/blog/2019/2/25/design-of-a-modern-cachepart-deux.html">Design of a Modern Cache, Part 2</a>
+
+</li>
+</ol>
 </div>
 
 <h3 id="_using_caffeine">Using Caffeine</h3>
@@ -165,8 +249,8 @@ lang="xml"
   within an entry processor.</p>
 
 <p>Of course, there is nothing wrong with not limiting the cache by either size or time, and you may still
-  benefit from using Caffeine in those situations, especially under high concurrent load, due to its lock-free
-  implementation.</p>
+  benefit from using Caffeine in those situations, especially under high concurrent load, due to its support
+  for lock-free reads and fine-grained locking on writes.</p>
 
 <p>Finally, when using Caffeine as a backing map for a partitioned cache, you will likely want to configure
   <code>unit-calculator</code> to <code>BINARY</code>, so you can set the limits and observe cache size (via JMX or Metrics) in
