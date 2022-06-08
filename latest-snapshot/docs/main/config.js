@@ -117,6 +117,19 @@ function createRoutes(){
             component: loadPage('docs-core-04_portable_types', '/docs/core/04_portable_types', {})
         },
         {
+            path: '/docs/core/04b_pof_config_discovery',
+            meta: {
+                h1: 'POF Configuration Discovery',
+                title: 'POF Configuration Discovery',
+                h1Prefix: null,
+                description: 'Coherence POF',
+                keywords: 'coherence, serialization, pof, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('docs-core-04b_pof_config_discovery', '/docs/core/04b_pof_config_discovery', {})
+        },
+        {
             path: '/docs/core/05_repository',
             meta: {
                 h1: 'Repository API',
@@ -847,6 +860,7 @@ function createNav(){
                                 { href: '/docs/core/02_bootstrap', title: 'Bootstrap API' },
                                 { href: '/docs/core/03_parallel_recovery', title: 'Parallel Recovery' },
                                 { href: '/docs/core/04_portable_types', title: 'Portable Types' },
+                                { href: '/docs/core/04b_pof_config_discovery', title: 'POF Configuration Discovery' },
                                 { href: '/docs/core/05_repository', title: 'Repository API' },
                                 { href: '/docs/core/06_durable_events', title: 'Durable Events' },
                                 { href: '/docs/core/07_partition_events_logging', title: 'Partition Events Logging' },
