@@ -65,370 +65,6 @@ function createRoutes(){
             component: loadPage('docs-about-03_quickstart', '/docs/about/03_quickstart', {})
         },
         {
-            path: '/docs/core/01_overview',
-            meta: {
-                h1: 'Overview',
-                title: 'Overview',
-                h1Prefix: null,
-                description: 'Coherence Core Improvements',
-                keywords: 'coherence, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-01_overview', '/docs/core/01_overview', {})
-        },
-        {
-            path: '/docs/core/02_bootstrap',
-            meta: {
-                h1: 'Bootstrap API',
-                title: 'Bootstrap API',
-                h1Prefix: null,
-                description: 'Bootstrap a Coherence application',
-                keywords: 'coherence, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-02_bootstrap', '/docs/core/02_bootstrap', {})
-        },
-        {
-            path: '/docs/core/03_parallel_recovery',
-            meta: {
-                h1: 'Parallel Recovery',
-                title: 'Parallel Recovery',
-                h1Prefix: null,
-                description: 'Coherence Recovery in Parallel',
-                keywords: 'coherence, persistence, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-03_parallel_recovery', '/docs/core/03_parallel_recovery', {})
-        },
-        {
-            path: '/docs/core/04_portable_types',
-            meta: {
-                h1: 'Portable Types',
-                title: 'Portable Types',
-                h1Prefix: null,
-                description: 'Coherence Portable Types',
-                keywords: 'coherence, serialization, pof, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-04_portable_types', '/docs/core/04_portable_types', {})
-        },
-        {
-            path: '/docs/core/05_repository',
-            meta: {
-                h1: 'Repository API',
-                title: 'Repository API',
-                h1Prefix: null,
-                description: 'Coherence Repository API',
-                keywords: 'coherence, DDD, repository, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-05_repository', '/docs/core/05_repository', {})
-        },
-        {
-            path: '/docs/core/06_durable_events',
-            meta: {
-                h1: 'Durable Events',
-                title: 'Durable Events',
-                h1Prefix: null,
-                description: 'A feature that ensures events are never lost',
-                keywords: 'coherence, events, persistence, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-06_durable_events', '/docs/core/06_durable_events', {})
-        },
-        {
-            path: '/docs/core/07_partition_events_logging',
-            meta: {
-                h1: 'Partition Events Logging',
-                title: 'Partition Events Logging',
-                h1Prefix: null,
-                description: 'Logging of events that render partitions unavailable',
-                keywords: 'coherence, partition, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-07_partition_events_logging', '/docs/core/07_partition_events_logging', {})
-        },
-        {
-            path: '/docs/core/08_non_blocking',
-            meta: {
-                h1: 'Non Blocking Data Sources',
-                title: 'Non Blocking Data Sources',
-                h1Prefix: null,
-                description: 'Integration with data sources with a non-blocking API',
-                keywords: 'coherence, partition, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-08_non_blocking', '/docs/core/08_non_blocking', {})
-        },
-        {
-            path: '/docs/core/09_backup',
-            meta: {
-                h1: 'Partition Backup Enhancements',
-                title: 'Partition Backup Enhancements',
-                h1Prefix: null,
-                description: 'Coherence Backup Enhancements',
-                keywords: 'coherence, distributed, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-09_backup', '/docs/core/09_backup', {})
-        },
-        {
-            path: '/docs/core/10_tls',
-            meta: {
-                h1: 'Coherence TLS Enhancements',
-                title: 'Coherence TLS Enhancements',
-                h1Prefix: null,
-                description: 'Coherence TLS Enhancements',
-                keywords: 'coherence, SSL, TLS, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-10_tls', '/docs/core/10_tls', {})
-        },
-        {
-            path: '/docs/core/11_health',
-            meta: {
-                h1: 'Health Check API',
-                title: 'Health Check API',
-                h1Prefix: null,
-                description: 'Coherence TLS Enhancements',
-                keywords: 'coherence, SSL, TLS, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-11_health', '/docs/core/11_health', {})
-        },
-        {
-            path: '/docs/core/12_cache_config_override',
-            meta: {
-                h1: 'Cache Configuration Override',
-                title: 'Cache Configuration Override',
-                h1Prefix: null,
-                description: 'Coherence Cache Configuration Override',
-                keywords: 'coherence, config, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-12_cache_config_override', '/docs/core/12_cache_config_override', {})
-        },
-        {
-            path: '/docs/core/13_caffeine',
-            meta: {
-                h1: 'Caffeine Integration',
-                title: 'Caffeine Integration',
-                h1Prefix: null,
-                description: 'Caffeine Backing Map Implementation',
-                keywords: 'coherence, caffeine, caching, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-core-13_caffeine', '/docs/core/13_caffeine', {})
-        },
-        {
-            path: '/docs/topics/01_introduction',
-            meta: {
-                h1: 'Introduction to Coherence Topics',
-                title: 'Introduction to Coherence Topics',
-                h1Prefix: null,
-                description: 'Coherence Topics',
-                keywords: 'coherence, topics, streaming, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-topics-01_introduction', '/docs/topics/01_introduction', {})
-        },
-        {
-            path: '/docs/topics/02_configuring_topics',
-            meta: {
-                h1: 'Configure Coherence Topics',
-                title: 'Configure Coherence Topics',
-                h1Prefix: null,
-                description: 'Coherence Topics',
-                keywords: 'coherence, topics, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-topics-02_configuring_topics', '/docs/topics/02_configuring_topics', {})
-        },
-        {
-            path: '/docs/topics/03_publishers',
-            meta: {
-                h1: 'Publishers',
-                title: 'Publishers',
-                h1Prefix: null,
-                description: 'Coherence Topics Publishers',
-                keywords: 'coherence, topics, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-topics-03_publishers', '/docs/topics/03_publishers', {})
-        },
-        {
-            path: '/docs/topics/04_subscribers',
-            meta: {
-                h1: 'Subscribers',
-                title: 'Subscribers',
-                h1Prefix: null,
-                description: 'Coherence Topics Subscribers',
-                keywords: 'coherence, topics, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-topics-04_subscribers', '/docs/topics/04_subscribers', {})
-        },
-        {
-            path: '/docs/topics/05_persistence',
-            meta: {
-                h1: 'Topics and Persistence',
-                title: 'Topics and Persistence',
-                h1Prefix: null,
-                description: 'Coherence Topics Persistence',
-                keywords: 'coherence, topics, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('docs-topics-05_persistence', '/docs/topics/05_persistence', {})
-        },
-        {
-            path: '/coherence-concurrent/README',
-            meta: {
-                h1: 'Distributed Concurrency',
-                title: 'Distributed Concurrency',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-concurrent-README', '/coherence-concurrent/README', {})
-        },
-        {
-            path: '/coherence-cdi-server/README',
-            meta: {
-                h1: 'Coherence CDI',
-                title: 'Coherence CDI',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-cdi-server-README', '/coherence-cdi-server/README', {})
-        },
-        {
-            path: '/coherence-mp/README',
-            meta: {
-                h1: 'Coherence MP',
-                title: 'Coherence MP',
-                h1Prefix: null,
-                description: 'Oracle Coherence documentation',
-                keywords: 'coherence, java, documentation',
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-mp-README', '/coherence-mp/README', {})
-        },
-        {
-            path: '/coherence-mp/config/README',
-            meta: {
-                h1: 'Coherence MicroProfile Config',
-                title: 'Coherence MicroProfile Config',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-mp-config-README', '/coherence-mp/config/README', {})
-        },
-        {
-            path: '/coherence-mp/metrics/README',
-            meta: {
-                h1: 'Coherence MicroProfile Metrics',
-                title: 'Coherence MicroProfile Metrics',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-mp-metrics-README', '/coherence-mp/metrics/README', {})
-        },
-        {
-            path: '/coherence-grpc/README',
-            meta: {
-                h1: 'Coherence gRPC',
-                title: 'Coherence gRPC',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-grpc-README', '/coherence-grpc/README', {})
-        },
-        {
-            path: '/coherence-grpc-proxy/README',
-            meta: {
-                h1: 'Coherence gRPC Server',
-                title: 'Coherence gRPC Server',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-grpc-proxy-README', '/coherence-grpc-proxy/README', {})
-        },
-        {
-            path: '/coherence-java-client/README',
-            meta: {
-                h1: 'Coherence Java gRPC Client',
-                title: 'Coherence Java gRPC Client',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-java-client-README', '/coherence-java-client/README', {})
-        },
-        {
-            path: '/coherence-micrometer/README',
-            meta: {
-                h1: 'Coherence Micrometer Metrics',
-                title: 'Coherence Micrometer Metrics',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('coherence-micrometer-README', '/coherence-micrometer/README', {})
-        },
-        {
-            path: '/plugins/maven/pof-maven-plugin/README',
-            meta: {
-                h1: 'POF Maven Plugin',
-                title: 'POF Maven Plugin',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: true
-            },
-            component: loadPage('plugins-maven-pof-maven-plugin-README', '/plugins/maven/pof-maven-plugin/README', {})
-        },
-        {
             path: '/coherence-docker/README',
             meta: {
                 h1: 'Coherence OCI Image',
@@ -702,6 +338,84 @@ function createRoutes(){
             component: loadPage('examples-tutorials-500-graphql-README', '/examples/tutorials/500-graphql/README', {})
         },
         {
+            path: '/coherence-helidon-grpc-proxy/README',
+            meta: {
+                h1: 'Helidon MP gRPC Server',
+                title: 'Helidon MP gRPC Server',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-helidon-grpc-proxy-README', '/coherence-helidon-grpc-proxy/README', {})
+        },
+        {
+            path: '/examples/internal/template/README',
+            meta: {
+                h1: 'Title',
+                title: 'Title',
+                h1Prefix: null,
+                description: 'Coherence Guides',
+                keywords: 'coherence, java, documentation, guides',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('examples-internal-template-README', '/examples/internal/template/README', {})
+        },
+        {
+            path: '/coherence-mp/README',
+            meta: {
+                h1: 'Coherence MP',
+                title: 'Coherence MP',
+                h1Prefix: null,
+                description: 'Oracle Coherence documentation',
+                keywords: 'coherence, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-mp-README', '/coherence-mp/README', {})
+        },
+        {
+            path: '/docs/topics/02_configuring_topics',
+            meta: {
+                h1: 'Configure Coherence Topics',
+                title: 'Configure Coherence Topics',
+                h1Prefix: null,
+                description: 'Coherence Topics',
+                keywords: 'coherence, topics, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-02_configuring_topics', '/docs/topics/02_configuring_topics', {})
+        },
+        {
+            path: '/plugins/maven/pof-maven-plugin/README',
+            meta: {
+                h1: 'POF Maven Plugin',
+                title: 'POF Maven Plugin',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('plugins-maven-pof-maven-plugin-README', '/plugins/maven/pof-maven-plugin/README', {})
+        },
+        {
+            path: '/docs/topics/03_publishers',
+            meta: {
+                h1: 'Publishers',
+                title: 'Publishers',
+                h1Prefix: null,
+                description: 'Coherence Topics Publishers',
+                keywords: 'coherence, topics, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-03_publishers', '/docs/topics/03_publishers', {})
+        },
+        {
             path: '/examples/internal/includes/simple-build',
             meta: {
                 h1: 'Simple Build',
@@ -713,6 +427,45 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('examples-internal-includes-simple-build', '/examples/internal/includes/simple-build', {})
+        },
+        {
+            path: '/coherence-java-client/README',
+            meta: {
+                h1: 'Coherence Java gRPC Client',
+                title: 'Coherence Java gRPC Client',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-java-client-README', '/coherence-java-client/README', {})
+        },
+        {
+            path: '/coherence-grpc/README',
+            meta: {
+                h1: 'Coherence gRPC',
+                title: 'Coherence gRPC',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-grpc-README', '/coherence-grpc/README', {})
+        },
+        {
+            path: '/coherence-concurrent/README',
+            meta: {
+                h1: 'Distributed Concurrency',
+                title: 'Distributed Concurrency',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-concurrent-README', '/coherence-concurrent/README', {})
         },
         {
             path: '/coherence-helidon-client/README',
@@ -741,6 +494,45 @@ function createRoutes(){
             component: loadPage('examples-internal-includes-simple-build-maven', '/examples/internal/includes/simple-build-maven', {})
         },
         {
+            path: '/docs/topics/04_subscribers',
+            meta: {
+                h1: 'Subscribers',
+                title: 'Subscribers',
+                h1Prefix: null,
+                description: 'Coherence Topics Subscribers',
+                keywords: 'coherence, topics, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-04_subscribers', '/docs/topics/04_subscribers', {})
+        },
+        {
+            path: '/docs/topics/05_persistence',
+            meta: {
+                h1: 'Topics and Persistence',
+                title: 'Topics and Persistence',
+                h1Prefix: null,
+                description: 'Coherence Topics Persistence',
+                keywords: 'coherence, topics, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-05_persistence', '/docs/topics/05_persistence', {})
+        },
+        {
+            path: '/docs/topics/01_introduction',
+            meta: {
+                h1: 'Introduction to Coherence Topics',
+                title: 'Introduction to Coherence Topics',
+                h1Prefix: null,
+                description: 'Coherence Topics',
+                keywords: 'coherence, topics, streaming, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-01_introduction', '/docs/topics/01_introduction', {})
+        },
+        {
             path: '/docs/README',
             meta: {
                 h1: 'Coherence Documentation Module',
@@ -752,32 +544,6 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('docs-README', '/docs/README', {})
-        },
-        {
-            path: '/coherence-helidon-grpc-proxy/README',
-            meta: {
-                h1: 'Helidon MP gRPC Server',
-                title: 'Helidon MP gRPC Server',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('coherence-helidon-grpc-proxy-README', '/coherence-helidon-grpc-proxy/README', {})
-        },
-        {
-            path: '/examples/internal/template/README',
-            meta: {
-                h1: 'Title',
-                title: 'Title',
-                h1Prefix: null,
-                description: 'Coherence Guides',
-                keywords: 'coherence, java, documentation, guides',
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('examples-internal-template-README', '/examples/internal/template/README', {})
         },
         {
             path: '/examples/internal/includes/what-you-need',
@@ -793,6 +559,32 @@ function createRoutes(){
             component: loadPage('examples-internal-includes-what-you-need', '/examples/internal/includes/what-you-need', {})
         },
         {
+            path: '/coherence-cdi-server/README',
+            meta: {
+                h1: 'Coherence CDI',
+                title: 'Coherence CDI',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-cdi-server-README', '/coherence-cdi-server/README', {})
+        },
+        {
+            path: '/coherence-mp/metrics/README',
+            meta: {
+                h1: 'Coherence MicroProfile Metrics',
+                title: 'Coherence MicroProfile Metrics',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-mp-metrics-README', '/coherence-mp/metrics/README', {})
+        },
+        {
             path: '/examples/setup/intellij',
             meta: {
                 h1: 'Import a Project Into IntelliJ IDEA',
@@ -804,6 +596,45 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('examples-setup-intellij', '/examples/setup/intellij', {})
+        },
+        {
+            path: '/coherence-grpc-proxy/README',
+            meta: {
+                h1: 'Coherence gRPC Server',
+                title: 'Coherence gRPC Server',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-grpc-proxy-README', '/coherence-grpc-proxy/README', {})
+        },
+        {
+            path: '/coherence-micrometer/README',
+            meta: {
+                h1: 'Coherence Micrometer Metrics',
+                title: 'Coherence Micrometer Metrics',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-micrometer-README', '/coherence-micrometer/README', {})
+        },
+        {
+            path: '/coherence-mp/config/README',
+            meta: {
+                h1: 'Coherence MicroProfile Config',
+                title: 'Coherence MicroProfile Config',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-mp-config-README', '/coherence-mp/config/README', {})
         },
         {
             path: '/', redirect: '/docs/about/01_overview'
@@ -825,7 +656,7 @@ function createNav(){
                         {
                             title: 'Official Documentation',
                             action: 'import_contacts',
-                            href: 'https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/index.html',
+                            href: 'https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/',
                             target: '_blank'
                         },
                         {
@@ -836,90 +667,6 @@ function createNav(){
                                 { href: '/docs/about/01_overview', title: 'Overview' },
                                 { href: '/docs/about/02_introduction', title: 'Introduction' },
                                 { href: '/docs/about/03_quickstart', title: 'Quick Start' }
-                            ]
-                        },
-                        {
-                            title: 'Core Improvements',
-                            action: 'fa-cubes',
-                            group: '/core',
-                            items: [
-                                { href: '/docs/core/01_overview', title: 'Overview' },
-                                { href: '/docs/core/02_bootstrap', title: 'Bootstrap API' },
-                                { href: '/docs/core/03_parallel_recovery', title: 'Parallel Recovery' },
-                                { href: '/docs/core/04_portable_types', title: 'Portable Types' },
-                                { href: '/docs/core/05_repository', title: 'Repository API' },
-                                { href: '/docs/core/06_durable_events', title: 'Durable Events' },
-                                { href: '/docs/core/07_partition_events_logging', title: 'Partition Events Logging' },
-                                { href: '/docs/core/08_non_blocking', title: 'Non Blocking Data Sources' },
-                                { href: '/docs/core/09_backup', title: 'Partition Backup Enhancements' },
-                                { href: '/docs/core/10_tls', title: 'Coherence TLS Enhancements' },
-                                { href: '/docs/core/11_health', title: 'Health Check API' },
-                                { href: '/docs/core/12_cache_config_override', title: 'Cache Configuration Override' },
-                                { href: '/docs/core/13_caffeine', title: 'Caffeine Integration' }
-                            ]
-                        },
-                        {
-                            title: 'Topics (Messaging)',
-                            action: 'forward_to_inbox',
-                            group: '/topics',
-                            items: [
-                                { href: '/docs/topics/01_introduction', title: 'Introduction to Coherence Topics' },
-                                { href: '/docs/topics/02_configuring_topics', title: 'Configure Coherence Topics' },
-                                { href: '/docs/topics/03_publishers', title: 'Publishers' },
-                                { href: '/docs/topics/04_subscribers', title: 'Subscribers' },
-                                { href: '/docs/topics/05_persistence', title: 'Topics and Persistence' }
-                            ]
-                        },
-                        {
-                            title: 'Distributed Concurrency',
-                            action: 'fa-bolt',
-                            group: '/coherence-concurrent',
-                            items: [
-                                { href: '/coherence-concurrent/README', title: 'Distributed Concurrency' }
-                            ]
-                        },
-                        {
-                            title: 'CDI Support',
-                            action: 'extension',
-                            group: '/coherence-cdi-server',
-                            items: [
-                                { href: '/coherence-cdi-server/README', title: 'Coherence CDI' }
-                            ]
-                        },
-                        {
-                            title: 'MicroProfile Support',
-                            action: 'fa-cogs',
-                            group: '/coherence-mp',
-                            items: [
-                                { href: '/coherence-mp/README', title: 'Coherence MP' },
-                                { href: '/coherence-mp/config/README', title: 'Coherence MicroProfile Config' },
-                                { href: '/coherence-mp/metrics/README', title: 'Coherence MicroProfile Metrics' }
-                            ]
-                        },
-                        {
-                            title: 'Coherence gRPC',
-                            action: 'settings_ethernet',
-                            group: '/coherence-grpc',
-                            items: [
-                                { href: '/coherence-grpc/README', title: 'Coherence gRPC' },
-                                { href: '/coherence-grpc-proxy/README', title: 'Coherence gRPC Server' },
-                                { href: '/coherence-java-client/README', title: 'Coherence Java gRPC Client' }
-                            ]
-                        },
-                        {
-                            title: 'Coherence Metrics',
-                            action: 'speed',
-                            group: '/coherence-micrometer',
-                            items: [
-                                { href: '/coherence-micrometer/README', title: 'Coherence Micrometer Metrics' }
-                            ]
-                        },
-                        {
-                            title: 'Plugins',
-                            action: 'fa-plug',
-                            group: '/plugins',
-                            items: [
-                                { href: '/plugins/maven/pof-maven-plugin/README', title: 'POF Maven Plugin' }
                             ]
                         },
                         {

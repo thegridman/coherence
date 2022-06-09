@@ -13,7 +13,7 @@ can be deterministically generated.</p>
 above-mentioned methods.</p>
 
 <div class="admonition note">
-<p class="admonition-inline">Please see <router-link to="/docs/core/04_portable_types">Portable Types</router-link> documentation for more information and detailed instructions on Portable Types creation and usage.</p>
+<p class="admonition-inline">Please see <router-link to="">Portable Types</router-link> documentation for more information and detailed instructions on Portable Types creation and usage.</p>
 </div>
 </div>
 
