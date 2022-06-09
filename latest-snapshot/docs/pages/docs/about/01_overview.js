@@ -6,7 +6,7 @@
 <p class="admonition-textlabel">Note</p>
 <p ><p>The documentation on this site covers new features and improvements that are currently only available in the open source <a id="" title="" target="_blank" href="https://github.com/oracle/coherence">Coherence Community Edition</a> (CE).</p>
 
-<p>For complete documentation covering all the features that are available both in the latest commercial editions (Enterprise and Grid Edition) and the Community Edition, please refer to the <a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/index.html">Official Documentation</a>.</p>
+<p>For complete documentation covering all the features that are available both in the latest commercial editions (Enterprise and Grid Edition) and the Community Edition, please refer to the <a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/index.html">Official Documentation</a>.</p>
 </p>
 </div>
 <p>Coherence is scalable, fault-tolerant, cloud-ready, distributed platform for building grid-based applications and reliably storing data.
@@ -93,7 +93,7 @@ These capabilities, in addition to numerous other features, enable Coherence to 
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
-<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/index.html"><div class="card__link-hover"/>
+<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/index.html"><div class="card__link-hover"/>
 </a>
 <v-layout align-center justify-center class="">
 <v-avatar size="150px">
@@ -130,177 +130,6 @@ These capabilities, in addition to numerous other features, enable Coherence to 
 <v-card-text class="caption">
 <p></p>
 <p>Browse the Coherence CE API Docs.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-</v-layout>
-</v-container>
-</v-flex>
-</v-layout>
-</div>
-
-<h2 id="_new_features">New Features</h2>
-<div class="section">
-<v-layout row wrap class="mb-5">
-<v-flex xs12>
-<v-container fluid grid-list-md class="pa-0">
-<v-layout row wrap class="pillars">
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/docs/core/01_overview"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">fa-cubes</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Core</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Coherence Core Improvements.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/docs/topics/01_introduction"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">forward_to_inbox</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Topics</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Coherence Topics (Messaging, Streams) Improvements.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/coherence-concurrent/README"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">fa-bolt</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Distributed Concurrency</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Distributed implementations of executors, locks, atomics, etc.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/coherence-cdi-server/README"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">extension</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">CDI</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Coherence CDI extensions.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/coherence-mp/README"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">fa-cogs</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Microprofile</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Coherence Microprofile support.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/coherence-grpc-proxy/README"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">settings_ethernet</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">gRPC</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Coherence gRPC server and client.</p>
-</v-card-text>
-</v-card>
-</v-flex>
-</v-layout>
-</v-container>
-</v-flex>
-</v-layout>
-</div>
-
-<h2 id="_tools">Tools</h2>
-<div class="section">
-<v-layout row wrap class="mb-5">
-<v-flex xs12>
-<v-container fluid grid-list-md class="pa-0">
-<v-layout row wrap class="pillars">
-<v-flex xs12 sm4 lg3>
-<v-card>
-<router-link to="/plugins/maven/pof-maven-plugin/README"><div class="card__link-hover"/>
-</router-link>
-<v-layout align-center justify-center class="">
-<v-avatar size="150px">
-<v-icon class="xxx-large">fa-plug</v-icon>
-</v-avatar>
-</v-layout>
-<div class="px-3">
-<v-divider class="indigo lighten-4"/>
-</div>
-<v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Plugins</span>
-</v-card-title>
-<v-card-text class="caption">
-<p></p>
-<p>Build tool plugins to aid Coherence application development.</p>
 </v-card-text>
 </v-card>
 </v-flex>

@@ -66,7 +66,7 @@ For example the <code>version-coherence</code> attribute&#8217;s value will be t
 <p>For example:</p>
 
 <v-card flat color="grey lighten-3"  class="card__example">
-<v-card-text><p>The current commercial Coherence version is 14.1.1.0.</p>
+<v-card-text><p>The current commercial Coherence version is 14.1.1.2206.</p>
 </v-card-text>
 </v-card>
 

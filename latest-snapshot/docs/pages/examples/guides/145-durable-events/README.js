@@ -12,7 +12,7 @@ you are able to register for all events, events based upon a filter or events fo
 
 <p>More advanced use cases for Durable Events include the ability to replay all events for a <code>NamedMap</code>.</p>
 
-<p>Please see <router-link to="/docs/core/06_durable_events">Durable Events Documentation</router-link> for more information on Durable Events.</p>
+<p>Please see <router-link to="#docs/core/06_durable_events.adoc" @click.native="this.scrollFix('#docs/core/06_durable_events.adoc')">Durable Events Documentation</router-link> for more information on Durable Events.</p>
 
 <div class="admonition note">
 <p class="admonition-inline">Durable events are an experimental feature only and should not be used in product as yet.</p>
@@ -447,7 +447,7 @@ ConverterCollections$ConverterMapEvent{SafeNamedCache deleted: key=100,
 <div class="section">
 <ul class="ulist">
 <li>
-<p><router-link to="/docs/core/06_durable_events">Durable Events Overview</router-link></p>
+<p><router-link to="#docs/core/06_durable_events.adoc" @click.native="this.scrollFix('#docs/core/06_durable_events.adoc')">Durable Events Overview</router-link></p>
 
 </li>
 <li>
@@ -455,7 +455,7 @@ ConverterCollections$ConverterMapEvent{SafeNamedCache deleted: key=100,
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/using-map-events.html">Develop Applications using Map Events</a></p>
+<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/using-map-events.html">Develop Applications using Map Events</a></p>
 
 </li>
 </ul>

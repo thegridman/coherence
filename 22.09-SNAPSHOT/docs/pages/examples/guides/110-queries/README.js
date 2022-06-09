@@ -158,7 +158,7 @@ more sophisticated.</p>
 
 <div class="admonition note">
 <p class="admonition-inline">For detailed information on how to use CohQL, please visit the chapter
-<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/using-coherence-query-language.html#GUID-C0D082B1-FA62-4899-A043-4345156E6641">Using Coherence Query Language</a>
+<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/using-coherence-query-language.html#GUID-C0D082B1-FA62-4899-A043-4345156E6641">Using Coherence Query Language</a>
 in the Coherence reference guide.</p>
 </div>
 <p>In order to give you a way experiment with the cache using CohQL, we provide a simple sample app that pre-populates a Coherence
@@ -306,7 +306,7 @@ lang="java"
 <li data-value="6">Populate the <code>countries</code> cache with several new <code>Country</code> instances</li>
 </ul>
 <p>We are going to start a storage enabled cluster member using the most basic bootstrap API methods.
-For more details on the bootstrap API see the <router-link to="/docs/core/02_bootstrap">corresponding guide</router-link>.</p>
+For more details on the bootstrap API see the <router-link to="#docs/core/02_bootstrap.adoc" @click.native="this.scrollFix('#docs/core/02_bootstrap.adoc')">corresponding guide</router-link>.</p>
 
 <markup
 lang="java"
@@ -452,7 +452,7 @@ void testAggregate() {
 <div class="section">
 <p>In this guide we showed how easy it is to query Coherence caches either using CohQL or programmatically using Filters,
 ValueExtractors and Aggregators. Please see the Coherence reference guide, specifically the chapter
-<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/querying-data-cache.html#GUID-A6A97011-A2FB-45A4-B9FC-AA0C8C49C057">Querying Data In a Cache</a>
+<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/querying-data-cache.html#GUID-A6A97011-A2FB-45A4-B9FC-AA0C8C49C057">Querying Data In a Cache</a>
 for more details.</p>
 
 </div>
@@ -461,11 +461,11 @@ for more details.</p>
 <div class="section">
 <ul class="ulist">
 <li>
-<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/using-coherence-query-language.html#GUID-C0D082B1-FA62-4899-A043-4345156E6641">Using Coherence Query Language</a></p>
+<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/using-coherence-query-language.html#GUID-C0D082B1-FA62-4899-A043-4345156E6641">Using Coherence Query Language</a></p>
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.0/develop-applications/querying-data-cache.html#GUID-A6A97011-A2FB-45A4-B9FC-AA0C8C49C057">Querying Data In a Cache</a></p>
+<p><a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/querying-data-cache.html#GUID-A6A97011-A2FB-45A4-B9FC-AA0C8C49C057">Querying Data In a Cache</a></p>
 
 </li>
 </ul>
