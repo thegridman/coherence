@@ -164,7 +164,7 @@ either build tool.</p>
 
 <ol style="margin-left: 15px;">
 <li>
-Update the <code>revision</code> property in your <code>pom.xml</code> and <code>coherence.version</code> in <code>gradle.properties</code> to the Coherence Grid Edition version you are going to use.
+Update the <code>coherence.version</code> property in your <code>pom.xml</code> and <code>gradle.properties</code> to the Coherence Grid Edition version you are going to use.
 
 </li>
 <li>
