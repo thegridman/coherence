@@ -252,6 +252,19 @@ making them simple to build as stand-alone projects without needing to build the
 </v-card-text>
 </v-card>
 </v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/210-ssl/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Securing with SSL</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through how to secure Coherence using SSL/TLS</p>
+</v-card-text>
+</v-card>
+</v-flex>
 </v-layout>
 </v-container>
 </v-flex>
@@ -293,6 +306,19 @@ making them simple to build as stand-alone projects without needing to build the
 <v-card-text class="caption">
 <p></p>
 <p>This tutorial shows you how to use Persistence from CohQL and how to monitor Persistence events.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="#examples/tutorials/210-ssl/README.adoc" @click.native="this.scrollFix('#examples/tutorials/210-ssl/README.adoc')"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Securing with SSL</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This tutorial walks you through how to secure Coherence using SSL/TLS</p>
 </v-card-text>
 </v-card>
 </v-flex>
