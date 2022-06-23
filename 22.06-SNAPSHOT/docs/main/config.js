@@ -286,6 +286,19 @@ function createRoutes(){
             component: loadPage('examples-guides-200-federation-README', '/examples/guides/200-federation/README', {})
         },
         {
+            path: '/examples/guides/210-ssl/README',
+            meta: {
+                h1: 'Securing with SSL',
+                title: 'Securing with SSL',
+                h1Prefix: null,
+                description: 'Coherence Guides Securing With SSL',
+                keywords: 'coherence, java, documentation, security, SSL, securing',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-210-ssl-README', '/examples/guides/210-ssl/README', {})
+        },
+        {
             path: '/examples/guides/460-topics/README',
             meta: {
                 h1: 'Topics',
@@ -711,6 +724,7 @@ function createNav(){
                                 { href: '/examples/guides/145-durable-events/README', title: 'Durable Events' },
                                 { href: '/examples/guides/190-cache-stores/README', title: 'Cache Stores' },
                                 { href: '/examples/guides/200-federation/README', title: 'Federation' },
+                                { href: '/examples/guides/210-ssl/README', title: 'Securing with SSL' },
                                 { href: '/examples/guides/460-topics/README', title: 'Topics' }
                             ]
                         },
