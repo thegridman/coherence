@@ -53,6 +53,26 @@ versions and best practice and approaches recommended by the Coherence team for 
 </v-card-text>
 </v-card>
 </v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="#examples/miscellaneous/000-overview.adoc" @click.native="this.scrollFix('#examples/miscellaneous/000-overview.adoc')"><div class="card__link-hover"/>
+</router-link>
+<v-layout align-center justify-center class="">
+<v-avatar size="150px">
+<v-icon class="xxx-large">widgets</v-icon>
+</v-avatar>
+</v-layout>
+<div class="px-3">
+<v-divider class="indigo lighten-4"/>
+</div>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Miscellaneous</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+</v-card-text>
+</v-card>
+</v-flex>
 </v-layout>
 </v-container>
 </v-flex>
@@ -70,6 +90,20 @@ making them simple to build as stand-alone projects without needing to build the
 <v-flex xs12>
 <v-container fluid grid-list-md class="pa-0">
 <v-layout row wrap class="pillars">
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/050-bootstrap/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Bootstrap Coherence</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through various methods to configure and
+bootstrap a Coherence instance.</p>
+</v-card-text>
+</v-card>
+</v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
 <router-link to="/examples/guides/100-put-get-remove/README"><div class="card__link-hover"/>
@@ -265,6 +299,19 @@ making them simple to build as stand-alone projects without needing to build the
 </v-card-text>
 </v-card>
 </v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/905-key-association/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Key Association</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through a use case for key association in Coherence</p>
+</v-card-text>
+</v-card>
+</v-flex>
 </v-layout>
 </v-container>
 </v-flex>
@@ -313,5 +360,13 @@ making them simple to build as stand-alone projects without needing to build the
 </v-container>
 </v-flex>
 </v-layout>
+</div>
+
+<h2 id="miscellaneous">Miscellaneous Examples</h2>
+<div class="section">
+<p>Simple, typically single class, examples.</p>
+
+<p>Unresolved directive in README.adoc - include::miscellaneous/README.adoc[tag=text]</p>
+
 </div>
 </doc-view>

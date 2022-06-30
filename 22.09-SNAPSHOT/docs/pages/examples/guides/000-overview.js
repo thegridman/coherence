@@ -13,6 +13,20 @@ making them simple to build as stand-alone projects without needing to build the
 <v-layout row wrap class="pillars">
 <v-flex xs12 sm4 lg3>
 <v-card>
+<router-link to="/examples/guides/050-bootstrap/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Bootstrap Coherence</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through various methods to configure and
+bootstrap a Coherence instance.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
 <router-link to="/examples/guides/100-put-get-remove/README"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
@@ -203,6 +217,19 @@ making them simple to build as stand-alone projects without needing to build the
 <v-card-text class="caption">
 <p></p>
 <p>This guide walks you through how to secure Coherence using SSL/TLS</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/905-key-association/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Key Association</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide walks you through a use case for key association in Coherence</p>
 </v-card-text>
 </v-card>
 </v-flex>
