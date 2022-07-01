@@ -7,11 +7,11 @@
 <div class="section">
 <ol style="margin-left: 15px;">
 <li>
-Java - jdk8 or higher
+Java - JDK 11 or higher
 
 </li>
 <li>
-Maven - 3.6.3 or higher
+Maven - 3.8.5 or higher
 
 </li>
 </ol>
