@@ -338,6 +338,19 @@ function createRoutes(){
             component: loadPage('examples-guides-905-key-association-README', '/examples/guides/905-key-association/README', {})
         },
         {
+            path: '/examples/guides/910-multi-cluster-client/README',
+            meta: {
+                h1: 'Multi-Cluster Client',
+                title: 'Multi-Cluster Client',
+                h1Prefix: null,
+                description: 'Coherence Guides',
+                keywords: 'coherence, java, documentation, guides',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-910-multi-cluster-client-README', '/examples/guides/910-multi-cluster-client/README', {})
+        },
+        {
             path: '/examples/tutorials/000-overview',
             meta: {
                 h1: 'Tutorials Overview',
@@ -753,7 +766,8 @@ function createNav(){
                                 { href: '/examples/guides/200-federation/README', title: 'Federation' },
                                 { href: '/examples/guides/210-ssl/README', title: 'Securing with SSL' },
                                 { href: '/examples/guides/460-topics/README', title: 'Topics' },
-                                { href: '/examples/guides/905-key-association/README', title: 'Key Association' }
+                                { href: '/examples/guides/905-key-association/README', title: 'Key Association' },
+                                { href: '/examples/guides/910-multi-cluster-client/README', title: 'Multi-Cluster Client' }
                             ]
                         },
                         {

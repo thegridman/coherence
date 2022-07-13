@@ -292,6 +292,19 @@ bootstrap a Coherence instance.</p>
 </v-card-text>
 </v-card>
 </v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
+<router-link to="/examples/guides/910-multi-cluster-client/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Multi-Cluster Client</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>An example of how to connect an Extend or gRPC client to multiple Coherence clusters.</p>
+</v-card-text>
+</v-card>
+</v-flex>
 </v-layout>
 </v-container>
 </v-flex>
