@@ -280,7 +280,7 @@ lang="xml"
     &lt;trust-manager&gt;
       &lt;algorithm&gt;SunX509&lt;/algorithm&gt;
       &lt;key-store&gt;  <span class="conum" data-value="2" />
-        &lt;url system-property="test.trust.keystore"&gt;&gt;file:trust.jks&lt;/url&gt;
+        &lt;url system-property="test.trust.keystore"&gt;file:trust.jks&lt;/url&gt;
         &lt;password system-property="test.trust.keystore.password"&gt;password&lt;/password&gt;
       &lt;/key-store&gt;
     &lt;/trust-manager&gt;
