@@ -209,6 +209,19 @@ bootstrap a Coherence instance.</p>
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
+<router-link to="/examples/guides/195-bulk-loading-caches/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Bulk Loading Caches</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide shows approaches to bluk load data into caches, typically this would be loading data into caches from a DB when applications start.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
 <router-link to="/examples/guides/210-ssl/README"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
