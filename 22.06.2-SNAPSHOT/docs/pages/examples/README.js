@@ -184,7 +184,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use Federation within Coherence</p>
+<p>This guide walks you through how to use Federation within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -197,7 +197,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use Topics within Coherence</p>
+<p>This guide walks you through how to use Topics within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -210,7 +210,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use near caching within Coherence</p>
+<p>This guide walks you through how to use near caching within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -223,7 +223,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use client events within Coherence</p>
+<p>This guide walks you through how to use client events within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -236,7 +236,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use server-side events within Coherence</p>
+<p>This guide walks you through how to use server-side events within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -249,7 +249,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use durable events within Coherence</p>
+<p>This guide walks you through how to use durable events within Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -262,7 +262,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to use and configure Cache Stores</p>
+<p>This guide walks you through how to use and configure Cache Stores.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -275,7 +275,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through how to secure Coherence using SSL/TLS</p>
+<p>This guide walks you through how to secure Coherence using SSL/TLS.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -288,7 +288,7 @@ bootstrap a Coherence instance.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>This guide walks you through a use case for key association in Coherence</p>
+<p>This guide walks you through a use case for key association in Coherence.</p>
 </v-card-text>
 </v-card>
 </v-flex>
