@@ -398,6 +398,7 @@ public void testAuditingInterceptor() {
 
     cache1.truncate();
     cache2.truncate();
+    Eventually.assertDeferred(() -&gt; auditEvents.size(), Matchers.is(4));
 
     // clear the audit-events cache, so we miss the created and truncated events
     auditEvents.clear();
@@ -469,6 +470,7 @@ public void testEntryProcessorInterceptor() {
     // create a cache to audit entry processor events on
     NamedCache&lt;Integer, Customer&gt; cache = member.getCache("test-customer");
     cache.truncate();
+    Eventually.assertDeferred(() -&gt; auditEvents.size(), Matchers.is(4));
 
     // clear the audit-events cache, so we miss the created and truncated events
     auditEvents.clear();
