@@ -514,16 +514,16 @@ protected static OptionsByType createCacheServerOptions(int clusterPort, int pro
             ClusterName.of("ssl-cluster"),
             MemberName.of(memberName),
             SystemProperty.of("test.socket.provider", socketProvider),
-            SystemProperty.of("test.server.keystore", serverKeyAndCert.fileKeystore.getAbsolutePath()),
-            SystemProperty.of("test.trust.keystore", serverCACert.fileKeystore.getAbsolutePath()),
+            SystemProperty.of("test.server.keystore", serverKeyAndCert.getKeystoreURI()),
+            SystemProperty.of("test.trust.keystore", serverCACert.getKeystoreURI()),
             SystemProperty.of("test.server.keystore.password", serverKeyAndCert.storePasswordString()),
             SystemProperty.of("test.server.key.password", serverKeyAndCert.keyPasswordString()),
             SystemProperty.of("test.trust.keystore.password", serverCACert.storePasswordString()),
 
-            SystemProperty.of("test.client.ca.cert", clientCACert.fileCert.getAbsolutePath()),
-            SystemProperty.of("test.server.key", serverKeyAndCert.fileKeyPEMNoPass.getAbsolutePath()),
-            SystemProperty.of("test.server.cert", serverKeyAndCert.fileCert.getAbsolutePath()),
-            SystemProperty.of("test.server.ca.cert", serverCACert.fileCert.getAbsolutePath()),
+            SystemProperty.of("test.client.ca.cert", clientCACert.getCertURI()),
+            SystemProperty.of("test.server.key", serverKeyAndCert.getKeyPEMNoPassURI()),
+            SystemProperty.of("test.server.cert", serverKeyAndCert.getCertURI()),
+            SystemProperty.of("test.server.ca.cert", serverCACert.getCertURI()),
 
             ClusterPort.of(clusterPort));
 
