@@ -468,19 +468,6 @@ function createRoutes(){
             component: loadPage('docs-topics-03_publishers', '/docs/topics/03_publishers', {})
         },
         {
-            path: '/coherence-java-client/README',
-            meta: {
-                h1: 'Coherence Java gRPC Client',
-                title: 'Coherence Java gRPC Client',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('coherence-java-client-README', '/coherence-java-client/README', {})
-        },
-        {
             path: '/coherence-grpc/README',
             meta: {
                 h1: 'Coherence gRPC',
@@ -609,19 +596,6 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('examples-setup-intellij', '/examples/setup/intellij', {})
-        },
-        {
-            path: '/coherence-grpc-proxy/README',
-            meta: {
-                h1: 'Coherence gRPC Server',
-                title: 'Coherence gRPC Server',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('coherence-grpc-proxy-README', '/coherence-grpc-proxy/README', {})
         },
         {
             path: '/coherence-micrometer/README',
