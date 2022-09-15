@@ -47,6 +47,10 @@ or more cache entries locally on the storage node.</p>
 
 </li>
 <li>
+<p><router-link to="#cache-entry-expiration" @click.native="this.scrollFix('#cache-entry-expiration')">Specify Cache Entry Expiration</router-link></p>
+
+</li>
+<li>
 <p><router-link to="#summary" @click.native="this.scrollFix('#summary')">Summary</router-link></p>
 
 </li>
@@ -269,7 +273,7 @@ void testIncreasePopulationWithCustomEntryProcessor() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
     Filter filter = new GreaterEqualsFilter("getPopulation", 60.0); <span class="conum" data-value="2" />
 
-    final Map&lt;String, Double&gt; results = map.invokeAll(filter, new IncrementingEntryProcessor()); <span class="conum" data-value="3" />
+    Map&lt;String, Double&gt; results = map.invokeAll(filter, new IncrementingEntryProcessor()); <span class="conum" data-value="3" />
 
     assertThat(results).hasSize(2); <span class="conum" data-value="4" />
     assertThat(results.get("de")).isEqualTo(84.2d);
@@ -291,7 +295,7 @@ lang="java"
 >@Test
 void testIncreasePopulationForSingleEntry() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
-    final Double result = map.invoke("de", new IncrementingEntryProcessor()); <span class="conum" data-value="2" />
+    Double result = map.invoke("de", new IncrementingEntryProcessor()); <span class="conum" data-value="2" />
     assertThat(result).isEqualTo(84.2d);
 }</markup>
 
@@ -300,6 +304,13 @@ void testIncreasePopulationForSingleEntry() {
 <li data-value="2">Call <code>invoke</code> on the <code>countries</code> Map, passing in the key (instead of the filter) and the <code>IncrementingEntryProcessor</code></li>
 <li data-value="3">The result should be the double value representing the new population value of Germany</li>
 </ul>
+<div class="admonition tip">
+<p class="admonition-textlabel">Tip</p>
+<p ><p>Before writing your own Entry Processor from scratch, please also check if one of the
+<a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/processing-data-cache.html#GUID-BEB17FE8-D121-46F5-B401-637AD2AE19C7">built-in Entry Processors</a>
+may already solve your requirement.</p>
+</p>
+</div>
 <p>In the next section we will see how we can simplify the example even further using lambda expressions.</p>
 
 </div>
@@ -317,7 +328,7 @@ void testIncreasePopulationUsingLambdaExpression() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
     Filter filter = new GreaterEqualsFilter("getPopulation", 60.0); <span class="conum" data-value="2" />
 
-    final Map&lt;String, Double&gt; results = map.invokeAll(filter, entry -&gt; {  <span class="conum" data-value="3" />
+    Map&lt;String, Double&gt; results = map.invokeAll(filter, entry -&gt; {  <span class="conum" data-value="3" />
         Country country = entry.getValue();
         country.setPopulation(country.getPopulation() + 1);
         return country.getPopulation();
@@ -348,7 +359,7 @@ lang="java"
 void testIncreasePopulationUsingInvokeForSingleCountry() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
 
-    final Double results = map.invoke("de", entry -&gt; {  <span class="conum" data-value="2" />
+    Double results = map.invoke("de", entry -&gt; {  <span class="conum" data-value="2" />
         Country country = entry.getValue();
         country.setPopulation(country.getPopulation() + 1);
         entry.setValue(country);  <span class="conum" data-value="3" />
@@ -373,7 +384,7 @@ lang="java"
 void testIncreasePopulationUsingComputeForSingleCountry() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
 
-    final Country results = map.compute("de", (key, country) -&gt; { <span class="conum" data-value="2" />
+    Country results = map.compute("de", (key, country) -&gt; { <span class="conum" data-value="2" />
         country.setPopulation(country.getPopulation() + 1);  <span class="conum" data-value="3" />
         return country;
     });
@@ -408,7 +419,7 @@ void testIncreasePopulationForAllCountries() {
     NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
     Filter filter = AlwaysFilter.INSTANCE(); <span class="conum" data-value="2" />
 
-    final Map&lt;String, Double&gt; results = map.invokeAll(filter, entry -&gt; { <span class="conum" data-value="3" />
+    Map&lt;String, Double&gt; results = map.invokeAll(filter, entry -&gt; { <span class="conum" data-value="3" />
         Country country = entry.getValue();
         country.setPopulation(country.getPopulation() + 1);
         return country.getPopulation();
@@ -429,6 +440,83 @@ void testIncreasePopulationForAllCountries() {
 <li data-value="3">Call <code>invokeAll</code> on the <code>countries</code> Map passing in the <code>AlwaysFilter</code> and the function that increments the population</li>
 <li data-value="4">The result should be the Map containing the key and the new population value for all 5 countries in the Map</li>
 </ul>
+</div>
+
+<h3 id="cache-entry-expiration">Specify Cache Entry Expiration</h3>
+<div class="section">
+<p>When adding values to a <code>NamedCache</code>, without using an Entry Processor, you have the optional ability to also set an
+expiration value for the cache value. For example, in the following code snippet, we add a new country with an expiration
+value of 5 seconds (Values are specified in milliseconds).</p>
+
+<markup
+lang="java"
+
+>NamedCache&lt;String, Country&gt; countries = getMap("countries");
+Country country = new Country("Germany", "Berlin", 83.2);
+countries.put("de", country , 5000);</markup>
+
+<div class="admonition note">
+<p class="admonition-textlabel">Note</p>
+<p ><p>Cache expiration can also be configured per-cache using the <code>&lt;expiry-delay&gt;</code> cache configuration element in the
+<code>coherence-cache-config.xml</code> file.
+See <a id="" title="" target="_blank" href="https://docs.oracle.com/en/middleware/standalone/coherence/14.1.1.2206/develop-applications/configuring-caches.html#GUID-B57A0E9B-23F2-4099-86D7-6DDD54BBC45C">the reference documentation</a>
+for details.</p>
+</p>
+</div>
+<p>You can do the same when mutating cache entries via Entry Processors. Let&#8217;s update the previous example so that all countries
+we are updating will expire within 2 seconds. As the code listed below is very similar to the previous example, we shall
+highlight the changes only:</p>
+
+<markup
+lang="java"
+
+>@Test
+void testIncreasePopulationForAllCountriesWithExpiration() throws InterruptedException {
+
+    NamedCache&lt;String, Country&gt; map = getMap("countries"); <span class="conum" data-value="1" />
+    Filter filter = AlwaysFilter.INSTANCE(); <span class="conum" data-value="2" />
+
+    Map&lt;String, Double&gt; results = map.invokeAll(filter, entry -&gt; { <span class="conum" data-value="3" />
+        BinaryEntry&lt;String, Double&gt; binEntry = (BinaryEntry) entry; <span class="conum" data-value="4" />
+        binEntry.expire(2000); <span class="conum" data-value="5" />
+        Country country = entry.getValue();
+        country.setPopulation(country.getPopulation() + 1);
+        return country.getPopulation();
+    });
+
+    assertThat(results).hasSize(5); <span class="conum" data-value="4" />
+    assertThat(map).hasSize(5); <span class="conum" data-value="5" />
+
+    assertThat(results.get("ua")).isEqualTo(42.2d);
+    assertThat(results.get("co")).isEqualTo(51.4d);
+    assertThat(results.get("au")).isEqualTo(27d);
+    assertThat(results.get("de")).isEqualTo(84.2d);
+    assertThat(results.get("fr")).isEqualTo(68.4d);
+
+    Thread.sleep(4000); <span class="conum" data-value="6" />
+
+    assertThat(results).hasSize(5); <span class="conum" data-value="7" />
+    assertThat(map).hasSize(0); <span class="conum" data-value="8" />
+}</markup>
+
+<ul class="colist">
+<li data-value="1">We need to cast the <code>InvocableMap.Entry</code> to a <code>BinaryEntry</code>.</li>
+<li data-value="2"><code>BinaryEntry</code> has a method <code>expire</code> that specifies when the cache entry will expire. We set it to 2 seconds. The parameter is an integer value representing milliseconds.</li>
+<li data-value="3">The returned Map of <code>invokeAll</code> will have 5 <code>countries</code>. This Map will not "expire".</li>
+<li data-value="4">There should be 5 entries in the <code>NamedCache</code> map. The <code>NamedCache</code> map will expire.</li>
+<li data-value="5">The Thread will sleep for 4 seconds.</li>
+<li data-value="6">Assert that the returned Map of <code>invokeAll</code> still has 5 <code>countries</code></li>
+<li data-value="7">Assert that the <code>NamedCache</code> map is empty. The values have expired.</li>
+</ul>
+<p>The important piece of information to remember is that the underlying <code>BinaryEntry</code> has the relevant property to specify
+the expiration of the cache entry, and we need to cast <code>InvocableMap.Entry</code> to a <code>BinaryEntry</code>.</p>
+
+<div class="admonition important">
+<p class="admonition-textlabel">Important</p>
+<p ><p>The expiration property is defined as an integer and is expressed in milliseconds. Therefore, the maximum amount of time
+cannot exceed approximately 24 days.</p>
+</p>
+</div>
 </div>
 
 <h3 id="summary">Summary</h3>
