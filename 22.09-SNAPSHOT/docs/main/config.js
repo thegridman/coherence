@@ -65,6 +65,19 @@ function createRoutes(){
             component: loadPage('docs-about-03_quickstart', '/docs/about/03_quickstart', {})
         },
         {
+            path: '/docs/about/04_important',
+            meta: {
+                h1: 'Important Changes in Coherence Community Edition (CE) {version-coherence}',
+                title: 'Important Changes in Coherence Community Edition (CE) {version-coherence}',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('docs-about-04_important', '/docs/about/04_important', {})
+        },
+        {
             path: '/coherence-docker/README',
             meta: {
                 h1: 'Coherence OCI Image',
@@ -653,7 +666,8 @@ function createNav(){
                             items: [
                                 { href: '/docs/about/01_overview', title: 'Overview' },
                                 { href: '/docs/about/02_introduction', title: 'Introduction' },
-                                { href: '/docs/about/03_quickstart', title: 'Quick Start' }
+                                { href: '/docs/about/03_quickstart', title: 'Quick Start' },
+                                { href: '/docs/about/04_important', title: 'Important Changes in Coherence Community Edition (CE) {version-coherence}' }
                             ]
                         },
                         {
