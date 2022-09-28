@@ -130,6 +130,19 @@ function createRoutes(){
             component: loadPage('examples-guides-050-bootstrap-README', '/examples/guides/050-bootstrap/README', {})
         },
         {
+            path: '/examples/guides/070-coherence-extend/README',
+            meta: {
+                h1: 'Coherence*Extend',
+                title: 'Coherence*Extend',
+                h1Prefix: null,
+                description: 'Provides a guide for clients to connect to a Coherence Cluster via Coherence*Extend',
+                keywords: 'coherence, java, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('examples-guides-070-coherence-extend-README', '/examples/guides/070-coherence-extend/README', {})
+        },
+        {
             path: '/examples/guides/090-health-checks/README',
             meta: {
                 h1: 'Health Checks',
@@ -699,6 +712,7 @@ function createNav(){
                             items: [
                                 { href: '/examples/guides/000-overview', title: 'Guides Overview' },
                                 { href: '/examples/guides/050-bootstrap/README', title: 'Bootstrap Coherence' },
+                                { href: '/examples/guides/070-coherence-extend/README', title: 'Coherence*Extend' },
                                 { href: '/examples/guides/090-health-checks/README', title: 'Health Checks' },
                                 { href: '/examples/guides/100-put-get-remove/README', title: 'Put Get and Remove Operations' },
                                 { href: '/examples/guides/110-queries/README', title: 'Querying Caches' },
