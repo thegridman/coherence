@@ -27,6 +27,19 @@ bootstrap a Coherence instance.</p>
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
+<router-link to="/examples/guides/070-coherence-extend/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Coherence*Extend</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>Provides a guide for clients to connect to a Coherence Cluster via Coherence*Extend.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
 <router-link to="/examples/guides/100-put-get-remove/README"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">

@@ -158,12 +158,12 @@ lang="java"
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 17</a> or later</p>
+<p><a id="" title="" target="_blank" href="https://www.oracle.com/java/technologies/downloads/">JDK 17</a> or later</p>
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="http://maven.apache.org/download.cgi">Maven 3.8+</a> or <a id="" title="" target="_blank" href="http://www.gradle.org/downloads">Gradle 4+</a>
-Although the source comes with the Maven and Gradle wrappers included so they can be built without first installing
+<p><a id="" title="" target="_blank" href="https://maven.apache.org/download.cgi">Maven 3.8+</a> or <a id="" title="" target="_blank" href="https://gradle.org/install/">Gradle 4+</a>
+Although the source comes with the Maven and Gradle wrappers included, so they can be built without first installing
 either build tool.</p>
 
 </li>

@@ -23,7 +23,7 @@ Then you can then read and follow the individual guide or tutorial documentation
 
 </li>
 <li>
-<p><a id="" title="" target="_blank" href="https://www.oracle.com/java/technologies/javase-downloads.html">JDK 6</a> or later</p>
+<p><a id="" title="" target="_blank" href="https://www.oracle.com/java/technologies/downloads/">JDK 17</a> or later</p>
 
 </li>
 </ul>
