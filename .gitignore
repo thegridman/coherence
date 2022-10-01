@@ -1,6 +1,1 @@
-prj/
-.idea/
-*.iml
-target/
-tde/
-ext/
+.DS_Store
