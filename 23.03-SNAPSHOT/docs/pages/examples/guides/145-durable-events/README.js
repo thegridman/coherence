@@ -243,7 +243,7 @@ public static void startup() throws IOException {
               RoleName.of("storage"),
               DisplayName.of("storage"),
               Multicast.ttl(0))
-        .include(2, CoherenceClusterMember.class, testLogs,
+        .include(2, CoherenceClusterMember.class, // testLogs,
                  LocalStorage.enabled());
 
     cluster = builder.build();
