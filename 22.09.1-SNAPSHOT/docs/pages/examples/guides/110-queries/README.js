@@ -357,7 +357,7 @@ void testGreaterEqualsFilter() {
     assertThat(results).hasSize(2); <span class="conum" data-value="4" />
 
     map.entrySet(filter).forEach(entry -&gt; { <span class="conum" data-value="5" />
-        //assertThat(entry.getKey()).containcontainsAnyOf("de", "fr");
+        assertThat(entry.getKey()).containsAnyOf("de", "fr");
         assertThat(entry.getValue().getPopulation()).isGreaterThan(60.0);
     });
 }</markup>
