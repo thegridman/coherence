@@ -1,3 +1,4 @@
+com.oracle.coherence.caffeine
 com.oracle.coherence.cdi
 com.oracle.coherence.cdi.events
 com.oracle.coherence.cdi.server
@@ -75,6 +76,7 @@ com.tangosol.net.management.annotation
 com.tangosol.net.partition
 com.tangosol.net.proxy
 com.tangosol.net.security
+com.tangosol.net.ssl
 com.tangosol.net.topic
 com.tangosol.persistence
 com.tangosol.run.jca
