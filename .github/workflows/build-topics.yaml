@@ -23,7 +23,7 @@ on:
       - opened
       - committed
     branches:
-    - 'topics-test'
+    - 'stage11-tests'
 
 env:
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
@@ -53,7 +53,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-          ref: topics-test
+          ref: stage11-tests
 
     - name: Set up JDK
       uses: actions/setup-java@v3
