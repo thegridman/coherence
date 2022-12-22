@@ -11,8 +11,8 @@ name: Topics Test
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 * * * *'
+#   schedule:
+#     - cron: '0 * * * *'
   push:
     branches-ignore:
     - gh-pages
