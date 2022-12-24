@@ -90,7 +90,7 @@ jobs:
       if: failure()
       with:
         name: test-output
-        path: prj/examples/**/target/test-output/**/*
+        path: prj/**/target/test-output/**/*
         if-no-files-found: ignore
 
     - name: Build Artifacts test reports
@@ -98,5 +98,5 @@ jobs:
       if: failure()
       with:
         name: failsafe-surefire-test-reports
-        path: prj/examples/**/target/*-reports/**/*
+        path: prj/**/target/*-reports/**/*
         if-no-files-found: ignore
