@@ -73,7 +73,7 @@ jobs:
 
       # Run the Verify stages in parallel
     - name: Verify
-      timeout-minutes: 60
+      timeout-minutes: 90
       shell: bash
       env:
         MAVEN_USER: ${{ secrets.MavenUser }}
