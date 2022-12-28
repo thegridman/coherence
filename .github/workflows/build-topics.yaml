@@ -12,7 +12,7 @@ name: Topics Test
 on:
   workflow_dispatch:
   schedule:
-     - cron: '0 * * * *'
+    - cron: '0 * * * *'
   push:
     branches-ignore:
     - gh-pages
@@ -34,20 +34,47 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        stage:
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
-         - stage11
+        matrixName:
+         - one
+         - two
+         - three
+         - four
+         - five
+         - six
+         - seven
+         - eight
+         - nine
+         - ten
+         - eleven
+         - twelve
+         - thirteen
+        include:
+          - matrixName: one
+            stage: stage11
+          - matrixName: two
+            stage: stage11
+          - matrixName: three
+            stage: stage11
+          - matrixName: four
+            stage: stage11
+          - matrixName: five
+            stage: stage11
+          - matrixName: six
+            stage: stage11
+          - matrixName: seven
+            stage: stage11
+          - matrixName: eight
+            stage: stage11
+          - matrixName: nine
+            stage: stage11
+          - matrixName: ten
+            stage: stage11
+          - matrixName: eleven
+            stage: stage11
+          - matrixName: twelve
+            stage: stage11
+          - matrixName: thirteen
+            stage: stage11
 
     steps:
     - name: Checkout
@@ -73,7 +100,7 @@ jobs:
 
       # Run the Verify stages in parallel
     - name: Verify
-      timeout-minutes: 90
+      timeout-minutes: 60
       shell: bash
       env:
         MAVEN_USER: ${{ secrets.MavenUser }}
@@ -89,7 +116,7 @@ jobs:
       uses: actions/upload-artifact@v3
       if: failure()
       with:
-        name: test-output
+        name: test-output-${{ matrix.matrixName }}
         path: prj/**/target/test-output/**/*
         if-no-files-found: ignore
 
@@ -97,6 +124,6 @@ jobs:
       uses: actions/upload-artifact@v3
       if: failure()
       with:
-        name: failsafe-surefire-test-reports
+        name: failsafe-surefire-test-reports-${{ matrix.matrixName }}
         path: prj/**/target/*-reports/**/*
         if-no-files-found: ignore
