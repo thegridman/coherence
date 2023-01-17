@@ -23,7 +23,7 @@ on:
       - opened
       - committed
     branches:
-    - 'stage11-tests'
+    - 'stage13-tests'
 
 env:
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
