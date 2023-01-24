@@ -320,6 +320,20 @@ bootstrap a Coherence instance.</p>
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
+<router-link to="/examples/guides/906-partition-level-transactions/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Partition Level Transactions</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide explains how to atomically access and update multiple related entries using
+an <code>EntryProcessor</code> in a partition level transaction.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
 <router-link to="/examples/guides/910-multi-cluster-client/README"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
