@@ -442,6 +442,19 @@ function createRoutes(){
             component: loadPage('examples-tutorials-500-graphql-README', '/examples/tutorials/500-graphql/README', {})
         },
         {
+            path: '/coherence-mp/health/README',
+            meta: {
+                h1: 'Coherence MicroProfile Health',
+                title: 'Coherence MicroProfile Health',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-mp-health-README', '/coherence-mp/health/README', {})
+        },
+        {
             path: '/coherence-mp/README',
             meta: {
                 h1: 'Coherence MP',
