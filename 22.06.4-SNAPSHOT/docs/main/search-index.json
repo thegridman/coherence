@@ -136,6 +136,16 @@
             "title": "Querying Caches"
         },
         {
+            "location": "/coherence-mp/health/README",
+            "text": " To use Coherence MP Health, you should first declare it as a dependency in the project&#8217;s pom.xml file. You can declare Coherence MP Health as follows: <markup lang=\"xml\" title=\"pom.xml\" >&lt;dependency&gt; &lt;groupId&gt;${coherence.groupId}&lt;/groupId&gt; &lt;artifactId&gt;coherence-mp-health&lt;/artifactId&gt; &lt;version&gt;${coherence.version}&lt;/version&gt; &lt;/dependency&gt; Where ${coherence.groupId} is the Maven groupId for the Coherence edition being used, com.oracle.elcoherence for the commercial edition or com.oracle.elcoherence.ce for the community edition. And ${coherence.version} is the version of Coherence being used. After the module becomes available in the class path, the Coherence HealthCheck producer CDI bean will be automatically discovered and be registered as a Microprofile health check provider. The Coherence health checks will then be available via any health endpoints served by the application and included in started, readiness and liveness checks. ",
+            "title": "Enabling the Use of Coherence MP Health"
+        },
+        {
+            "location": "/coherence-mp/health/README",
+            "text": " Coherence MicroProfile (MP) Health provides support for Eclipse MicroProfile Health within the Coherence cluster members. See the documentation on the Coherence Health Check API and MicroProfile Health . Coherence MP Health is a very simple module that enables you to publish Coherence health checks into the MicroProfile Health Check Registries available at runtime. Enabling the Use of Coherence MP Health To use Coherence MP Health, you should first declare it as a dependency in the project&#8217;s pom.xml file. You can declare Coherence MP Health as follows: <markup lang=\"xml\" title=\"pom.xml\" >&lt;dependency&gt; &lt;groupId&gt;${coherence.groupId}&lt;/groupId&gt; &lt;artifactId&gt;coherence-mp-health&lt;/artifactId&gt; &lt;version&gt;${coherence.version}&lt;/version&gt; &lt;/dependency&gt; Where ${coherence.groupId} is the Maven groupId for the Coherence edition being used, com.oracle.elcoherence for the commercial edition or com.oracle.elcoherence.ce for the community edition. And ${coherence.version} is the version of Coherence being used. After the module becomes available in the class path, the Coherence HealthCheck producer CDI bean will be automatically discovered and be registered as a Microprofile health check provider. The Coherence health checks will then be available via any health endpoints served by the application and included in started, readiness and liveness checks. ",
+            "title": "Coherence MicroProfile Health"
+        },
+        {
             "location": "/coherence-mp/README",
             "text": " Coherence provides a number of additional modules that provide support for different Microprofile APIs. Microprofile Config Using Coherence as a Microprofile config source. Microprofile Metrics Configure Coherence to publish metrics via the Microprofile metrics API. ",
             "title": "Coherence MP"
