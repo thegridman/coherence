@@ -429,17 +429,17 @@ function createRoutes(){
             component: loadPage('examples-tutorials-500-graphql-README', '/examples/tutorials/500-graphql/README', {})
         },
         {
-            path: '/coherence-helidon-grpc-proxy/README',
+            path: '/coherence-mp/health/README',
             meta: {
-                h1: 'Helidon MP gRPC Server',
-                title: 'Helidon MP gRPC Server',
+                h1: 'Coherence MicroProfile Health',
+                title: 'Coherence MicroProfile Health',
                 h1Prefix: null,
                 description: null,
                 keywords: null,
                 customLayout: null,
                 hasNav: false
             },
-            component: loadPage('coherence-helidon-grpc-proxy-README', '/coherence-helidon-grpc-proxy/README', {})
+            component: loadPage('coherence-mp-health-README', '/coherence-mp/health/README', {})
         },
         {
             path: '/coherence-mp/README',
@@ -494,19 +494,6 @@ function createRoutes(){
             component: loadPage('docs-topics-03_publishers', '/docs/topics/03_publishers', {})
         },
         {
-            path: '/coherence-grpc/README',
-            meta: {
-                h1: 'Coherence gRPC',
-                title: 'Coherence gRPC',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('coherence-grpc-README', '/coherence-grpc/README', {})
-        },
-        {
             path: '/coherence-concurrent/README',
             meta: {
                 h1: 'Distributed Concurrency',
@@ -559,19 +546,6 @@ function createRoutes(){
             component: loadPage('docs-topics-05_persistence', '/docs/topics/05_persistence', {})
         },
         {
-            path: '/docs/topics/01_introduction',
-            meta: {
-                h1: 'Introduction to Coherence Topics',
-                title: 'Introduction to Coherence Topics',
-                h1Prefix: null,
-                description: 'Coherence Topics',
-                keywords: 'coherence, topics, streaming, java, documentation',
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('docs-topics-01_introduction', '/docs/topics/01_introduction', {})
-        },
-        {
             path: '/docs/README',
             meta: {
                 h1: 'Coherence Documentation Module',
@@ -598,6 +572,58 @@ function createRoutes(){
             component: loadPage('coherence-cdi-server-README', '/coherence-cdi-server/README', {})
         },
         {
+            path: '/coherence-micrometer/README',
+            meta: {
+                h1: 'Coherence Micrometer Metrics',
+                title: 'Coherence Micrometer Metrics',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-micrometer-README', '/coherence-micrometer/README', {})
+        },
+        {
+            path: '/coherence-helidon-grpc-proxy/README',
+            meta: {
+                h1: 'Helidon MP gRPC Server',
+                title: 'Helidon MP gRPC Server',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-helidon-grpc-proxy-README', '/coherence-helidon-grpc-proxy/README', {})
+        },
+        {
+            path: '/coherence-grpc/README',
+            meta: {
+                h1: 'Coherence gRPC',
+                title: 'Coherence gRPC',
+                h1Prefix: null,
+                description: null,
+                keywords: null,
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('coherence-grpc-README', '/coherence-grpc/README', {})
+        },
+        {
+            path: '/docs/topics/01_introduction',
+            meta: {
+                h1: 'Introduction to Coherence Topics',
+                title: 'Introduction to Coherence Topics',
+                h1Prefix: null,
+                description: 'Coherence Topics',
+                keywords: 'coherence, topics, streaming, java, documentation',
+                customLayout: null,
+                hasNav: false
+            },
+            component: loadPage('docs-topics-01_introduction', '/docs/topics/01_introduction', {})
+        },
+        {
             path: '/coherence-mp/metrics/README',
             meta: {
                 h1: 'Coherence MicroProfile Metrics',
@@ -622,19 +648,6 @@ function createRoutes(){
                 hasNav: false
             },
             component: loadPage('examples-setup-intellij', '/examples/setup/intellij', {})
-        },
-        {
-            path: '/coherence-micrometer/README',
-            meta: {
-                h1: 'Coherence Micrometer Metrics',
-                title: 'Coherence Micrometer Metrics',
-                h1Prefix: null,
-                description: null,
-                keywords: null,
-                customLayout: null,
-                hasNav: false
-            },
-            component: loadPage('coherence-micrometer-README', '/coherence-micrometer/README', {})
         },
         {
             path: '/coherence-mp/config/README',
