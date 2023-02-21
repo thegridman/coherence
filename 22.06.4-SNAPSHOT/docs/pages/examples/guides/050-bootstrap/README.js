@@ -45,7 +45,7 @@ injected into application code without even needing to directly access the boots
 
 </li>
 <li>
-<p><router-link to="#bootstrap-code" @click.native="this.scrollFix('#bootstrap-code')">Bootstrap Coherence</router-link> - Starting Coherence from Application Code&gt;&gt;</p>
+<p><router-link to="#bootstrap-code" @click.native="this.scrollFix('#bootstrap-code')">Bootstrap Coherence</router-link> - Starting Coherence from Application Code</p>
 <ul class="ulist">
 <li>
 <p><router-link to="#simple-cluster" @click.native="this.scrollFix('#simple-cluster')">Simple Cluster Member</router-link> - Start a simple cluster member</p>
