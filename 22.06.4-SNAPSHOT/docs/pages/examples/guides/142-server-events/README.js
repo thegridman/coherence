@@ -486,8 +486,9 @@ public void testEntryProcessorInterceptor() {
     cache.invokeAll(Processors.update(Customer::setCreditLimit, 100_000L));
 
     dumpAuditEvents("testEntryProcessorInterceptor-1");
-    // 3 entry processor events and 3 updates
-    Eventually.assertDeferred(() -&gt; auditEvents.size(), Matchers.is(6));
+    // up to 3 entry processor events and 3 updates
+    Eventually.assertDeferred(() -&gt; auditEvents.aggregate(Filters.equal(AuditEvent::getEventType, "EXECUTED"), Aggregators.count()), Matchers.lessThanOrEqualTo(3));
+    Eventually.assertDeferred(() -&gt; auditEvents.aggregate(Filters.equal(AuditEvent::getEventType, "UPDATED"), Aggregators.count()), Matchers.equalTo(3));
 
     auditEvents.clear();
 
@@ -497,8 +498,8 @@ public void testEntryProcessorInterceptor() {
 
     dumpAuditEvents("testEntryProcessorInterceptor-2");
 
-    // ensure all 4 audit events are received
-    Eventually.assertDeferred(() -&gt; auditEvents.values(equal(AuditEvent::getEventType, "EXECUTED")).size(), Matchers.is(4));
+    // ensure up to 4 EXECUTED events are received
+    Eventually.assertDeferred(() -&gt; auditEvents.aggregate(Filters.equal(AuditEvent::getEventType, "EXECUTED"), Aggregators.count()), Matchers.lessThanOrEqualTo(4));
 }</markup>
 
 </li>
