@@ -248,6 +248,19 @@ bootstrap a Coherence instance.</p>
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
+<router-link to="/examples/guides/906-partition-level-transactions/README"><div class="card__link-hover"/>
+</router-link>
+<v-card-title primary class="headline layout justify-center">
+<span style="text-align:center">Executor Service</span>
+</v-card-title>
+<v-card-text class="caption">
+<p></p>
+<p>This guide explains how to use the Coherence Executor Service.</p>
+</v-card-text>
+</v-card>
+</v-flex>
+<v-flex xs12 sm4 lg3>
+<v-card>
 <router-link to="/examples/guides/905-key-association/README"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
