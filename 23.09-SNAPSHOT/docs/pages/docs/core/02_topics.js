@@ -837,19 +837,14 @@ where the timestamp is in <code>YYYYMMDDHH</code> format. For example, a file na
 <td class="">The service name.</td>
 </tr>
 <tr>
-<td class="">Name</td>
+<td class="">Topic</td>
 <td class="">String</td>
 <td class="">The topic name.</td>
 </tr>
 <tr>
-<td class="">SubscriberGroup</td>
+<td class="">Name</td>
 <td class="">String</td>
 <td class="">The subscriber group the subscriber belongs to.</td>
-</tr>
-<tr>
-<td class="">Id</td>
-<td class="">Long</td>
-<td class="">The Id of the subscriber.</td>
 </tr>
 <tr>
 <td class="">NodeId</td>
@@ -857,89 +852,34 @@ where the timestamp is in <code>YYYYMMDDHH</code> format. For example, a file na
 <td class="">The numeric member identifier.</td>
 </tr>
 <tr>
-<td class="">Backlog</td>
-<td class="">Long</td>
-<td class="">The number of outstanding receive requests.</td>
-</tr>
-<tr>
-<td class="">ChannelAllocations</td>
-<td class="">String</td>
-<td class="">The subscriber&#8217;s allocated channels.</td>
-</tr>
-<tr>
 <td class="">ChannelCount</td>
 <td class="">Integer</td>
 <td class="">The number of channels in the topic.</td>
 </tr>
 <tr>
-<td class="">Disconnections</td>
-<td class="">Long</td>
-<td class="">The number of times this subscriber has disconnected since the last report refresh.</td>
-</tr>
-<tr>
-<td class="">Notifications</td>
-<td class="">Long</td>
-<td class="">The number of channel notifications received since the last report refresh.</td>
-</tr>
-<tr>
-<td class="">Polls</td>
+<td class="">PolledCount</td>
 <td class="">Long</td>
 <td class="">The total number of polls for messages since the last report refresh.</td>
 </tr>
 <tr>
-<td class="">ReceiveCompletionsCount</td>
-<td class="">Long</td>
-<td class="">The number completed receive requests since the last report refresh</td>
-</tr>
-<tr>
-<td class="">ReceiveCompletionsFifteenMinuteRate</td>
+<td class="">PolledFifteenMinuteRate</td>
 <td class="">Double</td>
-<td class="">The completed receive requests, fifteen-minute rate.</td>
+<td class="">The polled messages fifteen-minute rate</td>
 </tr>
 <tr>
-<td class="">ReceiveCompletionsFiveMinuteRate</td>
+<td class="">PolledFiveMinuteRate</td>
 <td class="">Double</td>
-<td class="">The completed receive requests, five-minute rate.</td>
+<td class="">The polled messages five-minute rate</td>
 </tr>
 <tr>
-<td class="">ReceiveCompletionsMeanRate</td>
+<td class="">PolledOneMinuteRate</td>
 <td class="">Double</td>
-<td class="">The completed receive requests, mean rate.</td>
+<td class="">The polled messages one-minute rate</td>
 </tr>
 <tr>
-<td class="">ReceiveCompletionsOneMinuteRate</td>
+<td class="">PolledMeanRate</td>
 <td class="">Double</td>
-<td class="">The completed receive requests, one-minute rate.</td>
-</tr>
-<tr>
-<td class="">ReceiveEmpty</td>
-<td class="">Long</td>
-<td class="">The number empty receive requests since the last report refresh.</td>
-</tr>
-<tr>
-<td class="">ReceiveErrors</td>
-<td class="">Long</td>
-<td class="">The number exceptionally completed receive requests since the last report refresh.</td>
-</tr>
-<tr>
-<td class="">ReceivedCount</td>
-<td class="">Long</td>
-<td class="">The number of elements received since the last report refresh.</td>
-</tr>
-<tr>
-<td class="">State</td>
-<td class="">Integer</td>
-<td class="">The state of the subscriber. Valid values are: 0 – Initial, 1 – Connected, 2 – Disconnected, 3 – Closing, 4 - Closed.</td>
-</tr>
-<tr>
-<td class="">StateName</td>
-<td class="">String</td>
-<td class="">The state of the subscriber as a string.</td>
-</tr>
-<tr>
-<td class="">Waits</td>
-<td class="">Long</td>
-<td class="">The number of elements received since the last report refresh.</td>
+<td class="">The polled messages mean rate</td>
 </tr>
 </tbody>
 </table>
