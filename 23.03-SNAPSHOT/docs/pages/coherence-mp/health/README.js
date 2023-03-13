@@ -25,8 +25,8 @@ title="pom.xml"
     &lt;version&gt;${coherence.version}&lt;/version&gt;
 &lt;/dependency&gt;</markup>
 
-<p>Where <code>${coherence.groupId}</code> is the Maven groupId for the Coherence edition being used, <code>com.oracle.elcoherence</code>
-for the commercial edition or <code>com.oracle.elcoherence.ce</code> for the community edition.
+<p>Where <code>${coherence.groupId}</code> is the Maven groupId for the Coherence edition being used, <code>com.oracle.coherence</code>
+for the commercial edition or <code>com.oracle.coherence.ce</code> for the community edition.
 And <code>${coherence.version}</code> is the version of Coherence being used.</p>
 
 <p>After the module becomes available in the class path, the Coherence <code>HealthCheck</code> producer CDI bean will be automatically
