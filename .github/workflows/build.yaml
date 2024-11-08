@@ -78,8 +78,13 @@ jobs:
         echo "Building and running tests in ${{ matrix.stage }}"
         export DEV_ROOT=$(pwd)
         export SETTINGS_XML=${DEV_ROOT}/.github/maven/settings.xml
-        mvn --file prj/pom.xml --batch-mode -U -e -s ${SETTINGS_XML} -P-modules,${{ matrix.stage }} -Doptional -Dcoherence.SkipLargeMemoryTests=true clean install
-        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.stage }} -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
+        mvn --file prj/pom.xml --batch-mode -U -e -s ${SETTINGS_XML} -P-modules -DskipTests -Doptional -Dcoherence.SkipLargeMemoryTests=true clean install
+        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence -nsu -DskipTests -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
+        cd prj
+        mvn -s ${SETTINGS_XML} -Pmodules,-coherence -nsu -Dcoherence.compatability.settings=${SETTINGS_XML} -Dmoditect.skip=true  verify -Dtest=_ -DfailIfNoSpecifiedTests=false -pl test/functional/topics/ -Dit.test=TopicChannelCountRecoveryTests#shouldRecoverCorrectChannelCount 
+        mvn -s ${SETTINGS_XML} -Pmodules,-coherence -nsu -Dcoherence.compatability.settings=${SETTINGS_XML} -Dmoditect.skip=true  verify -Dtest=_ -DfailIfNoSpecifiedTests=false -pl test/functional/topics/ -Dit.test=LocalNamedTopicTests 
+        mvn -s ${SETTINGS_XML} -Pmodules,-coherence -nsu -Dcoherence.compatability.settings=${SETTINGS_XML} -Dmoditect.skip=true  verify -Dtest=_ -DfailIfNoSpecifiedTests=false -pl test/functional/topics/ -Dit.test=NamedTopicTests 
+        mvn -s ${SETTINGS_XML} -Pmodules,-coherence -nsu -Dcoherence.compatability.settings=${SETTINGS_XML} -Dmoditect.skip=true  verify -Dtest=_ -DfailIfNoSpecifiedTests=false -pl test/functional/grpc-proxy-netty/ -Dit.test=NamedQueueProxyProtocolIT 
 
     # Upload build artifacts for diagnosing failures
     - name: Build Artifacts test logs
