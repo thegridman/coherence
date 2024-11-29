@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+ * Copyright (c) 2000, 2024, Oracle and/or its affiliates.
  *
  * Licensed under the Universal Permissive License v 1.0 as shown at
  * https://oss.oracle.com/licenses/upl.
@@ -23,6 +23,7 @@ import com.tangosol.net.topic.NamedTopic;
 import com.tangosol.net.topic.Publisher;
 import com.tangosol.net.topic.Subscriber;
 
+import com.tangosol.net.topic.TopicBackingMapManager;
 import com.tangosol.util.Base;
 import com.tangosol.util.Binary;
 
@@ -276,11 +277,12 @@ public class TopicsCalculatorTests
 
     // ----- helper methods -------------------------------------------------
 
+    @SuppressWarnings("rawtypes")
     private PagedTopicDependencies getDependencies(NamedTopic<?> topic)
         {
-        PagedTopicService service = (PagedTopicService) topic.getService();
-        PagedTopicBackingMapManager manager = service.getTopicBackingMapManager();
-        return manager.getTopicDependencies(topic.getName());
+        PagedTopicService      service = (PagedTopicService) topic.getService();
+        TopicBackingMapManager manager = service.getTopicBackingMapManager();
+        return (PagedTopicDependencies) manager.getTopicDependencies(topic.getName());
         }
 
     // ----- inner class: CustomCalculator ----------------------------------

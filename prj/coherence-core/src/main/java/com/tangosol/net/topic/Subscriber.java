@@ -8,7 +8,10 @@ package com.tangosol.net.topic;
 
 import com.oracle.coherence.common.base.Exceptions;
 
+import com.oracle.coherence.common.util.Options;
 import com.tangosol.internal.net.topic.impl.paged.model.PagedPosition;
+import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
+import com.tangosol.internal.net.topic.impl.paged.model.SubscriberId;
 import com.tangosol.io.AbstractEvolvable;
 import com.tangosol.io.ExternalizableLite;
 
@@ -850,6 +853,13 @@ public interface Subscriber<V>
      */
     int getRemainingMessages(int nChannel);
 
+    /**
+     * Return the identifier for this subscriber.
+     *
+     * @return the identifier for this subscriber
+     */
+    SubscriberId getSubscriberId();
+
     // ----- option methods -------------------------------------------------
 
     /**
@@ -1332,6 +1342,112 @@ public interface Subscriber<V>
 
         @SuppressWarnings("rawtypes")
         Option NULL_OPTION = new Option(){};
+        }
+
+    // ----- inner class OptionSet ------------------------------------------
+
+    /**
+     * A holder of subscriber options.
+     *
+     * @param <V>  the type of value in the underlying topic
+     * @param <U>  the type of value the subscriber receives
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    class OptionSet<V, U>
+            extends Options<Option<V, U>>
+        {
+        /**
+         * Create an option set.
+         *
+         * @param clsType   the type of the options
+         * @param aOptions  the array of options
+         */
+        private OptionSet(Class<Option<V, U>> clsType, Option<V, U>[] aOptions)
+            {
+            super(clsType, aOptions);
+            }
+
+        /**
+         * Return the subscriber group name.
+         *
+         * @return the subscriber group name
+         */
+        public Optional<String> getSubscriberGroupName()
+            {
+            Subscriber.Name nameOption = get(Subscriber.Name.class, null);
+            if (nameOption == null)
+                {
+                return Optional.empty();
+                }
+            String sName = nameOption.getName();
+            return sName == null || sName.isBlank() ? Optional.empty() : Optional.of(sName);
+            }
+
+        /**
+         * Return the subscriber group identifier.
+         *
+         * @return the subscriber group identifier
+         */
+        public SubscriberGroupId getSubscriberGroupId()
+            {
+            return getSubscriberGroupName().map(SubscriberGroupId::withName)
+                    .orElse(SubscriberGroupId.anonymous());
+            }
+
+        /**
+         * Return the optional {@link Filter} for the subscriber group
+         *
+         * @return the optional {@link Filter} for the subscriber group
+         */
+        public Optional<Filter<U>> getFilter()
+            {
+            Subscriber.Filtered filtered = get(Subscriber.Filtered.class);
+            return filtered == null ? Optional.empty() : Optional.ofNullable(filtered.getFilter());
+            }
+
+        /**
+         * Return the optional {@link ValueExtractor} for the subscriber group
+         *
+         * @return the optional {@link ValueExtractor} for the subscriber group
+         */
+        public Optional<ValueExtractor<U, ?>> getExtractor()
+            {
+            Subscriber.Convert convert = get(Subscriber.Convert.class);
+            return convert == null ? Optional.empty() : Optional.ofNullable(convert.getExtractor());
+            }
+
+        /**
+         * Return {@code true} if the subscriber should complete receive requests when empty.
+         *
+         * @return {@code true} if the subscriber should complete receive requests when empty
+         */
+        public boolean isCompleteOnEmpty()
+            {
+            return contains(Subscriber.CompleteOnEmpty.class);
+            }
+
+        /**
+         * Return an array of {@link ChannelOwnershipListener} instances.
+         *
+         * @return an array of {@link ChannelOwnershipListener} instances
+         */
+        public ChannelOwnershipListener[] getChannelListeners()
+            {
+            ChannelOwnershipListeners<V> listeners = get(ChannelOwnershipListeners.class);
+            if (listeners == null)
+                {
+                return new ChannelOwnershipListener[0];
+                }
+            List<ChannelOwnershipListener> list = listeners.getListeners();
+            return list.toArray(ChannelOwnershipListener[]::new);
+            }
+        }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    static <V, U> OptionSet<V, U> optionsFrom(Subscriber.Option<? super V, U>[] options)
+        {
+        Class<?> clsType = Option.class;
+        return new OptionSet(clsType, options);
         }
 
     // ----- inner interface: Name ------------------------------------------
