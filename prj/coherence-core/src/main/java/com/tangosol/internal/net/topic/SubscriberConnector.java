@@ -97,11 +97,14 @@ public interface SubscriberConnector<V>
      */
     void ensureConnected();
 
+    Position[] initialize(ConnectedSubscriber<V> subscriber, boolean fForceReconnect, boolean fReconnect, boolean fDisconnected);
+
     /**
      * Create the subscription with the underlying topic.
      *
      * @param subscriber       the subscriber to initialize
-     * @param fForceReconnect  {@code true} to force reconnection of a disconnected subscriber
+     * @param fForceReconnect  A flag to indicate that the reconnect logic should force a reconnect
+     *                         request even if the subscriber is in the config map
      */
     void initializeSubscription(ConnectedSubscriber<V> subscriber, boolean fForceReconnect);
 
@@ -109,8 +112,8 @@ public interface SubscriberConnector<V>
      * Initialize the subscriptions head positions
      *
      * @param subscriber        the subscriber
-     * @param fReconnect        {@code true} if this is a reconnect
-     * @param fDisconnected     {@code true} if the subscriber is disconnected
+     * @param fReconnect        {@code true} if this is a reconnect request
+     * @param fDisconnected     {@code true} if the subscriber was initially disconnected
      *
      * @return  the head positions
      */

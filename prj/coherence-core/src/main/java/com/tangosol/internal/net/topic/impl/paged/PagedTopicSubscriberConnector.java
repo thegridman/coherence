@@ -271,6 +271,19 @@ public class PagedTopicSubscriberConnector<V>
         }
 
     @Override
+    public Position[] initialize(ConnectedSubscriber<V> subscriber, boolean fForceReconnect, boolean fReconnect, boolean fDisconnected)
+        {
+        ensureConnected();
+        if (subscriber.getSubscriberGroupId().isDurable())
+            {
+            initializeSubscription(subscriber, fForceReconnect);
+            // heartbeat immediately to update the subscriber's timestamp in the Subscriber cache
+            heartbeat(subscriber, false);
+            }
+        return initializeSubscriptionHeads(subscriber, fReconnect, fDisconnected);
+        }
+
+    @Override
     public void initializeSubscription(ConnectedSubscriber<V> subscriber, boolean fForceReconnect)
         {
         SubscriberId subscriberId = subscriber.getSubscriberId();

@@ -107,6 +107,13 @@ public class ConverterSubscriberConnector<F, T>
         }
 
     @Override
+    public Position[] initialize(ConnectedSubscriber<T> subscriber, boolean fForceReconnect, boolean fReconnect, boolean fDisconnected)
+        {
+        return f_connector.initialize((ConnectedSubscriber<F>) subscriber, fForceReconnect, fReconnect, fDisconnected);
+        }
+
+
+    @Override
     public void initializeSubscription(ConnectedSubscriber<T> subscriber, boolean fForceReconnect)
         {
         f_connector.initializeSubscription((ConnectedSubscriber<F>) subscriber, fForceReconnect);

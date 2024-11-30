@@ -85,6 +85,12 @@ public class SafeSubscriberConnector<V>
         }
 
     @Override
+    public Position[] initialize(ConnectedSubscriber<V> subscriber, boolean fForceReconnect, boolean fReconnect, boolean fDisconnected)
+        {
+        return ensureRunningConnector().initialize(subscriber, fForceReconnect, fReconnect, fDisconnected);
+        }
+
+    @Override
     public void initializeSubscription(ConnectedSubscriber<V> subscriber, boolean fForceReconnect)
         {
         ensureRunningConnector().initializeSubscription(subscriber, fForceReconnect);

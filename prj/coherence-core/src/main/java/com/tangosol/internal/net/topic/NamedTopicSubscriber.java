@@ -1037,83 +1037,68 @@ public class NamedTopicSubscriber<V>
                     break;
                     }
 
-                int nPrevState = setState(STATE_CONNECTING);
+                int     nPrevState    = setState(STATE_CONNECTING);
+                boolean fDisconnected = nPrevState == STATE_DISCONNECTED;
 
                 if (fReconnect)
                     {
                     Logger.finest("Reconnecting subscriber " + this);
                     }
 
-                f_connector.ensureConnected();
-
-                if (!f_fAnonymous)
+                try
                     {
-                    f_connector.initializeSubscription(this, m_fForceReconnect);
-                    // heartbeat immediately to update the subscriber's timestamp in the Subscriber cache
-                    f_connector.heartbeat(this, false);
-                    }
+                    Position[]     alHead   = f_connector.initialize(this, m_fForceReconnect, fReconnect, fDisconnected);
+                    TopicChannel[] aChannel = m_aChannel;
 
-                boolean fDisconnected = nPrevState == STATE_DISCONNECTED;
-
-                TopicChannel[] aChannel = initializeSubscriptionChannels(fReconnect, fDisconnected);
-                int            cChannel = aChannel.length;
-
-                if (f_fAnonymous)
-                    {
-                    // anonymous so we own all channels
-                    SortedSet<Integer> setChannel = new TreeSet<>();
-                    for (int i = 0; i < cChannel; i++)
+                    int cChannel = alHead.length;
+                    if (cChannel > aChannel.length)
                         {
-                        setChannel.add(i);
+                        // this subscriber has fewer channels than the server so needs to be resized
+                        aChannel = initializeChannels(cChannel);
                         }
-                    updateChannelOwnership(setChannel, false);
-                    }
-                else
-                    {
-                    SortedSet<Integer> setChannel = f_connector.getOwnedChannels(this);
-                    updateChannelOwnership(setChannel, false);
-                    }
 
-                heartbeat();
-                f_connector.onInitialized(this);
-                if (casState(STATE_CONNECTING, STATE_CONNECTED))
+                    for (int nChannel = 0; nChannel < cChannel; ++nChannel)
+                        {
+                        TopicChannel channel = aChannel[nChannel];
+                        channel.setHead(alHead[nChannel]);
+                        channel.setPopulated(); // even if we could infer emptiness here it is unsafe unless we've registered for events
+                        }
+
+                    cChannel = aChannel.length;
+
+                    if (f_fAnonymous)
+                        {
+                        // anonymous so we own all channels
+                        SortedSet<Integer> setChannel = new TreeSet<>();
+                        for (int i = 0; i < cChannel; i++)
+                            {
+                            setChannel.add(i);
+                            }
+                        updateChannelOwnership(setChannel, false);
+                        }
+                    else
+                        {
+                        SortedSet<Integer> setChannel = f_connector.getOwnedChannels(this);
+                        updateChannelOwnership(setChannel, false);
+                        }
+
+                    heartbeat();
+                    f_connector.onInitialized(this);
+                    if (casState(STATE_CONNECTING, STATE_CONNECTED))
+                        {
+                        switchChannel();
+                        }
+                    }
+                catch (Throwable t)
                     {
-                    switchChannel();
+                    // something failed, so assume we are now disconnected
+                    setState(STATE_DISCONNECTED);
+                    throw Exceptions.ensureRuntimeException(t);
                     }
                 }
-
             m_cSubscribe.mark();
             return m_aChannel;
             }
-        }
-
-    /**
-     * Initialize the subscription channels.
-     *
-     * @param fReconnect        {@code true} if this is a reconnect
-     * @param fDisconnected     {@code true} if the subscriber is disconnected
-     *
-     * @return the subscriber's channels
-     */
-    public TopicChannel[] initializeSubscriptionChannels(boolean fReconnect, boolean fDisconnected)
-        {
-        Position[]     alHead   = f_connector.initializeSubscriptionHeads(this, fReconnect, fDisconnected);
-        TopicChannel[] aChannel = m_aChannel;
-
-        int cChannel = alHead.length;
-        if (cChannel > aChannel.length)
-            {
-            // this subscriber has fewer channels than the server so needs to be resized
-            aChannel = initializeChannels(cChannel);
-            }
-
-        for (int nChannel = 0; nChannel < cChannel; ++nChannel)
-            {
-            TopicChannel channel = aChannel[nChannel];
-            channel.setHead(alHead[nChannel]);
-            channel.setPopulated(); // even if we could infer emptiness here it is unsafe unless we've registered for events
-            }
-        return aChannel;
         }
 
     /**
