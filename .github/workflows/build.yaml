@@ -11,6 +11,8 @@ name: CI Build
 
 on:
   workflow_dispatch:
+  schedule:
+  - cron: '0 * * * *'
   push:
     branches-ignore:
     - gh-pages
