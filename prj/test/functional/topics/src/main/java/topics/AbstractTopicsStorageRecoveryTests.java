@@ -106,6 +106,7 @@ public abstract class AbstractTopicsStorageRecoveryTests
         System.setProperty("test.log.level", "9");
         System.setProperty("test.log", "stderr");
         System.setProperty(OperationalOverride.PROPERTY, "common-tangosol-coherence-override.xml");
+        System.setProperty("coherence.distributed.partitioncount", "13");
         System.setProperty(CacheConfig.PROPERTY, clientCacheConfig);
 
         // make sure persistence files are not left from a previous test
@@ -779,9 +780,9 @@ public abstract class AbstractTopicsStorageRecoveryTests
                     CacheConfig.of("simple-persistence-bdb-cache-config.xml"),
 //                    OperationalOverride.of("common-tangosol-coherence-override.xml"),
                     Logging.atMax(),
-                    SystemProperty.of("coherence.distributed.partitioncount", "13"),
+                    SystemProperty.of("coherence.distributed.partitioncount", 13),
                     OperationalOverride.of("common-tangosol-coherence-override.xml"),
-                    SystemProperty.of("test.log.level", "9"),
+                    SystemProperty.of("test.log.level", 9),
                     SystemProperty.of("test.log", "stderr"),
                     WellKnownAddress.loopback())
                .include(2, CoherenceClusterMember.class, options.asArray());

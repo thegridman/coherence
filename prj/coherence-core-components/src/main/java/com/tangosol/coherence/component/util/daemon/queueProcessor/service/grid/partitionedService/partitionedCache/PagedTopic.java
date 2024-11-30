@@ -1303,12 +1303,16 @@ public class PagedTopic
         return __m_ChannelAllocationStrategy;
         }
     
-    // From interface: com.tangosol.net.PagedTopicService
+    @Override
     public int getChannelCount(String sName)
         {
-        int cChannelMap    = getChannelCountFromConfigMap(sName);
-        int cChannelConfig = getConfiguredChannelCount(sName);
-        return Math.max(cChannelMap, cChannelConfig);
+        int cChannelMap = getChannelCountFromConfigMap(sName);
+        if (isLocalStorageEnabled() || cChannelMap == 0)
+            {
+            int cChannelConfig = getConfiguredChannelCount(sName);
+            return Math.max(cChannelMap, cChannelConfig);
+            }
+        return cChannelMap;
         }
 
     /**
