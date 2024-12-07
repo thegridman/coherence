@@ -32,17 +32,17 @@ public class EnsureTopic
     @Override
     public Boolean call() throws Exception
         {
-        Logger.info("Ensuring topic " + f_sName);
+        Logger.info("In EnsureTopic callable. Ensuring topic " + f_sName);
         Coherence coherence = Coherence.getInstance();
         coherence.startAndWait();
 
         NamedTopic<?> topic    = coherence.getSession().getTopic(f_sName);
         if (f_sGroup != null && !f_sGroup.isEmpty())
             {
-            Logger.info("Ensuring subscriber group " + f_sGroup + " for topic " + f_sName);
+            Logger.info("In EnsureTopic callable. Ensuring subscriber group " + f_sGroup + " for topic " + f_sName);
             topic.ensureSubscriberGroup(f_sGroup);
             }
-        Logger.info("Ensured topic " + f_sName);
+        Logger.info("In EnsureTopic callable. Ensured topic " + f_sName);
         return true;
         }
 

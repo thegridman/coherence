@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+ * Copyright (c) 2000, 2024, Oracle and/or its affiliates.
  *
  * Licensed under the Universal Permissive License v 1.0 as shown at
  * https://oss.oracle.com/licenses/upl.
@@ -67,7 +67,7 @@ public class TopicSubscriber
                         if (m_fVerifyOrder)
                             {
 //                            Logger.finest("subscriber id: " + m_subscriber.hashCode() + " consumed message order for " + element.getValue() + " expecting " + m_sPrefix + m_nConsumed + " position=" + element.getPosition());
-                            assertThat("subscriber verifying published order", element.getValue(), is(m_sPrefix + m_nConsumed));
+                            assertThat("subscriber verifying published order: " + m_subscriber, element.getValue(), is(m_sPrefix + m_nConsumed));
                             }
                         m_nConsumed++;
                         }
