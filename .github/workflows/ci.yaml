@@ -1,0 +1,59 @@
+# Copyright 2020, 2025, Oracle Corporation and/or its affiliates.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at
+# http://oss.oracle.com/licenses/upl.
+
+# ---------------------------------------------------------------------------
+# Coherence CE GitHub Actions CI build.
+# ---------------------------------------------------------------------------
+
+name: CI Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+    - gh-pages
+    - p4-integ*
+    - last-p4-*
+  pull_request:
+    types:
+      - opened
+      - committed
+    branches:
+    - '*'
+
+env:
+  MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
+
+jobs:
+  build:
+    name: CI Build - Linux
+    uses: ./.github/workflows/ci.yaml
+    with:
+      runner: ubuntu-latest
+      jdk: 21
+
+#  windows:
+#    name: CI Build - Windows
+#    uses: ./.github/workflows/ci.yaml
+#    with:
+#      runner: windows-latest
+#      jdk: 21
+
+  examples:
+    name: Examples Build
+    uses: ./.github/workflows/build-examples.yaml
+    with:
+      runner: ubuntu-latest
+      jdk: 21
+
+  deploy:
+    name: Deploy Snapshot
+    uses: ./.github/workflows/deploy-snapshots.yaml
+    with:
+      runner: ubuntu-latest
+      jdk: 21
+    needs:
+      - build
+      - examples
