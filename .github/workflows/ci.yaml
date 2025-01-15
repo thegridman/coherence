@@ -29,14 +29,14 @@ env:
 jobs:
   build:
     name: CI Build - Linux
-    uses: ./.github/workflows/ci.yaml
+    uses: ./.github/workflows/build.yaml
     with:
       runner: ubuntu-latest
       jdk: 21
 
 #  windows:
 #    name: CI Build - Windows
-#    uses: ./.github/workflows/ci.yaml
+#    uses: ./.github/workflows/build.yaml
 #    with:
 #      runner: windows-latest
 #      jdk: 21
