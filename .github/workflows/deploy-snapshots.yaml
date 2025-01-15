@@ -14,6 +14,13 @@ name: Deploy to Maven Central
 
 on:
   workflow_call:
+    inputs:
+      runner:
+        required: true
+        type: string
+      jdk:
+        required: true
+        type: string
 
 env:
   GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
