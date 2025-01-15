@@ -10,25 +10,14 @@
 name: Examples - Build
 
 on:
-  workflow_dispatch:
-  push:
-    branches-ignore:
-    - gh-pages
-    - p4-integ*
-    - last-p4-*
-  pull_request:
-    types:
-      - opened
-      - committed
-    branches:
-    - '*'
+  workflow_call:
 
 env:
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     strategy:
       fail-fast: false
     steps:
@@ -39,7 +28,7 @@ jobs:
       uses: oracle-actions/setup-java@v1
       with:
         website: oracle.com
-        release: 21
+        release: ${{ inputs.jdk }}
         
     - name: Print Maven & Java version
       run: mvn -version
@@ -53,7 +42,7 @@ jobs:
 
       # Build and Test examples
     - name: build-test-examples
-      timeout-minutes: 300
+      timeout-minutes: 180
       shell: bash
       env:
         MAVEN_USER: ${{ secrets.MavenUser }}
@@ -61,8 +50,8 @@ jobs:
       run: |
         echo "Building and Running - Examples"
         export DEV_ROOT=$(pwd)
-        mvn --file prj/pom.xml --batch-mode -U -e -s .github/maven/settings.xml -P-modules -Dproject.official -DskipTests clean install
-        mvn --file prj/pom.xml --batch-mode -e -s .github/maven/settings.xml -Pmodules,-coherence -nsu -Dproject.official -DskipTests clean install
+        mvn --file prj/pom.xml --batch-mode -U -e -s .github/maven/settings.xml -P-modules -DskipTests clean install
+        mvn --file prj/pom.xml --batch-mode -e -s .github/maven/settings.xml -Pmodules,-coherence -nsu -DskipTests clean install
         mvn --file prj/pom.xml --batch-mode -U -e -s .github/maven/settings.xml -Pexamples -nsu clean install
 
     # Upload build artifacts for diagnosing failures
