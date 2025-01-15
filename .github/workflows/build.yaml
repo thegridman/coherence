@@ -11,6 +11,13 @@ name: CI Build
 
 on:
   workflow_call:
+    inputs:
+      runner:
+        required: true
+        type: string
+      jdk:
+        required: true
+        type: string
 
 env:
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
