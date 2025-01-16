@@ -49,6 +49,7 @@ jobs:
       jdk: 21
 
   deploy:
+    if: github.ref_name == 'mainx' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3')
     name: Deploy Snapshot
     uses: ./.github/workflows/deploy-snapshots.yaml
     with:
