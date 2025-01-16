@@ -16,9 +16,7 @@ on:
   workflow_call:
     inputs:
       runner:
-        required: true
-        type: string
-      jdk:
+        default: ubuntu-latest
         required: true
         type: string
 
@@ -30,8 +28,6 @@ env:
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     runs-on: ${{ inputs.runner }}
 
     steps:
@@ -43,7 +39,7 @@ jobs:
       uses: oracle-actions/setup-java@v1
       with:
         website: oracle.com
-        release: ${{ inputs.jdk }}
+        release: 21
 
     - name: Cache Maven packages
       uses: actions/cache@v4

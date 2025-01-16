@@ -31,7 +31,6 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       runner: ubuntu-latest
-      jdk: 21
 
 #  windows:
 #    name: Parallel Build - Windows
@@ -45,15 +44,13 @@ jobs:
     uses: ./.github/workflows/build-examples.yaml
     with:
       runner: ubuntu-latest
-      jdk: 21
 
   deploy:
-    if: github.repository_owner == 'oracle' && (github.ref_name == 'main' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3'))
+    if: github.repository_owner == 'thegridman' && (github.ref_name == 'main' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3'))
     name: Deploy Snapshot
     uses: ./.github/workflows/deploy-snapshots.yaml
     with:
       runner: ubuntu-latest
-      jdk: 21
     needs:
       - build
       - examples

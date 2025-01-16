@@ -7,15 +7,22 @@
 # Coherence CE GitHub Actions CI build.
 # ---------------------------------------------------------------------------
 
-name: CI Build
+name: Parallel CI Build
 
 on:
   workflow_call:
     inputs:
       runner:
+        default: ubuntu-latest
         required: true
         type: string
-      jdk:
+  pull_request:
+    types:
+      - opened
+      - committed
+    inputs:
+      runner:
+        default: ubuntu-latest
         required: true
         type: string
 
@@ -51,7 +58,7 @@ jobs:
       uses: oracle-actions/setup-java@v1
       with:
         website: oracle.com
-        release: ${{ inputs.jdk }}
+        release: 21
 
     - name: Print Maven & Java version
       run: mvn -version
