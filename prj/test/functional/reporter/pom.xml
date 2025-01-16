@@ -22,7 +22,7 @@
 
   <profiles>
     <profile>
-      <id>stage8</id>
+      <id>stage88</id>
       <properties>
         <skipTests>false</skipTests>
       </properties>

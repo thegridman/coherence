@@ -36,19 +36,19 @@ jobs:
       fail-fast: false
       matrix:
         stage:
-         - stage1
-         - stage2
-         - stage3
-         - stage4
-         - stage5
-         - stage6
-         - stage7
          - stage8
-         - stage9
-         - stage10
-         - stage11
-         - stage12
-         - stage13
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
+         - stage8
 
     steps:
     - name: Checkout
@@ -81,8 +81,8 @@ jobs:
         echo "Building and running tests in ${{ matrix.stage }}"
         export DEV_ROOT=$(pwd)
         export SETTINGS_XML=${DEV_ROOT}/.github/maven/settings.xml
-#        mvn --file prj/pom.xml --batch-mode -U -e -s ${SETTINGS_XML} -P-modules,${{ matrix.stage }} -Doptional -Dcoherence.SkipLargeMemoryTests=true clean install
-#        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.stage }} -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
+        mvn --file prj/pom.xml --batch-mode -U -e -s ${SETTINGS_XML} -P-modules,${{ matrix.stage }} -Doptional -Dcoherence.SkipLargeMemoryTests=true clean install
+        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.stage }} -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
 
     # Upload build artifacts for diagnosing failures
     - name: Build Artifacts test logs
