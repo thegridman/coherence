@@ -10,21 +10,13 @@
 name: CI Pipeline
 
 on:
-  workflow_dispatch:
   push:
     branches-ignore:
     - gh-pages
     - p4-integ*
     - last-p4-*
-  pull_request:
-    types:
-      - opened
-      - committed
     branches:
     - '*'
-
-env:
-  MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
 
 jobs:
   dump:
@@ -35,17 +27,17 @@ jobs:
         shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-     
+
   build:
-    name: CI Build - Linux
+    name: Parallel Build - Linux
     uses: ./.github/workflows/build.yaml
     with:
       runner: ubuntu-latest
       jdk: 21
 
 #  windows:
-#    name: CI Build - Windows
-#    uses: ./.github/workflows/build.yaml
+#    name: Parallel Build - Windows
+#    uses: ./.github/workflows/ci.yaml
 #    with:
 #      runner: windows-latest
 #      jdk: 21
@@ -58,7 +50,7 @@ jobs:
       jdk: 21
 
   deploy:
-    if: github.repository == 'thegridman/coherence' && (github.ref_name == 'main' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3'))
+    if: github.repository_owner == 'oracle' && (github.ref_name == 'main' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3'))
     name: Deploy Snapshot
     uses: ./.github/workflows/deploy-snapshots.yaml
     with:
