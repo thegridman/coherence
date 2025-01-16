@@ -27,6 +27,15 @@ env:
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
 
 jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump github context
+        run:   echo "$GITHUB_CONTEXT"
+        shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+     
   build:
     name: CI Build - Linux
     uses: ./.github/workflows/build.yaml
@@ -49,7 +58,7 @@ jobs:
       jdk: 21
 
   deploy:
-    if: github.ref_name == 'mainx' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3')
+    if: github.repository github.ref_name == 'mainx' || startsWith(github.ref_name, 'v1') || startsWith(github.ref_name, 'v2') || startsWith(github.ref_name, 'v3')
     name: Deploy Snapshot
     uses: ./.github/workflows/deploy-snapshots.yaml
     with:
