@@ -24,6 +24,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
   GIT_USER: ${{ secrets.BOT_USERNAME }}
   GIT_EMAIL: ${{ secrets.BOT_EMAIL }}
+  MAVEN_USER: ${{ secrets.MavenUser }}
+  MAVEN_PASSWORD: ${{ secrets.MavenPassword }}
   MAVEN_OPTS: -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false
 
 jobs:
@@ -32,8 +34,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Set up JDK
       uses: oracle-actions/setup-java@v1
@@ -49,14 +49,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      env:
-        MAVEN_USER: ${{ secrets.MavenUser }}
-        MAVEN_PASSWORD: ${{ secrets.MavenPassword }}
-        GIT_COMMIT: ${{github.event.workflow_run.head_commit.id}}
-        HEAD_BRANCH: ${{github.event.workflow_run.head_branch}}
       run: |
-        echo "Checking out branch ${HEAD_BRANCH} commit ${GIT_COMMIT}"
-        git checkout "${GIT_COMMIT}"
         git config --local user.name "${GIT_USER}"
         git config --local user.email "${GIT_EMAIL}"
         echo "Here we would have deployed!"
