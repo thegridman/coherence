@@ -1,0 +1,76 @@
+///////////////////////////////////////////////////////////////////////////////
+    Copyright (c) 2025, Oracle and/or its affiliates.
+
+    Licensed under the Universal Permissive License v 1.0 as shown at
+    https://oss.oracle.com/licenses/upl.
+///////////////////////////////////////////////////////////////////////////////
+= Remote Topics
+:description: Coherence Core Improvements
+:keywords: coherence, java, topics, documentation
+
+// DO NOT remove this header - it might look like a duplicate of the header above, but
+// both they serve a purpose, and the docs will look wrong if it is removed.
+== Remote Topics
+
+Coherence topics can be used from Extend and gRPC clients.
+Coherence topics running on a client use remote topic services to communicate with a proxy on the server.
+A remote topic is configured in the cache configuration file the same way as caches are configured.
+
+A remote topic is specialized topic service that routes operations to a topic on the Coherence cluster. The remote topic and the topic on the cluster must have the same topic name. Extend clients use the NamedTopic interface as normal to get an instance of the topic. At run time, the topic operations are not executed locally but instead are sent using TCP/IP to an Extend or gRPC proxy service on the cluster. The fact that the topic operations are delegated to a topic on the cluster is transparent to the client code. There is no API difference between topics on a cluster member and topics on a client.
+
+=== Defining a Remote Topic
+
+In the cache configuration file, a remote topic is defined within the `<caching-schemes>` node using the `<remote-topic-scheme>` element for Extend clients or `<remote-grpc-topic-scheme>` element for gRPC clients.
+
+The example below creates an Extend remote topic service that is named RemoteTopic and connects to the name service, which then redirects the request to the address of the requested proxy service. The use of the name service simplifies port management and firewall configuration.
+
+[source,xml]
+----
+...
+<topic-scheme-mapping>
+   <topic-mapping>
+      <cache-name>*</cache-name>
+      <topic-name>extend-topic</scheme-name>
+   </topic-mapping>
+</topic-scheme-mapping>
+
+<caching-schemes>
+   <remote-topic-scheme>
+      <scheme-name>extend-topic</scheme-name>
+      <service-name>RemoteTopic</service-name>
+   </remote-topic-scheme>
+</caching-schemes>
+...
+----
+
+The next example below creates a gRPC remote topic service that is named RemoteTopic and connects to the name service, which then redirects the request to the address of the requested gRPC proxy service. The use of the name service simplifies port management and firewall configuration.
+
+[source,xml]
+----
+...
+<topic-scheme-mapping>
+   <topic-mapping>
+      <cache-name>*</cache-name>
+      <topic-name>grpc-topic</scheme-name>
+   </topic-mapping>
+</topic-scheme-mapping>
+
+<caching-schemes>
+   <remote-grpc-topic-scheme>
+      <scheme-name>grpc-topic</scheme-name>
+      <service-name>RemoteTopic</service-name>
+   </remote-grpc-topic-scheme>
+</caching-schemes>
+...
+----
+
+=== Topics Resilience and Availability
+
+On a cluster member topics are highly resilient and will continue to function during rolling upgrades of cluster members. As the topics API is generally asynchronous, API methods that publish to or subscribe to topics will continue to function, but will just take longer to complete. Publishing and subscribing on a cluster member can also survive the loss of all storage enabled members as the publish and subscribe operations will pause until storage members restart.
+
+In an Extend or gRPC client, just like with caches, a client will reconnect if the proxy it is connected to dies or it becomes disconnected for some other reason such as a network issue. This means that generally a topics operation will work as long as the client is able to reconnect to a proxy. Publishers and subscribers will attempt to connect behind the scenes for asynchronous calls, so these to would generally succeed. Where there may be issues or exceptions thrown are if a request is actually in-flight when the proxy connection fails. In this case, just like with caches, the caller will receive an exception, but the operation may still be executing on the cluster and may actually complete. For a publisher for example, the client may receive an exception and then has no knowledge whether a publish request was actually successful on the cluster. It is up to the application code to properly handle the `CompletableFuture` returned from asynchronous topic API calls and decide what action to take on errors.
+
+
+
+
+
