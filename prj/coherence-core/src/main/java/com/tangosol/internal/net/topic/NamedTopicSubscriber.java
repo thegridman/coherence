@@ -94,6 +94,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A subscriber of values from a paged topic.
@@ -142,6 +143,7 @@ public class NamedTopicSubscriber<V>
         f_filter                    = optionSet.getFilter().orElse(null);
         f_extractor                 = optionSet.getExtractor().orElse(null);
         m_aChannelOwnershipListener = optionSet.getChannelListeners();
+        f_anManualChannel           = optionSet.getSubscribeTo();
 
         WithIdentifyingName withIdentifyingName = optionSet.get(WithIdentifyingName.class);
         f_sIdentifyingName = withIdentifyingName == null ? null : withIdentifyingName.getName();
@@ -492,10 +494,7 @@ public class NamedTopicSubscriber<V>
     @SuppressWarnings("UnusedReturnValue")
     public <R> R applyToChannel(int nChannel, Function<TopicChannel, R> fn)
         {
-//        try(Sentry<?> ignored = f_gate.close())
-//            {
-            return fn.apply(m_aChannel[nChannel]);
-//            }
+        return fn.apply(m_aChannel[nChannel]);
         }
 
     /**
@@ -784,6 +783,19 @@ public class NamedTopicSubscriber<V>
                     aChannel[nChannel] = f_connector.createChannel(this, nChannel);
                     }
                 }
+
+            if (f_anManualChannel != null && f_anManualChannel.length > 0)
+                {
+                for (TopicChannel channel : aChannel)
+                    {
+                    channel.setUnowned();
+                    }
+                for (int c : f_anManualChannel)
+                    {
+                    aChannel[c].setOwned();
+                    }
+                }
+
             m_aChannel = aChannel;
             return aChannel;
             }
@@ -985,12 +997,12 @@ public class NamedTopicSubscriber<V>
     /**
      * Initialise the subscriber.
      */
-    public TopicChannel[] initialise()
+    private void initialise()
         {
         ensureActive();
         if (m_nState == STATE_CONNECTED)
             {
-            return m_aChannel;
+            return;
             }
 
         // We must do initialisation under the gate lock
@@ -1038,10 +1050,20 @@ public class NamedTopicSubscriber<V>
                     if (f_fAnonymous)
                         {
                         // anonymous so we own all channels
-                        SortedSet<Integer> setChannel = new TreeSet<>();
-                        for (int i = 0; i < cChannel; i++)
+                        SortedSet<Integer> setChannel;
+                        if (f_anManualChannel == null || f_anManualChannel.length == 0)
                             {
-                            setChannel.add(i);
+                            setChannel = new TreeSet<>();
+                            for (int i = 0; i < cChannel; i++)
+                                {
+                                setChannel.add(i);
+                                }
+                            }
+                        else
+                            {
+                            setChannel = IntStream.of(f_anManualChannel)
+                                    .boxed()
+                                    .collect(Collectors.toCollection(TreeSet::new));
                             }
                         updateChannelOwnership(setChannel, false);
                         }
@@ -1066,7 +1088,6 @@ public class NamedTopicSubscriber<V>
                     }
                 }
             m_cSubscribe.mark();
-            return m_aChannel;
             }
         }
 
@@ -1105,7 +1126,7 @@ public class NamedTopicSubscriber<V>
                 TopicChannel channel  = m_aChannel[nChannel];
                 long         lVersion = channel.getVersion();
 
-                f_connector.receive(this, nChannel, channel.getHead(), lVersion, (lVersion1, result, e1, continuation) ->
+                f_connector.receive(this, nChannel, channel.getHead(), lVersion, Integer.MAX_VALUE, (lVersion1, result, e1, continuation) ->
                         onReceiveResult(channel, lVersion1, result, e1, continuation))
                             .handleAsync((r, e) ->
                                 {
@@ -1170,18 +1191,20 @@ public class NamedTopicSubscriber<V>
     /**
      * Asynchronously receive a message from the topic.
      *
-     * @param nChannel  the channel to receive from
-     * @param handler   the response handler
+     * @param nChannel      the channel to receive from
+     * @param cMaxElements  the maximum number of elements to receive
+     * @param handler       the response handler
      *
      * @return a {@link CompletableFuture} that will complete with the completion of the receive operation
      */
-    public CompletableFuture<ReceiveResult> receive(int nChannel, SubscriberConnector.ReceiveHandler handler)
+    @Override
+    public CompletableFuture<ReceiveResult> receive(int nChannel, int cMaxElements, SubscriberConnector.ReceiveHandler handler)
         {
         ensureConnected();
         TopicChannel channel  = m_aChannel[nChannel];
         Position     head     = channel.getHead();
         long         lVersion = channel.getVersion();
-        return f_connector.receive(this, nChannel, head, lVersion, handler);
+        return f_connector.receive(this, nChannel, head, lVersion, cMaxElements, handler);
         }
 
     /**
@@ -2097,6 +2120,15 @@ public class NamedTopicSubscriber<V>
             setChannel = Collections.emptySortedSet();
             }
 
+        if (f_anManualChannel != null && f_anManualChannel.length > 0)
+            {
+            SortedSet<Integer> setManual = IntStream.of(f_anManualChannel)
+                    .boxed()
+                    .collect(Collectors.toCollection(TreeSet::new));
+            setChannel = new TreeSet<>(setChannel);
+            setChannel.retainAll(setManual);
+            }
+
         int[] anOwned     = setChannel.stream().mapToInt(i -> i).toArray();
         int   nMaxChannel = setChannel.stream().mapToInt(i -> i).max().orElse(getChannelCount() - 1);
 
@@ -2918,6 +2950,17 @@ public class NamedTopicSubscriber<V>
                 }
             List<ChannelOwnershipListener> list = listeners.getListeners();
             return list.toArray(ChannelOwnershipListener[]::new);
+            }
+
+        /**
+         * Return the requested channels to be subscribed to.
+         *
+         * @return  the requested channels to be subscribed to
+         */
+        public int[] getSubscribeTo()
+            {
+            SubscribeTo subscribeTo = get(SubscribeTo.class);
+            return subscribeTo == null ? SubscribeTo.AUTO.getChannels() : subscribeTo.getChannels();
             }
         }
 
@@ -4186,9 +4229,14 @@ public class NamedTopicSubscriber<V>
     protected final ChannelOwnershipListener[] m_aChannelOwnershipListener;
 
     /**
+     * The manually assigned channels.
+     */
+    protected final int[] f_anManualChannel;
+
+    /**
      * The number of poll requests.
      */
-    protected long m_cPolls;
+    protected       long            m_cPolls;
 
     /**
      * The last value of m_cPolls used within {@link #toString} stats.

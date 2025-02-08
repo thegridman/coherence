@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+ * Copyright (c) 2000, 2025, Oracle and/or its affiliates.
  *
  * Licensed under the Universal Permissive License v 1.0 as shown at
  * https://oss.oracle.com/licenses/upl.
@@ -42,7 +42,6 @@ import com.tangosol.net.BackingMapManagerContext;
 import com.tangosol.net.Member;
 import com.tangosol.net.PagedTopicService;
 import com.tangosol.net.PartitionedService;
-import com.tangosol.net.RequestIncompleteException;
 
 import com.tangosol.net.cache.ConfigurableCacheMap;
 import com.tangosol.net.cache.LocalCache;
@@ -920,13 +919,13 @@ public class PagedTopicPartition
         boolean                 fReconnect               = processor.isReconnect();
         boolean                 fCreateGroupOnly         = processor.isCreateGroupOnly();
         long                    lSubscriptionId          = processor.getSubscriptionId();
+        int[]                   anManualChannels         = processor.getManualChannels();
         BackingMapContext       ctxSubscriptions         = getBackingMapContext(PagedTopicCaches.Names.SUBSCRIPTIONS);
         PagedTopicDependencies  dependencies             = getDependencies();
         SubscriberGroupId       subscriberGroupId        = key.getGroupId();
         boolean                 fAnonymous               = subscriberGroupId.getMemberTimestamp() != 0;
         int                     cChannel                 = getChannelCount();
         long[]                  alResult                 = new long[cChannel];
-        int                     cParts                   = getPartitionCount();
 
         if (!fAnonymous)
             {
@@ -937,7 +936,7 @@ public class PagedTopicPartition
                 // subscription may not be present in the service senior. If we already
                 // know about the subscription, the following call will effectively be a no-op.
                 lSubscriptionId = f_service.ensureSubscription(f_sName, subscriberGroupId,
-                        subscriberId, filter, converter);
+                        subscriberId, filter, converter, anManualChannels);
                 // Update the entry processor so the correct subscription id is sent back
                 // to the subscriber.
                 processor.setSubscriptionId(lSubscriptionId);
@@ -1204,9 +1203,9 @@ public class PagedTopicPartition
      * Close a subscription for a specific subscriber in a subscriber group
      * <p>
      * This will trigger a reallocation of channels across any remaining subscribers in the same group.
+     *
      * @param key           the subscription key
      * @param subscriberId  the unique subscriber identifier
-     *
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void closeSubscription(Subscription.Key key, SubscriberId subscriberId)
@@ -1223,17 +1222,20 @@ public class PagedTopicPartition
             return;
             }
 
-        BackingMapContext ctxSubscriptions  = getBackingMapContext(PagedTopicCaches.Names.SUBSCRIPTIONS);
-        long[]            alResult          = new long[cChannel];
-        SubscriberGroupId subscriberGroupId = key.getGroupId();
-        int               cParts            = getPartitionCount();
-        int               nSyncPartition    = Subscription.getSyncPartition(subscriberGroupId, 0, cParts);
-        boolean           fSyncPartition    = key.getPartitionId() == nSyncPartition;
-        String            sGroup            = subscriberGroupId.getGroupName();
+        long                   lId                    = f_service.getSubscriptionId(f_sName, key.getGroupId());
+        PagedTopicSubscription pagedTopicSubscription = f_service.getSubscription(lId);
 
-        Subscription subscriptionZero = null;
+        if (pagedTopicSubscription == null)
+            {
+            // topic has been closed or subscription has been closed
+            return;
+            }
 
-        for (int nChannel = 0; nChannel < alResult.length; ++nChannel)
+        BackingMapContext    ctxSubscriptions  = getBackingMapContext(PagedTopicCaches.Names.SUBSCRIPTIONS);
+        SubscriberGroupId    subscriberGroupId = key.getGroupId();
+        PagedTopicStatistics statistics        = getStatistics();
+
+        for (int nChannel = 0; nChannel < cChannel; ++nChannel)
             {
             BinaryEntry<Subscription.Key, Subscription> entrySub = (BinaryEntry) ctxSubscriptions.getBackingMapEntry(
                     toBinaryKey(new Subscription.Key(getPartition(), nChannel, subscriberGroupId)));
@@ -1241,28 +1243,13 @@ public class PagedTopicPartition
             Subscription subscription = entrySub.getValue();
             if (subscription != null)
                 {
-                // ensure the subscriber is registered and allocated channels
-                // we only do this in channel zero, so as not to bloat all the other entries with the subscriber maps
-                if (subscriptionZero == null)
+                SubscriberId owner = pagedTopicSubscription.getOwningSubscriber(nChannel);
+                if (!Objects.equals(subscription.getOwningSubscriber(), owner))
                     {
-                    subscriptionZero = subscription;
-                    Map<Integer, Set<SubscriberId>> mapRemoved = SubscriberId.NullSubscriber.equals(subscriberId)
-                            ? subscriptionZero.removeAllSubscribers(cChannel, getMemberSet())
-                            : subscriptionZero.removeSubscriber(subscriberId, cChannel, getMemberSet());
-
-                    if (fSyncPartition && !mapRemoved.isEmpty())
-                        {
-                        // we only log the update for the sync partition
-                        // (no need to repeat the same message for every partition)
-                        logRemoval(mapRemoved, f_sName, sGroup);
-                        }
+                    subscription.setOwningSubscriber(owner);
+                    statistics.getSubscriberGroupStatistics(subscriberGroupId).setOwningSubscriber(nChannel, owner);
                     entrySub.setValue(subscription);
                     }
-
-                SubscriberId owner = subscriptionZero.getChannelOwner(nChannel);
-                subscription.setOwningSubscriber(owner);
-                getStatistics().getSubscriberGroupStatistics(subscriberGroupId).setOwningSubscriber(nChannel, owner);
-                entrySub.setValue(subscription);
                 }
             }
         }

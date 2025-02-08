@@ -21,6 +21,7 @@ import com.oracle.coherence.common.collections.ConcurrentHashMap;
 
 import com.oracle.coherence.grpc.BinaryHelper;
 import com.oracle.coherence.grpc.ErrorsHelper;
+import com.oracle.coherence.grpc.GrpcService;
 import com.oracle.coherence.grpc.LockingStreamObserver;
 import com.oracle.coherence.grpc.SafeStreamObserver;
 
@@ -224,6 +225,10 @@ public class GrpcConnectionV1
     @SuppressWarnings("unchecked")
     public void onNext(ProxyResponse response)
         {
+        if (GrpcService.LOG_MESSAGES)
+            {
+            Logger.info( "GrpcConnectionV1: onNext() called response=" + response);
+            }
         f_observerLock.lock();
         try
             {
@@ -242,12 +247,24 @@ public class GrpcConnectionV1
                 try
                     {
                     Message message = response.getMessage().unpack(f_responseType);
+                    if (GrpcService.LOG_MESSAGES)
+                        {
+                        Logger.info( "GrpcConnectionV1: onNext() called with event message=" + message + " listenerCount=" + m_listeners.size());
+                        }
                     m_listeners.forEach(listener ->
                         {
                         Predicate<Message> predicate = (Predicate<Message>) listener.predicate();
                         if (predicate.evaluate(message))
                             {
+                            if (GrpcService.LOG_MESSAGES)
+                                {
+                                Logger.info( "GrpcConnectionV1: onNext() passing event to listener, message=" + message + " listener=" + listener);
+                                }
                             ((StreamObserver<Message>) listener.observer()).onNext(message);
+                            }
+                        else if (GrpcService.LOG_MESSAGES)
+                            {
+                            Logger.info( "GrpcConnectionV1: onNext() called with event message=" + message + " listener predicate returned false + " + listener);
                             }
                         });
                     }
@@ -266,6 +283,10 @@ public class GrpcConnectionV1
                         if (responseCase == ProxyResponse.ResponseCase.MESSAGE)
                             {
                             Message message = response.getMessage().unpack(f_responseType);
+                            if (GrpcService.LOG_MESSAGES)
+                                {
+                                Logger.info( "GrpcConnectionV1: onNext() forwarding message to handler, message=" + message);
+                                }
                             handler.onNext(message);
                             // we do not remove the handler from the map yet, as there may be
                             // more responses for the same request
@@ -279,6 +300,10 @@ public class GrpcConnectionV1
                                 case INIT:
                                     m_initResponse = response.getInit();
                                     m_uuid         = new UUID(m_initResponse.getUuid().toByteArray());
+                                    if (GrpcService.LOG_MESSAGES)
+                                        {
+                                        Logger.info( "GrpcConnectionV1: onNext() forwarding init response to handler, initResponse=" + m_initResponse);
+                                        }
                                     handler.onNext(m_initResponse);
                                     handler.onCompleted();
                                     break;
@@ -295,10 +320,18 @@ public class GrpcConnectionV1
                                         }
                                     catch(Throwable t)
                                         {
+                                        if (GrpcService.LOG_MESSAGES)
+                                            {
+                                            Logger.info( "GrpcConnectionV1: onNext() forwarding exception to handler, error=" + t);
+                                            }
                                         handler.onError(t);
                                         }
                                     break;
                                 case COMPLETE:
+                                    if (GrpcService.LOG_MESSAGES)
+                                        {
+                                        Logger.info( "GrpcConnectionV1: onNext() calling handler onComplete()");
+                                        }
                                     handler.onCompleted();
                                     break;
                                 case RESPONSE_NOT_SET:
@@ -327,6 +360,11 @@ public class GrpcConnectionV1
     @Override
     public void onError(Throwable t)
         {
+        if (GrpcService.LOG_MESSAGES)
+            {
+            Logger.info( "GrpcConnectionV1: onError() called with: " + t);
+            }
+
         f_observerLock.lock();
         try
             {
@@ -368,6 +406,10 @@ public class GrpcConnectionV1
     @Override
     public void onCompleted()
         {
+        if (GrpcService.LOG_MESSAGES)
+            {
+            Logger.info( "GrpcConnectionV1: onCompleted() called");
+            }
         f_observerLock.lock();
         try
             {
@@ -492,6 +534,10 @@ public class GrpcConnectionV1
 
             m_mapFuture.put(nId, observer);
             ProxyRequest request = builder.build();
+            if (GrpcService.LOG_MESSAGES)
+                {
+                Logger.info( "GrpcConnectionV1: Sending request: " + request);
+                }
             sender.onNext(request);
             }
         catch (Exception e)

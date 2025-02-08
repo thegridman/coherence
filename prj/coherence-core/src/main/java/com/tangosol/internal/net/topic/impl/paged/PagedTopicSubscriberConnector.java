@@ -119,6 +119,7 @@ public class PagedTopicSubscriberConnector<V>
         f_caches              = Objects.requireNonNull(caches);
         f_heartbeatProcessor  = new SubscriberHeartbeatProcessor();
         f_headSubscriptionKey = Subscription.createSyncKey(f_subscriberGroupId, 0, f_caches.getPartitionCount());
+        f_anManualChannels    = optionSet.getSubscribeTo();
 
         NamedTopicSubscriber.WithNotificationId withNotificationId = optionSet.get(NamedTopicSubscriber.WithNotificationId.class);
         int                                     nNotificationId;
@@ -393,7 +394,7 @@ public class PagedTopicSubscriberConnector<V>
             // this is the first time, so we get the unique id of the subscriber group
             PagedTopicService service = f_caches.getService();
             m_subscriptionId = service.ensureSubscription(f_caches.getTopicName(), f_subscriberGroupId,
-                    f_subscriberId, subscriber.getFilter(), subscriber.getConverter());
+                    f_subscriberId, subscriber.getFilter(), subscriber.getConverter(), f_anManualChannels);
             }
         else
             {
@@ -425,7 +426,7 @@ public class PagedTopicSubscriberConnector<V>
         ValueExtractor<?, ?> extractor = subscriber.getConverter();
 
         long[] alHead = f_caches.initializeSubscription(f_subscriberGroupId, f_subscriberId, m_subscriptionId,
-                filter, extractor, fReconnect, false, fDisconnected);
+                filter, extractor, f_anManualChannels, fReconnect, false, fDisconnected);
 
         Position[] positions = new Position[alHead.length];
         for (int nChannel = 0; nChannel < alHead.length; ++nChannel)
@@ -544,7 +545,7 @@ public class PagedTopicSubscriberConnector<V>
 
     @Override
     public CompletableFuture<ReceiveResult> receive(ConnectedSubscriber<V> subscriber, int nChannel,
-            Position headPosition, long lVersion, ReceiveHandler handler)
+            Position headPosition, long lVersion, int cMaxElements, ReceiveHandler handler)
         {
         int                     nNotificationId = f_subscriberId.getNotificationId();
         long                    pageHead        = ((PagedPosition) headPosition).getPage();
@@ -555,7 +556,8 @@ public class PagedTopicSubscriberConnector<V>
         Executor                executor        = subscriber.getExecutor();
         Subscription.Key        key             = new Subscription.Key(nPart, nChannel, f_subscriberGroupId);
         int                     unitOfOrder     = f_caches.getUnitOfOrder(nPart);
-        PollProcessor           processor       = new PollProcessor(lHead, Integer.MAX_VALUE, nNotificationId, f_subscriberId);
+        int                     cElements       = cMaxElements <= 0 ? Integer.MAX_VALUE : cMaxElements;
+        PollProcessor           processor       = new PollProcessor(lHead, cElements, nNotificationId, f_subscriberId);
 
         return InvocableMapHelper.invokeAsync(f_caches.Subscriptions, key, unitOfOrder, processor, executor,
                 (result, error) -> onReceive(subscriber, nChannel, lVersion, lHead, result, error, handler));
@@ -1270,6 +1272,11 @@ public class PagedTopicSubscriberConnector<V>
      * The head subscription key.
      */
     private final Subscription.Key f_headSubscriptionKey;
+
+    /**
+     * The channels that have been manually assigned to this subscriber.
+     */
+    private final int[] f_anManualChannels;
 
     /**
      * The key which holds the channels head for this group.
