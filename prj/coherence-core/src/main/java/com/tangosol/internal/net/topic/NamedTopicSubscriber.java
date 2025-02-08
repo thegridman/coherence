@@ -3889,49 +3889,52 @@ public class NamedTopicSubscriber<V>
         @Override
         public void onEvent(SubscriberConnector.SubscriberEvent evt)
             {
-            switch (evt.getType())
+            if (isActive())
                 {
-                case GroupDestroyed:
-                    if (isActive())
-                        {
-                        Logger.finest("Detected removal of subscriber group "
-                                            + f_subscriberGroupId.getGroupName()
-                                            + ", closing subscriber "
-                                            + this);
+                switch (evt.getType())
+                    {
+                    case GroupDestroyed:
+                        if (isActive())
+                            {
+                            Logger.finest("Detected removal of subscriber group "
+                                    + f_subscriberGroupId.getGroupName()
+                                    + ", closing subscriber "
+                                    + this);
+                            CompletableFuture.runAsync(() -> closeInternal(true), f_executor);
+                            }
+                        break;
+                    case ChannelAllocation:
+                        onChannelAllocation(evt.getAllocatedChannels(), false);
+                        break;
+                    case ChannelsLost:
+                        onChannelAllocation(PagedTopicSubscription.NO_CHANNELS, true);
+                        break;
+                    case Unsubscribed:
+                        onChannelAllocation(PagedTopicSubscription.NO_CHANNELS, true);
+                        disconnectInternal(false);
+                        break;
+                    case ChannelPopulated:
+                        // must use the channel executor
+                        CompletableFuture.runAsync(() -> onChannelPopulatedNotification(evt.getPopulatedChannels()), f_executorChannels);
+                        break;
+                    case Destroyed:
+                        Logger.finest("Detected destroy of topic "
+                                + f_sTopicName + ", closing subscriber "
+                                + this);
                         CompletableFuture.runAsync(() -> closeInternal(true), f_executor);
-                        }
-                    break;
-                case ChannelAllocation:
-                    onChannelAllocation(evt.getAllocatedChannels(), false);
-                    break;
-                case ChannelsLost:
-                    onChannelAllocation(PagedTopicSubscription.NO_CHANNELS, true);
-                    break;
-                case Unsubscribed:
-                    onChannelAllocation(PagedTopicSubscription.NO_CHANNELS, true);
-                    disconnectInternal(false);
-                    break;
-                case ChannelPopulated:
-                    // must use the channel executor
-                    CompletableFuture.runAsync(() -> onChannelPopulatedNotification(evt.getPopulatedChannels()), f_executorChannels);
-                    break;
-                case Destroyed:
-                    Logger.finest("Detected destroy of topic "
-                                        + f_sTopicName + ", closing subscriber "
-                                        + this);
-                    CompletableFuture.runAsync(() -> closeInternal(true), f_executor);
-                    break;
-                case Released:
-                    Logger.finest("Detected release of topic "
-                                        + f_sTopicName + ", closing subscriber "
-                                        + this);
-                    CompletableFuture.runAsync(() -> closeInternal(true), f_executor);
-                    break;
-                case Disconnected:
-                    disconnectInternal(false);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected event type: " + evt.getType());
+                        break;
+                    case Released:
+                        Logger.finest("Detected release of topic "
+                                + f_sTopicName + ", closing subscriber "
+                                + this);
+                        CompletableFuture.runAsync(() -> closeInternal(true), f_executor);
+                        break;
+                    case Disconnected:
+                        disconnectInternal(false);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected event type: " + evt.getType());
+                    }
                 }
             }
         }

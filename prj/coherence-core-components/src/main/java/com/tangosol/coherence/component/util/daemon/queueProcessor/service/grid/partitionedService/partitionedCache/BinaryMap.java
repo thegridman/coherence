@@ -10,6 +10,7 @@ package com.tangosol.coherence.component.util.daemon.queueProcessor.service.grid
 // ---- class: com.tangosol.coherence.component.util.daemon.queueProcessor.service.grid.partitionedService.PartitionedCache$BinaryMap
 
 import com.oracle.coherence.common.base.Blocking;
+import com.oracle.coherence.common.base.Exceptions;
 import com.oracle.coherence.common.base.NonBlocking;
 import com.tangosol.coherence.component.net.Lease;
 import com.tangosol.coherence.component.net.MemberSet;
@@ -3153,33 +3154,42 @@ public class BinaryMap
      */
     protected RuntimeException onMissingStorage(com.tangosol.net.partition.PartitionSet setOrphan)
         {
-        // import com.tangosol.net.RequestPolicyException;
-        // import com.tangosol.net.ServiceStoppedException;
-
-        PartitionedCache service = getService();
-        if (service.isRunning())
+        try
             {
-            String sMsg;
+            // import com.tangosol.net.RequestPolicyException;
+            // import com.tangosol.net.ServiceStoppedException;
 
-            if (service.getOwnershipMemberSet().isEmpty())
+            PartitionedCache service = getService();
+            if (service.isRunning())
                 {
-                sMsg = "No storage-enabled nodes exist for service " + service.getServiceName();
-                }
-            else if (!isActive())
-                {
-                sMsg = "The reference to cache \"" + getCacheName() + "\" has been released";
+                String sMsg;
+
+                if (service.getOwnershipMemberSet().isEmpty())
+                    {
+                    sMsg = "No storage-enabled nodes exist for service " + service.getServiceName();
+                    }
+                else if (!isActive())
+                    {
+                    sMsg = "The reference to cache \"" + getCacheName() + "\" has been released";
+                    }
+                else
+                    {
+                    // should be impossible; soft assert with a non-intimidating message
+                    sMsg = "The storage is not available to complete the request";
+                    }
+
+                return new RequestPolicyException(sMsg);
                 }
             else
                 {
-                // should be impossible; soft assert with a non-intimidating message
-                sMsg = "The storage is not available to complete the request";
+                return new ServiceStoppedException("Service " + service.getServiceName() + " has been terminated");
                 }
-
-            return new RequestPolicyException(sMsg);
             }
-        else
+        catch (Throwable e)
             {
-            return new ServiceStoppedException("Service " + service.getServiceName() + " has been terminated");
+            com.oracle.coherence.common.base.Logger.err("onMissingStorage called for " + getCacheName());
+            com.oracle.coherence.common.base.Logger.err(e);
+            throw Exceptions.ensureRuntimeException(e);
             }
         }
 

@@ -7,6 +7,7 @@
 package com.tangosol.internal.net.topic.impl.paged;
 
 import com.oracle.coherence.common.base.Converter;
+import com.oracle.coherence.common.base.Exceptions;
 import com.oracle.coherence.common.base.Logger;
 
 import com.oracle.coherence.common.collections.Arrays;
@@ -2467,15 +2468,24 @@ public class PagedTopicPartition
      */
     protected BackingMapContext getBackingMapContext(PagedTopicCaches.Names cacheName)
         {
-        String            sCacheName = cacheName.cacheNameForTopicName(f_sName);
-        BackingMapContext ctx        = f_ctxManager.getBackingMapContext(sCacheName);
-
-        if (ctx == null)
+        try
             {
-            throw new MapNotFoundException(sCacheName);
-            }
+            String            sCacheName = cacheName.cacheNameForTopicName(f_sName);
+            BackingMapContext ctx        = f_ctxManager.getBackingMapContext(sCacheName);
 
-        return ctx;
+            if (ctx == null)
+                {
+                throw new MapNotFoundException(sCacheName);
+                }
+
+            return ctx;
+            }
+        catch (Throwable t)
+            {
+            Logger.err("Failed to get backing MapContext for " + f_sName);
+            Logger.err(t);
+            throw Exceptions.ensureRuntimeException(t);
+            }
         }
 
     /**
