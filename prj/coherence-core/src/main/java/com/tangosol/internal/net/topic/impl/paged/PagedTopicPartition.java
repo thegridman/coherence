@@ -816,81 +816,93 @@ public class PagedTopicPartition
     @SuppressWarnings("unchecked")
     public void removeSubscription(SubscriberGroupId subscriberGroupId, long lSubscriptionId)
         {
-        if (lSubscriptionId != 0)
+        try
             {
-            if (f_service.hasSubscription(lSubscriptionId))
+            if (lSubscriptionId != 0)
                 {
-                f_service.destroySubscription(lSubscriptionId);
+                if (f_service.hasSubscription(lSubscriptionId))
+                    {
+                    f_service.destroySubscription(lSubscriptionId);
+                    }
+                }
+
+            BackingMapContext ctxSubscriptions = getBackingMapContext(PagedTopicCaches.Names.SUBSCRIPTIONS);
+
+            for (int nChannel = 0, c = getChannelCount(); nChannel < c; ++nChannel)
+                {
+                BinaryEntry<Subscription.Key, Subscription> entrySub  = (BinaryEntry) ctxSubscriptions.getBackingMapEntry(
+                      toBinaryKey(new Subscription.Key(getPartition(), nChannel, subscriberGroupId)));
+
+                Subscription subscription = entrySub.getValue();
+
+                if (subscription == null)
+                    {
+                    // no-op
+                    return;
+                    }
+
+                Usage usage = enlistUsage(nChannel);
+                entrySub.remove(false);
+
+                if (subscriberGroupId.getMemberTimestamp() != 0)
+                    {
+                    usage.removeAnonymousSubscriber(subscriberGroupId);
+                    }
+
+                // detach the subscriber from its active page chain
+                long lPage = subscription.getPage();
+                Page page  = lPage == Page.NULL_PAGE ? null : enlistPage(nChannel, lPage);
+
+                if (subscription.getPosition() == Integer.MAX_VALUE || // subscriber drained (and detached from) page N before subsequent page was inserted
+                    page == null)                                      // partition was empty when the subscriber pinned, and it has never re-visited the partition
+                    {
+                    // the subscriber is one page behind the head, i.e. it drained this partition before the next page was added
+                    // the subscriber had registered interest via usage in the next page, and thus if it has since been
+                    // added we have attached to it and must therefore detach
+
+                    // find the next page
+                    if (page == null)
+                        {
+                        // the drained page has since been deleted, thus usage.head must be the next page
+                        lPage = usage.getPartitionHead();
+                        }
+                    else
+                        {
+                        // the drained page still exists and if another page has been added it will reference it
+                        lPage = page.getNextPartitionPage();
+                        }
+
+                    if (lPage == Page.NULL_PAGE)
+                        {
+                        // the next page does not exist, thus we have nothing to detach from other than removing
+                        // our interest in auto-attaching to the next insert
+                        usage.decrementWaitingSubscriberCount();
+                        page = null;
+                        }
+                    else
+                        {
+                        page = enlistPage(nChannel, lPage);
+                        }
+                    }
+
+                while (page != null && page.decrementReferenceCount() == 0)
+                    {
+                    removePageIfNotRetainingElements(nChannel, lPage);
+
+                    // evaluate the next page
+                    lPage = page.getNextPartitionPage();
+                    page  = lPage == Page.NULL_PAGE ? null : enlistPage(nChannel, lPage);
+                    }
                 }
             }
-
-        BackingMapContext ctxSubscriptions = getBackingMapContext(PagedTopicCaches.Names.SUBSCRIPTIONS);
-
-        for (int nChannel = 0, c = getChannelCount(); nChannel < c; ++nChannel)
+        catch (Throwable t)
             {
-            BinaryEntry<Subscription.Key, Subscription> entrySub  = (BinaryEntry) ctxSubscriptions.getBackingMapEntry(
-                  toBinaryKey(new Subscription.Key(getPartition(), nChannel, subscriberGroupId)));
-
-            Subscription subscription = entrySub.getValue();
-
-            if (subscription == null)
+            if (Exceptions.getRootCause(t) instanceof MapNotFoundException)
                 {
-                // no-op
+                // the caches were removed so we do not need to do anything
                 return;
                 }
-
-            Usage usage = enlistUsage(nChannel);
-            entrySub.remove(false);
-
-            if (subscriberGroupId.getMemberTimestamp() != 0)
-                {
-                usage.removeAnonymousSubscriber(subscriberGroupId);
-                }
-
-            // detach the subscriber from its active page chain
-            long lPage = subscription.getPage();
-            Page page  = lPage == Page.NULL_PAGE ? null : enlistPage(nChannel, lPage);
-
-            if (subscription.getPosition() == Integer.MAX_VALUE || // subscriber drained (and detached from) page N before subsequent page was inserted
-                page == null)                                      // partition was empty when the subscriber pinned, and it has never re-visited the partition
-                {
-                // the subscriber is one page behind the head, i.e. it drained this partition before the next page was added
-                // the subscriber had registered interest via usage in the next page, and thus if it has since been
-                // added we have attached to it and must therefore detach
-
-                // find the next page
-                if (page == null)
-                    {
-                    // the drained page has since been deleted, thus usage.head must be the next page
-                    lPage = usage.getPartitionHead();
-                    }
-                else
-                    {
-                    // the drained page still exists and if another page has been added it will reference it
-                    lPage = page.getNextPartitionPage();
-                    }
-
-                if (lPage == Page.NULL_PAGE)
-                    {
-                    // the next page does not exist, thus we have nothing to detach from other than removing
-                    // our interest in auto-attaching to the next insert
-                    usage.decrementWaitingSubscriberCount();
-                    page = null;
-                    }
-                else
-                    {
-                    page = enlistPage(nChannel, lPage);
-                    }
-                }
-
-            while (page != null && page.decrementReferenceCount() == 0)
-                {
-                removePageIfNotRetainingElements(nChannel, lPage);
-
-                // evaluate the next page
-                lPage = page.getNextPartitionPage();
-                page  = lPage == Page.NULL_PAGE ? null : enlistPage(nChannel, lPage);
-                }
+            throw Exceptions.ensureRuntimeException(t);
             }
         }
 
