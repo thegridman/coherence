@@ -37,9 +37,9 @@ jobs:
          - stage8
          - stage9
          - stage10
-         - stage11
-         - stage12
-         - stage13
+#         - stage11
+#         - stage12
+#         - stage13
         include:
           - stage: stage1
             buildStage: stage11
@@ -61,14 +61,14 @@ jobs:
             buildStage: stage11
           - stage: stage10
             buildStage: stage11
-          - stage: stage11
-            buildStage: stage11
-          - stage: stage12
-            buildStage: stage11
-          - stage: stage13
-            buildStage: stage11
-          - stage: stage14
-            buildStage: stage11
+#          - stage: stage11
+#            buildStage: stage11
+#          - stage: stage12
+#            buildStage: stage11
+#          - stage: stage13
+#            buildStage: stage11
+#          - stage: stage14
+#            buildStage: stage11
 
     steps:
     - name: Checkout
