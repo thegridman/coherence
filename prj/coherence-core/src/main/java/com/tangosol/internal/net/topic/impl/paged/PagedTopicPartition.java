@@ -895,6 +895,10 @@ public class PagedTopicPartition
                     }
                 }
             }
+        catch (MapNotFoundException ignored)
+            {
+            // nothing to do here, the cache has been destroyed
+            }
         catch (Throwable t)
             {
             if (Exceptions.getRootCause(t) instanceof MapNotFoundException)
