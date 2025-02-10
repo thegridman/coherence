@@ -47,6 +47,8 @@ import com.tangosol.util.Filter;
 import com.tangosol.util.Gate;
 import com.tangosol.util.Listeners;
 import com.tangosol.util.LongArray;
+import com.tangosol.util.ServiceEvent;
+import com.tangosol.util.ServiceListener;
 import com.tangosol.util.SparseArray;
 import com.tangosol.util.TaskDaemon;
 import com.tangosol.util.ThreadGateLite;
@@ -63,7 +65,6 @@ import java.util.Collections;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1098,7 +1099,14 @@ public class NamedTopicSubscriber<V>
      */
     private void trigger(int cBatch)
         {
-        receiveInternal(f_queueReceiveOrders, cBatch);
+        if (isConnected())
+            {
+            receiveInternal(f_queueReceiveOrders, cBatch);
+            }
+        else
+            {
+            f_queueReceiveOrders.resetTrigger();
+            }
         }
 
     /**
@@ -1232,6 +1240,7 @@ public class NamedTopicSubscriber<V>
         Request firstRequest = queueBatch.peek();
         if (firstRequest instanceof FunctionalRequest)
             {
+            queueRequest.pause();
             try (Sentry<?> ignored = gate.close())
                 {
                 while (firstRequest instanceof FunctionalRequest)
@@ -1244,8 +1253,11 @@ public class NamedTopicSubscriber<V>
                     firstRequest = queueBatch.peek();
                     }
                 }
+            finally
+                {
+                queueRequest.resume();
+                }
             }
-
 
         int cValues  = 0;
         int cRequest = queueBatch.size();
@@ -2553,6 +2565,7 @@ public class NamedTopicSubscriber<V>
                     // ignore
                     }
                 f_connector.closeSubscription(this, fDestroyed);
+                f_topic.getService().removeServiceListener(f_serviceStartListener);
                 }
             finally
                 {
@@ -3721,7 +3734,7 @@ public class NamedTopicSubscriber<V>
         protected void execute(NamedTopicSubscriber<?> subscriber, BatchingOperationsQueue<Request, ?> queueBatch)
             {
             Map<Integer, Position> map = subscriber.seekInternal(this);
-            queueBatch.completeElement(map, this::onRequestComplete);
+            queueBatch.completeElement(this, map, this::onRequestComplete);
             }
 
         /**
@@ -3936,6 +3949,37 @@ public class NamedTopicSubscriber<V>
                         throw new IllegalStateException("Unexpected event type: " + evt.getType());
                     }
                 }
+            }
+        }
+
+    // ----- inner class: ServiceListener -----------------------------------
+
+    private class ServiceStartListener
+            implements ServiceListener
+        {
+        @Override
+        public void serviceStarting(ServiceEvent evt)
+            {
+            }
+
+        @Override
+        public void serviceStarted(ServiceEvent evt)
+            {
+            if (isActive())
+                {
+                ensureConnected();
+                f_queueReceiveOrders.triggerOperations();
+                }
+            }
+
+        @Override
+        public void serviceStopping(ServiceEvent evt)
+            {
+            }
+
+        @Override
+        public void serviceStopped(ServiceEvent evt)
+            {
             }
         }
 
@@ -4390,4 +4434,9 @@ public class NamedTopicSubscriber<V>
      * The array of channels.
      */
     protected TopicChannel[] m_aChannel;
+
+    /**
+     * The service start listener.
+     */
+    private final ServiceStartListener f_serviceStartListener = new ServiceStartListener();
     }
