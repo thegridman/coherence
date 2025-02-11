@@ -2484,24 +2484,15 @@ public class PagedTopicPartition
      */
     protected BackingMapContext getBackingMapContext(PagedTopicCaches.Names cacheName)
         {
-        try
-            {
-            String            sCacheName = cacheName.cacheNameForTopicName(f_sName);
-            BackingMapContext ctx        = f_ctxManager.getBackingMapContext(sCacheName);
+        String            sCacheName = cacheName.cacheNameForTopicName(f_sName);
+        BackingMapContext ctx        = f_ctxManager.getBackingMapContext(sCacheName);
 
-            if (ctx == null)
-                {
-                throw new MapNotFoundException(sCacheName);
-                }
-
-            return ctx;
-            }
-        catch (Throwable t)
+        if (ctx == null)
             {
-            Logger.err("Failed to get backing MapContext for " + f_sName);
-            Logger.err(t);
-            throw Exceptions.ensureRuntimeException(t);
+            throw new MapNotFoundException(sCacheName);
             }
+
+        return ctx;
         }
 
     /**

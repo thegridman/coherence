@@ -212,7 +212,7 @@ public class ProxyServiceChannel
         f_service.removeCloseable(this);
         if (m_connection != null)
             {
-            m_connection.close();
+            m_connection.close(true, null, false);
             }
         }
 
