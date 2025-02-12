@@ -2321,9 +2321,9 @@ public abstract class AbstractNamedTopicTests
         int                cChannel;
 
         System.err.println("Creating Subscribers for topic " + topic.getName() + " in group " + sGroup);
-        try (Subscriber<String> subscriber1  = topic.createSubscriber(inGroup(sGroup));
-             Subscriber<String> subscriber2  = topic.createSubscriber(inGroup(sGroup));
-             Subscriber<String> subscriber3  = topic.createSubscriber(inGroup(sGroup)))
+        try (Subscriber<String> subscriber1  = topic.createSubscriber(NamedTopicSubscriber.withNotificationId(1706661348), inGroup(sGroup));
+             Subscriber<String> subscriber2  = topic.createSubscriber(NamedTopicSubscriber.withNotificationId(717608704), inGroup(sGroup));
+             Subscriber<String> subscriber3  = topic.createSubscriber(NamedTopicSubscriber.withNotificationId(1344256616), inGroup(sGroup)))
             {
             Map<Integer, List<String>> mapReceived = new ConcurrentHashMap<>();
             Map<Integer, List<String>> mapSent     = new ConcurrentHashMap<>();
@@ -2493,6 +2493,7 @@ public abstract class AbstractNamedTopicTests
                 {
                 System.err.println("Test failed: Received " + cReceived + " Messages " + cMessages);
                 System.err.println("Subscriber 3 " + subscriber3);
+                listLog.getLog().forEach(System.err::println);
                 throw Exceptions.ensureRuntimeException(e);
                 }
 
