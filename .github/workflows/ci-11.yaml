@@ -25,4 +25,4 @@ jobs:
     uses: ./.github/workflows/build-11.yaml
     secrets: inherit
     with:
-      runner: ubuntu-latest
+      runner: windows-latest
