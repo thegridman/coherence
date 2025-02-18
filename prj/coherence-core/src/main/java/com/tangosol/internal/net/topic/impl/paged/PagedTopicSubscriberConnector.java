@@ -740,23 +740,30 @@ public class PagedTopicSubscriberConnector<V>
 
         service.destroySubscription(lSubscriptionId);
 
+        int                   cParts      = service.getPartitionCount();
+        Set<Subscription.Key> setSubParts = new HashSet<>(cParts);
+
+        for (int i = 0; i < cParts; ++i)
+            {
+            // channel 0 will propagate the operation to all other channels
+            setSubParts.add(new Subscription.Key(i, /*nChannel*/ 0, groupId));
+            }
+
+        DestroySubscriptionProcessor processor = new DestroySubscriptionProcessor(lSubscriptionId);
+
         if (caches.isActive() && caches.Subscriptions.isActive())
             {
-            int                   cParts      = service.getPartitionCount();
-            Set<Subscription.Key> setSubParts = new HashSet<>(cParts);
-
-            for (int i = 0; i < cParts; ++i)
+            try
                 {
-                // channel 0 will propagate the operation to all other channels
-                setSubParts.add(new Subscription.Key(i, /*nChannel*/ 0, groupId));
+                InvocableMapHelper.invokeAllAsync(caches.Subscriptions, setSubParts,
+                                (key) -> caches.getUnitOfOrder(key.getPartitionId()),
+                                processor)
+                        .join();
                 }
-
-
-            DestroySubscriptionProcessor processor = new DestroySubscriptionProcessor(lSubscriptionId);
-            InvocableMapHelper.invokeAllAsync(caches.Subscriptions, setSubParts,
-                            (key) -> caches.getUnitOfOrder(key.getPartitionId()),
-                            processor)
-                    .join();
+            catch (IllegalStateException ignored)
+                {
+                // the cache has been released or destroyed
+                }
             }
         }
 

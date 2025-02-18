@@ -3156,6 +3156,14 @@ public class BinaryMap
         {
         try
             {
+            try
+                {
+                throw new Exception("**** JK: onMissingStorage called " + getCacheName());
+                }
+            catch (Exception e)
+                {
+                com.oracle.coherence.common.base.Logger.err(e);
+                }
             // import com.tangosol.net.RequestPolicyException;
             // import com.tangosol.net.ServiceStoppedException;
 
