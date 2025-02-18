@@ -13,6 +13,7 @@ import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.oracle.bedrock.runtime.concurrent.RemoteRunnable;
 
 import com.oracle.coherence.common.base.Exceptions;
+import com.oracle.coherence.common.base.Logger;
 import com.oracle.coherence.common.base.NonBlocking;
 
 import com.oracle.coherence.testing.junit.ThreadDumpOnTimeoutRule;
@@ -255,6 +256,11 @@ public abstract class AbstractNamedTopicTests
             System.err.println(">>>>> Finished test: " + m_testWatcher.getMethodName());
             System.err.flush();
             }
+        }
+
+    protected void logMessage(String message)
+        {
+        Logger.info(message);
         }
 
     // ----- test methods ---------------------------------------------------
@@ -864,7 +870,10 @@ public abstract class AbstractNamedTopicTests
             assertThat(elementOne, is(notNullValue()));
 
             subscriberTwo.disconnect();
+
+            logMessage(">>>> Closing  subscriber " + subscriberOne);
             subscriberOne.close();
+            logMessage(">>>> Closed  subscriber " + subscriberOne);
 
             int cMessage = 0;
             Element<String> elementTwo = subscriberTwo.receive().get(1, TimeUnit.MINUTES);

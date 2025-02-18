@@ -508,10 +508,7 @@ public class GrpcSubscriberConnector<V>
         {
         if (f_connection.isConnected())
             {
-            if (!fDestroyed)
-                {
-                f_connection.send(0, TopicServiceRequestType.DestroySubscriber, Int32Value.of(f_nProxyId));
-                }
+            f_connection.send(0, TopicServiceRequestType.DestroySubscriber, Int32Value.of(f_nProxyId));
             f_connection.close();
             }
         }

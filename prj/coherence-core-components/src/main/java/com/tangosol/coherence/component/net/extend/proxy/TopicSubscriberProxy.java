@@ -363,10 +363,6 @@ public class TopicSubscriberProxy
     @Override
     public void unregisterChannel(com.tangosol.net.messaging.Channel channel)
         {
-        if (getChannel() != channel)
-            {
-            System.err.println();
-            }
         _assert(getChannel() == channel);
         NamedTopic topic = m_topic;
         if (topic != null)

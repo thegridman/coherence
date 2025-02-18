@@ -781,6 +781,13 @@ public class TopicServiceFactory
             Channel channel = getChannel().getConnection().getChannel(m_nSubscriberId);
             if (channel != null)
                 {
+                Channel.Receiver receiver = channel.getReceiver();
+                if (receiver instanceof TopicSubscriberProxy)
+                    {
+                    TopicSubscriberProxy        proxy      = (TopicSubscriberProxy) receiver;
+                    ConnectedSubscriber<Binary> subscriber = proxy.getSubscriber();
+                    subscriber.close();
+                    }
                 channel.close();
                 }
             }

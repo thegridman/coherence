@@ -10,8 +10,10 @@ package netty.grpc.client.topics;
 import com.oracle.bedrock.junit.CoherenceClusterResource;
 import com.oracle.bedrock.junit.SessionBuilders;
 import com.oracle.bedrock.runtime.LocalPlatform;
+import com.oracle.bedrock.runtime.coherence.CoherenceCluster;
 import com.oracle.bedrock.runtime.coherence.CoherenceClusterMember;
 import com.oracle.bedrock.runtime.coherence.JMXManagementMode;
+import com.oracle.bedrock.runtime.coherence.callables.LogMessage;
 import com.oracle.bedrock.runtime.coherence.options.CacheConfig;
 import com.oracle.bedrock.runtime.coherence.options.ClusterName;
 import com.oracle.bedrock.runtime.coherence.options.LocalHost;
@@ -19,13 +21,17 @@ import com.oracle.bedrock.runtime.coherence.options.LocalStorage;
 import com.oracle.bedrock.runtime.coherence.options.Logging;
 import com.oracle.bedrock.runtime.coherence.options.RoleName;
 import com.oracle.bedrock.runtime.coherence.options.WellKnownAddress;
+import com.oracle.bedrock.runtime.concurrent.RemoteCallable;
 import com.oracle.bedrock.runtime.concurrent.RemoteRunnable;
 import com.oracle.bedrock.runtime.java.options.IPv4Preferred;
+import com.oracle.bedrock.runtime.java.options.JvmOptions;
 import com.oracle.bedrock.runtime.java.options.SystemProperty;
 import com.oracle.bedrock.runtime.options.DisplayName;
+import com.oracle.bedrock.runtime.options.StabilityPredicate;
 import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.oracle.bedrock.testsupport.junit.TestLogs;
 import com.oracle.coherence.common.base.Classes;
+import com.oracle.coherence.common.base.Logger;
 import com.oracle.coherence.grpc.client.common.topics.GrpcSubscriberConnector;
 import com.tangosol.coherence.component.util.safeNamedTopic.SafeSubscriberConnector;
 import com.tangosol.coherence.config.Config;
@@ -110,6 +116,16 @@ public class GrpcTopicTests
                 System.err.flush();
                 return null;
                 }).join();
+            }
+        }
+
+    @Override
+    protected void logMessage(String message)
+        {
+        super.logMessage(message);
+        for (CoherenceClusterMember member : cluster.getCluster())
+            {
+            member.submit(new LogMessage(message)).join();
             }
         }
 
@@ -302,5 +318,7 @@ public class GrpcTopicTests
                              CoherenceClusterMember.class,
                              DisplayName.of("storage"),
                              RoleName.of("storage"),
+                             StabilityPredicate.of(CoherenceCluster.Predicates.isReady()),
+                             JvmOptions.include("-XX:ActiveProcessorCount=4"),
                              s_testLogs.builder());
     }
