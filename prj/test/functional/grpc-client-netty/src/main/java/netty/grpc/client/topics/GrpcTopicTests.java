@@ -23,6 +23,7 @@ import com.oracle.bedrock.runtime.concurrent.RemoteRunnable;
 import com.oracle.bedrock.runtime.java.options.IPv4Preferred;
 import com.oracle.bedrock.runtime.java.options.SystemProperty;
 import com.oracle.bedrock.runtime.options.DisplayName;
+import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.oracle.bedrock.testsupport.junit.TestLogs;
 import com.oracle.coherence.common.base.Classes;
 import com.oracle.coherence.grpc.client.common.topics.GrpcSubscriberConnector;
@@ -30,7 +31,6 @@ import com.tangosol.coherence.component.util.safeNamedTopic.SafeSubscriberConnec
 import com.tangosol.coherence.config.Config;
 import com.tangosol.internal.net.ConfigurableCacheFactorySession;
 import com.tangosol.internal.net.topic.NamedTopicSubscriber;
-import com.tangosol.internal.net.topic.ReceiveResult;
 import com.tangosol.internal.net.topic.SubscriberConnector;
 import com.tangosol.internal.util.invoke.Lambdas;
 import com.tangosol.net.ExtensibleConfigurableCacheFactory;
@@ -51,8 +51,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import topics.AbstractNamedTopicTests;
 import topics.NamedTopicTests;
-import topics.TopicPublisher;
-import topics.TopicSubscriber;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -60,7 +58,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -80,6 +77,10 @@ public class GrpcTopicTests
     public static void setupClass()
         {
         System.setProperty(LocalStorage.PROPERTY, "false");
+        for (CoherenceClusterMember member : cluster.getCluster())
+            {
+            Eventually.assertDeferred(member::isReady, is(true));
+            }
         }
 
     @Before
@@ -98,7 +99,7 @@ public class GrpcTopicTests
         }
 
     @After
-    public void logEnd()
+    public void logEnd() throws Exception
         {
         String sMsg = ">>>>> Finished test: " + m_testWatcher.getMethodName();
         for (CoherenceClusterMember member : cluster.getCluster())
