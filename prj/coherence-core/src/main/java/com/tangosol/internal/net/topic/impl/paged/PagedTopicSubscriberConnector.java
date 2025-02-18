@@ -241,87 +241,90 @@ public class PagedTopicSubscriberConnector<V>
         State state = m_state;
         if (m_state != State.Closing && state != State.Closed)
             {
+            Logger.info("**** JK: Entering lock DeactivationListener.closeSubscription() " + f_caches.getTopicName() + " " + getSubscriptionId());
             f_lockState.lock();
             try
                 {
                 if (m_state != State.Closed)
                     {
+                    Logger.info("**** JK: Set state to closing " + f_caches.getTopicName() + " " + getSubscriptionId());
                     m_state = State.Closing;
+                    }
+
+                if (m_state == State.Closing)
+                    {
+                    Logger.finest("Closing subscription for topic subscriber: fDestroyed=" + fDestroyed + " subscriber=" + subscriber);
+                    if (!fDestroyed)
+                        {
+                        // caches have not been destroyed, so we're just closing this subscriber
+                        PagedTopicService service = f_caches.getService();
+                        boolean           fActive = f_caches.isActive()
+                                                        && service.isRunning()
+                                                        && !service.getOwnershipEnabledMembers().isEmpty();
+                        if (fActive)
+                            {
+                            unregisterDeactivationListener();
+                            unregisterChannelAllocationListener();
+                            unregisterNotificationListener();
+                            }
+                        PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
+                        if (fActive)
+                            {
+                            removeSubscriberEntry(subscriber.getKey());
+                            }
+                        }
+                    else
+                        {
+                        PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
+                        }
+
+                    if (!fDestroyed && f_subscriberGroupId.isAnonymous())
+                        {
+                        // this subscriber is anonymous and thus non-durable and must be destroyed upon close
+                        // Note: if close isn't the cluster will eventually destroy this subscriber once it
+                        // identifies the associated member has left the cluster.
+                        // If an application creates a lot of subscribers and does not close them when finished
+                        // then this will cause heap consumption to rise.
+                        // There used to be a To-Do comment here about cleaning up in a finalizer, but as
+                        // finalizers in the JVM are not reliable that is probably not such a good idea.
+                        try
+                            {
+                            destroy(f_caches, f_subscriberGroupId, m_subscriptionId);
+                            }
+                        catch (Exception e)
+                            {
+                            Logger.err(e);
+                            }
+                        }
+
+                    // We need to ensure that the subscription has really gone.
+                    // During a fail-over situation the subscriber may still exist in the configmap
+                    // so we  need to repeat the closure notification
+                    String            sTopic        = f_caches.getTopicName();
+                    PagedTopicService service       = f_caches.getService();
+                    Set<SubscriberId> setSubscriber = service.getSubscribers(sTopic, f_subscriberGroupId);
+                    while (setSubscriber.contains(f_subscriberId))
+                        {
+                        Logger.fine("Repeating subscriber closed notification for topic subscriber: " + subscriber);
+                        try
+                            {
+                            Blocking.sleep(100);
+                            }
+                        catch (InterruptedException e)
+                            {
+                            break;
+                            }
+                        PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
+                        setSubscriber = service.getSubscribers(sTopic, f_subscriberGroupId);
+                        }
+                    m_state = State.Closed;
                     }
                 }
             finally
                 {
+                Logger.info("**** JK: Exiting lock DeactivationListener.closeSubscription() " + f_caches.getTopicName() + " " + getSubscriptionId());
                 f_lockState.unlock();
                 }
-            }
-
-        if (m_state == State.Closing)
-            {
-            Logger.finest("Closing subscription for topic subscriber: fDestroyed=" + fDestroyed + " subscriber=" + subscriber);
-            if (!fDestroyed)
-                {
-                // caches have not been destroyed, so we're just closing this subscriber
-                PagedTopicService service = f_caches.getService();
-                boolean           fActive = f_caches.isActive()
-                                                && service.isRunning()
-                                                && !service.getOwnershipEnabledMembers().isEmpty();
-                if (fActive)
-                    {
-                    unregisterDeactivationListener();
-                    unregisterChannelAllocationListener();
-                    unregisterNotificationListener();
-                    }
-                PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
-                if (fActive)
-                    {
-                    removeSubscriberEntry(subscriber.getKey());
-                    }
-                }
-            else
-                {
-                PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
-                }
-
-            if (!fDestroyed && f_subscriberGroupId.isAnonymous())
-                {
-                // this subscriber is anonymous and thus non-durable and must be destroyed upon close
-                // Note: if close isn't the cluster will eventually destroy this subscriber once it
-                // identifies the associated member has left the cluster.
-                // If an application creates a lot of subscribers and does not close them when finished
-                // then this will cause heap consumption to rise.
-                // There used to be a To-Do comment here about cleaning up in a finalizer, but as
-                // finalizers in the JVM are not reliable that is probably not such a good idea.
-                try
-                    {
-                    destroy(f_caches, f_subscriberGroupId, m_subscriptionId);
-                    }
-                catch (Exception e)
-                    {
-                    Logger.err(e);
-                    }
-                }
-
-            // We need to ensure that the subscription has really gone.
-            // During a fail-over situation the subscriber may still exist in the configmap
-            // so we  need to repeat the closure notification
-            String            sTopic        = f_caches.getTopicName();
-            PagedTopicService service       = f_caches.getService();
-            Set<SubscriberId> setSubscriber = service.getSubscribers(sTopic, f_subscriberGroupId);
-            while (setSubscriber.contains(f_subscriberId))
-                {
-                Logger.fine("Repeating subscriber closed notification for topic subscriber: " + subscriber);
-                try
-                    {
-                    Blocking.sleep(100);
-                    }
-                catch (InterruptedException e)
-                    {
-                    break;
-                    }
-                PagedTopicSubscription.notifyClosed(f_caches.Subscriptions, f_subscriberGroupId, m_subscriptionId, f_subscriberId);
-                setSubscriber = service.getSubscribers(sTopic, f_subscriberGroupId);
-                }
-            m_state = State.Closed;
             }
         }
 
@@ -1104,9 +1107,11 @@ public class PagedTopicSubscriberConnector<V>
         @Override
         public void onDestroy()
             {
+            Logger.info("**** JK: Entering lock DeactivationListener.onDestroy() " + f_caches.getTopicName() + " " + getSubscriptionId());
             f_lockState.lock();
             try
                 {
+                Logger.info("**** JK: Entered lock DeactivationListener.onDestroy() " + f_caches.getTopicName() + " " + getSubscriptionId());
                 if (m_state != State.Closed && m_state != State.Closing)
                     {
                     m_state = State.Closed;
@@ -1116,7 +1121,9 @@ public class PagedTopicSubscriberConnector<V>
                 }
             finally
                 {
+                Logger.info("**** JK: Exiting lock DeactivationListener.onDestroy() " + f_caches.getTopicName() + " " + getSubscriptionId());
                 f_lockState.unlock();
+                Logger.info("**** JK: Exited lock DeactivationListener.onDestroy() " + f_caches.getTopicName() + " " + getSubscriptionId());
                 }
             }
 
@@ -1227,7 +1234,7 @@ public class PagedTopicSubscriberConnector<V>
 
     // ----- data members ---------------------------------------------------
 
-    private State m_state = State.Initial;
+    private volatile State m_state = State.Initial;
 
     /**
      * The {@link PagedTopicCaches} to use to invoke cache operations.
