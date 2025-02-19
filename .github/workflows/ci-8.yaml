@@ -11,7 +11,7 @@ name: Stage 8 CI Pipeline
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */2 * * *'
   workflow_dispatch:
   push:
     branches-ignore:

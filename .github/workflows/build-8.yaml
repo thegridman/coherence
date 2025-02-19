@@ -91,8 +91,7 @@ jobs:
         export DEV_ROOT=$(pwd)
         export SETTINGS_XML=${DEV_ROOT}/.github/maven/settings.xml
         mvn --file prj/pom.xml --batch-mode -U -e -s ${SETTINGS_XML} -P-modules,${{ matrix.buildStage }} -Doptional -Dcoherence.SkipLargeMemoryTests=true clean install
-        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.buildStage }} -nsu -Doptional -DskipTests -Dcoherence.compatability.settings=${SETTINGS_XML} clean install 
-        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.buildStage }} -pl test/functional/grpc-client-netty -Dit.test=GrpcTopicTests -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
+        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.buildStage }} -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
 #        mvn --file prj/pom.xml --batch-mode -e -s ${SETTINGS_XML} -Pmodules,-coherence,${{ matrix.buildStage }} -DskipTests -nsu -Doptional -Dcoherence.SkipLargeMemoryTests=true -Dcoherence.compatability.settings=${SETTINGS_XML} clean install
 #        mvn --file prj/pom.xml -Pmodules,-coherence,-javadoc,stage11 -nsu clean install -pl test/functional/topics/ -Dit.test=*TopicTests -DskipAfterFailureCount=1
     # Upload build artifacts for diagnosing failures

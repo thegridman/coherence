@@ -7,7 +7,7 @@
 # Coherence CE GitHub Actions CI build.
 # ---------------------------------------------------------------------------
 
-name: Parallel CI Build
+name: Stage 11 CI Build
 
 on:
   workflow_call:
