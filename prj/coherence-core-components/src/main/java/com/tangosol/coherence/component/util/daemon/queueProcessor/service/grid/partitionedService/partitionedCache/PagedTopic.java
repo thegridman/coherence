@@ -1812,7 +1812,7 @@ public class PagedTopic
 
         if (memberThis == memberCoordinator)
             {
-            Daemons.commonPool().add(() ->
+            getDaemonPool().add(() ->
                 {
                 try
                     {
